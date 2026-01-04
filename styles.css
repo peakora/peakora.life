@@ -1,4 +1,3 @@
-/* GLOBAL RESET */
 * {
     margin: 0;
     padding: 0;
@@ -16,7 +15,6 @@ section {
     padding: 60px 20px;
 }
 
-/* HEADER */
 .header {
     width: 100%;
     padding: 16px 20px;
@@ -35,7 +33,6 @@ section {
     height: 95px;
 }
 
-/* HERO */
 .hero {
     background: radial-gradient(circle at top left, #f4f0ff 0, #ffffff 55%);
     padding: 80px 20px;
@@ -58,14 +55,12 @@ section {
     max-width: 480px;
 }
 
-/* BENEFITS */
 .benefits-visual img {
     display: block;
     margin: 0 auto 30px;
     max-width: 420px;
 }
 
-/* HOW IT WORKS */
 .how-layout {
     display: flex;
     gap: 40px;
@@ -78,7 +73,6 @@ section {
     max-width: 420px;
 }
 
-/* WHAT YOU GET */
 .what-layout {
     display: flex;
     gap: 40px;
@@ -91,13 +85,11 @@ section {
     max-width: 420px;
 }
 
-/* WHY IT WORKS */
 .why-visual img {
     width: 100%;
     max-width: 420px;
 }
 
-/* FINAL CTA */
 .final-cta-img {
     width: 100%;
     max-width: 380px;
