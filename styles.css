@@ -43,7 +43,7 @@ img {
 }
 
 .logo {
-  height: 160px;
+  height: 200px;
 }
 
 /* HERO */
@@ -107,11 +107,14 @@ img {
   text-align: center;
 }
 
-/* BENEFITS */
-.benefits {
+/* SECTION HEADLINE */
+section h2 {
+  font-size: 36px;
   text-align: center;
+  margin-bottom: 40px;
 }
 
+/* BENEFITS */
 .benefits-visual {
   margin: 0 auto 40px;
   max-width: 420px;
@@ -148,19 +151,26 @@ img {
 
 .step {
   margin-bottom: 30px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .step-number {
-  width: 40px;
-  height: 40px;
-  background: #6a4df5;
-  color: white;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   font-weight: bold;
-  margin-bottom: 10px;
+  font-size: 20px;
+  color: #6a4df5;
+  flex-shrink: 0;
+}
+
+.step h3 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.step p {
+  margin: 4px 0 0;
+  font-size: 16px;
 }
 
 .how-visual {
@@ -225,3 +235,60 @@ img {
 }
 
 .secondary-cta {
+  display: inline-block;
+  background: #ffffff;
+  border: 2px solid #6a4df5;
+  color: #6a4df5;
+  padding: 14px 28px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 40px 0;
+  font-size: 14px;
+  color: #888;
+  background: #f9f6ff;
+  border-top: 1px solid #eee;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .hero-text h1 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 600px) {
+  .logo {
+    height: 160px;
+  }
+
+  .hero-text h1 {
+    font-size: 32px;
+  }
+
+  .hero-content {
+    text-align: center;
+  }
+
+  .cta-button,
+  .secondary-cta {
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+  }
+
+  .step {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .step-number {
+    margin-bottom: 6px;
+  }
+}
