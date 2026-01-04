@@ -1,6 +1,6 @@
 // Tally embed loader + agent modal
 document.addEventListener('DOMContentLoaded', function () {
-  // Tally embed loader
+  // Tally embed loader (ensures iframe gets src)
   (function loadTally(){
     var d=document,w="https://tally.so/widgets/embed.js",v=function(){
       if (typeof Tally !== 'undefined') Tally.loadEmbeds();
