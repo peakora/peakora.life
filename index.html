@@ -12,9 +12,11 @@
   <header class="header">
     <div class="header-inner container">
       <a href="/" class="brand">
-        <img src="assets/peakora-logo.png" alt="Peakora" class="header-logo logo-size-200">
+        <!-- Single header logo. Change utility class to logo-size-180 or logo-size-220 if desired -->
+        <img src="assets/peakora-logo.png" alt="Peakora" class="header-logo logo-size-200" />
       </a>
-      <nav class="nav">
+
+      <nav class="nav" aria-label="Main navigation">
         <a href="#start" class="nav-link">Start</a>
         <a href="#how" class="nav-link">How it works</a>
         <a href="#benefits" class="nav-link">Why Peakora</a>
@@ -31,16 +33,18 @@
         <div class="hero-text">
           <h1>Build Better Habits in 7 Days</h1>
           <p class="lead">A gentle, guided reset to help you feel more in control of your day — without overwhelm.</p>
+
           <div class="hero-ctas">
             <a href="#start" class="btn primary">Start Your 7‑Day Plan</a>
-            <a href="#how" class="btn ghost">How it works</a>
+            <a href="#how" class="btn outline">How it works</a>
           </div>
+
           <p class="muted">Takes less than 30 seconds. No account. No pressure.</p>
         </div>
       </div>
 
       <div class="hero-visual">
-        <img src="assets/hero-illustration.jpeg" alt="Hero illustration">
+        <img src="assets/hero-illustration.jpeg" alt="Hero illustration" />
       </div>
     </div>
   </section>
@@ -61,7 +65,7 @@
 
       <div class="benefits-grid">
         <div class="benefits-visual">
-          <img src="assets/benefits-icons.jpeg" alt="Benefits icons">
+          <img src="assets/benefits-icons.jpeg" alt="Benefits icons" />
         </div>
 
         <div class="benefit-cards">
@@ -94,7 +98,7 @@
     <div class="container">
       <div class="section-top">
         <div class="section-label">How it works</div>
-        <h2>Three simple steps to get started</h2>
+        <h2 class="section-headline">Three simple steps to get started</h2>
       </div>
 
       <div class="how-layout">
@@ -125,7 +129,7 @@
         </div>
 
         <div class="how-visual">
-          <img src="assets/how-it-works.jpeg" alt="How it works illustration">
+          <img src="assets/how-it-works.jpeg" alt="How it works illustration" />
         </div>
       </div>
     </div>
@@ -136,12 +140,12 @@
     <div class="container">
       <div class="section-top">
         <div class="section-label">What you receive</div>
-        <h2>Your 7‑day plan includes</h2>
+        <h2 class="section-headline">Your 7‑day plan includes</h2>
       </div>
 
       <div class="what-layout">
         <div class="what-visual">
-          <img src="assets/what-you-get.jpeg" alt="What you get illustration">
+          <img src="assets/what-you-get.jpeg" alt="What you get illustration" />
         </div>
 
         <div class="get-grid">
@@ -156,21 +160,21 @@
     </div>
   </section>
 
-  <!-- WHY IT WORKS -->
+  <!-- WHY IT WORKS (more elegant) -->
   <section class="why-it-works">
     <div class="container">
       <div class="section-top">
         <div class="section-label">Why this approach works</div>
-        <h2>Small, kind steps create real change</h2>
+        <h2 class="section-headline">Small, kind steps that last</h2>
       </div>
 
       <div class="why-layout">
         <div class="why-text card card-entrance">
-          <p>Most habit plans fail because they demand too much, too fast. Peakora focuses on tiny, consistent actions that match your real life. When steps feel doable, you show up — and that’s where change begins.</p>
+          <p>Change happens when actions are simple, repeatable, and kind to your life. Peakora focuses on tiny, meaningful steps that build momentum without pressure — practical, science‑informed, and human.</p>
         </div>
 
         <div class="why-visual">
-          <img src="assets/why-it-works.jpeg" alt="Why it works illustration">
+          <img src="assets/why-it-works.jpeg" alt="Why it works illustration" />
         </div>
       </div>
     </div>
@@ -181,25 +185,26 @@
     <div class="container">
       <div class="section-top">
         <div class="section-label">Start here</div>
-        <h2>Start your 7‑day reset</h2>
+        <h2 class="section-headline">Start your 7‑day reset</h2>
       </div>
 
       <div class="form-wrap">
         <div class="form-left">
           <p class="form-subtext">Answer 3 quick questions and get your personalized plan.</p>
           <div class="form-container">
-            <iframe 
-              data-tally-src="https://tally.so/embed/kdeAqR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
-              loading="lazy" 
-              width="100%" 
-              height="900" 
-              frameborder="0">
+            <iframe
+              data-tally-src="https://tally.so/embed/kdeAqR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
+              loading="lazy"
+              width="100%"
+              height="900"
+              frameborder="0"
+              title="Start form">
             </iframe>
           </div>
         </div>
 
         <div class="form-right">
-          <img src="assets/final-cta.jpeg" alt="Final CTA">
+          <img src="assets/final-cta.jpeg" alt="Final CTA" />
         </div>
       </div>
     </div>
@@ -208,9 +213,13 @@
   <!-- FINAL CTA -->
   <section class="final-cta">
     <div class="container final-cta-inner">
-      <img src="assets/final-cta.jpeg" alt="Final CTA" class="final-cta-img">
+      <img src="assets/final-cta.jpeg" alt="Final CTA" class="final-cta-img" />
       <h2>Ready to give yourself a gentler week?</h2>
       <p>Your 7‑day plan is a small, kind commitment to yourself.</p>
+
+      <!-- extra spacing between text and button -->
+      <div class="final-cta-spacer"></div>
+
       <a href="#start" class="btn primary">Begin your 7‑day plan</a>
     </div>
   </section>
@@ -236,7 +245,7 @@
       <form id="agentForm">
         <label>
           Your email
-          <input type="email" name="email" required>
+          <input type="email" name="email" required />
         </label>
         <label>
           Message
