@@ -1,8 +1,7 @@
-// Tally embed loader + agent modal
 document.addEventListener('DOMContentLoaded', function () {
-  // Tally embed loader (ensures iframe gets src)
+  // Ensure Tally iframe gets src if embed script not loaded
   (function loadTally(){
-    var d=document,w="https://tally.so/widgets/embed.js",v=function(){
+    var d=document, w="https://tally.so/widgets/embed.js", v=function(){
       if (typeof Tally !== 'undefined') Tally.loadEmbeds();
       else d.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function(e){ e.src = e.dataset.tallySrc; });
     };
@@ -12,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   })();
 
-  // Agent modal
+  // Agent modal behavior
   var agentBtn = document.getElementById('agentBtn');
   var agentModal = document.getElementById('agentModal');
   var agentClose = document.getElementById('agentClose');
