@@ -4,36 +4,70 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Peakora – For a Better You</title>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="styles.css" />
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
-    <header class="navbar">
-        <img src="assets/peakora-logo.png" class="brand-logo" alt="Peakora Logo" />
-        <nav>
-            <a href="index.html">Home</a>
-            <a href="home.html">How It Works</a>
-        </nav>
+    <!-- HEADER / LOGO -->
+    <header class="header">
+        <img src="assets/peakora-logo.png" alt="Peakora Logo" class="logo" />
     </header>
 
     <!-- HERO SECTION -->
     <section class="hero">
-        <img src="assets/hero.jpeg" class="hero-img" alt="Hero Illustration" />
-        <div class="hero-text">
-            <h1>For a Better You</h1>
-            <p>Your personalized wellness companion.</p>
-            <a href="home.html" class="cta-button">Start Now</a>
+        <h1>Build Better Habits in 7 Days</h1>
+        <p class="subtext">Answer 3 quick questions and get a personalized plan instantly.</p>
+        <a href="#start" class="cta-button">Start Now</a>
+    </section>
+
+    <!-- INTRO SECTION -->
+    <section class="intro">
+        <p>
+            Peakora helps you build habits that actually stick.  
+            No overwhelm. No complicated routines.  
+            Just simple daily steps designed for your life.
+        </p>
+    </section>
+
+    <!-- FORM SECTION -->
+    <section id="start" class="form-section">
+        <h2>Start Your 7‑Day Plan</h2>
+        <p class="form-subtext">This takes less than 30 seconds.</p>
+
+        <!-- TALLY FORM EMBED -->
+        <div class="form-container">
+            <iframe 
+                data-tally-src="https://tally.so/embed/kdeAqR?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1" 
+                loading="lazy" 
+                width="100%" 
+                height="1300" 
+                frameborder="0" 
+                marginheight="0" 
+                marginwidth="0" 
+                title="Peakora 7‑Day Habit Plan">
+            </iframe>
         </div>
+
+        <script>
+            var d=document,w="https://tally.so/widgets/embed.js",v=function(){
+                "undefined"!=typeof Tally?Tally.loadEmbeds():
+                d.querySelectorAll("iframe[data-tally-src]:not([src])")
+                .forEach(function(e){e.src=e.dataset.tallySrc});
+            };
+            if("undefined"!=typeof Tally) v();
+            else if(d.querySelector('script[src="'+w+'"]')==null){
+                var s=d.createElement("script");
+                s.src=w; s.onload=v; s.onerror=v; d.body.appendChild(s);
+            }
+        </script>
     </section>
 
-    <!-- FINAL CTA -->
-    <section class="final-cta">
-        <img src="assets/final.jpeg" class="final-cta-img" alt="Final CTA" />
-        <h2>Ready to Begin?</h2>
-        <a href="home.html" class="cta-button">Continue</a>
-    </section>
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>Peakora — For a Better You</p>
+    </footer>
 
+    <script src="script.js"></script>
 </body>
 </html>
