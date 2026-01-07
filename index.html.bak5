@@ -248,7 +248,7 @@
 
     <div class="how-layout">
       <div class="how-illustration">
-        <img src="assets/how.jpeg" alt="How Peakora works illustration" />
+        <img src="assets/how-it-works.png" alt="How Peakora works illustration" />
       </div>
 
       <div class="how-steps">
@@ -267,7 +267,7 @@
           <p>Clear realistic actions with no pressure</p>
         </div>
 
-        <a href="#social-proof" class="btn btn-outline how-cta">Real stories, real progress</a>
+        <a href="#social-proof" class="btn how-cta">Real stories, real progress</a>
       </div>
     </div>
   </div>
@@ -862,7 +862,6 @@
 
 
 </html>
-
 
 
 

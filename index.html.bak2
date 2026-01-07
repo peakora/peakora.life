@@ -248,7 +248,7 @@
 
     <div class="how-layout">
       <div class="how-illustration">
-        <img src="assets/how.jpeg" alt="How Peakora works illustration" />
+        <img src="assets/how-illustration.png" alt="How Peakora works illustration" />
       </div>
 
       <div class="how-steps">
@@ -267,13 +267,49 @@
           <p>Clear realistic actions with no pressure</p>
         </div>
 
-        <a href="#social-proof" class="btn btn-outline how-cta">Real stories, real progress</a>
+        <a href="#social-proof" class="btn how-cta">Real stories, real progress</a>
       </div>
     </div>
   </div>
 </section>
 
+<section id="social-proof" class="social-proof">
+  <div class="container">
+    <h2 class="section-title">Real people. Real momentum.</h2>
+    <p class="lead">Small steps, visible change — shared by people and creators who actually use Peakora.</p>
 
+    <div class="proof-grid">
+      <figure class="test-card">
+        <blockquote>“I stuck to the plan and felt progress in 6 days.”</blockquote>
+        <figcaption>— Maya, 32</figcaption>
+      </figure>
+
+      <figure class="test-card">
+        <blockquote>“No pressure, just steady wins — my mornings are different now.”</blockquote>
+        <figcaption>— Omar, 28</figcaption>
+      </figure>
+
+      <figure class="test-card">
+        <blockquote>“I recommended Peakora to my followers and they loved the simple steps.”</blockquote>
+        <figcaption>— Noor, creator</figcaption>
+      </figure>
+    </div>
+
+    <div class="proof-row">
+      <div class="stat">85% saw progress in 7 days</div>
+
+      <div class="affiliate">
+        <h3>Partner with Peakora</h3>
+        <p>Earn for every person you help start small. Simple tracking and recurring rewards.</p>
+        <a class="btn small" href="/affiliate">Join the program</a>
+      </div>
+    </div>
+
+    <div class="ugc-cta">
+      <p class="lead">Share your Day 7 win with <strong>#PeakoraWins</strong> — one sentence, one photo.</p>
+    </div>
+  </div>
+</section>
 
 
 
@@ -594,45 +630,7 @@
   <!-- FOOTER -->
 
 
-  <section id="social-proof" class="social-proof">
-  <div class="container">
-    <h2 class="section-title">Real people. Real momentum</h2>
-    <p class="lead">Small steps and visible change shared by people and creators who use Peakora</p>
-
-    <div class="proof-grid">
-      <figure class="test-card">
-        <blockquote>I stuck to the plan and felt progress in 6 days</blockquote>
-        <figcaption>Maya 32</figcaption>
-      </figure>
-
-      <figure class="test-card">
-        <blockquote>No pressure just steady wins. My mornings are different now</blockquote>
-        <figcaption>Omar 28</figcaption>
-      </figure>
-
-      <figure class="test-card">
-        <blockquote>I recommended Peakora to my followers and they loved the simple steps</blockquote>
-        <figcaption>Noor creator</figcaption>
-      </figure>
-    </div>
-
-    <div class="proof-row">
-      <div class="stat">85% saw progress in 7 days</div>
-
-      <div class="affiliate">
-        <h3>Partner with Peakora</h3>
-        <p>Earn for every person you help start small. Simple tracking and recurring rewards</p>
-        <a class="btn btn-outline" href="/affiliate">Join the program</a>
-      </div>
-    </div>
-
-    <div class="ugc-cta">
-      <p class="lead">Share your Day 7 win with <strong>#PeakoraWins</strong></p>
-    </div>
-  </div>
-</section>
-
-<footer class="footer">
+  <footer class="footer">
 
 
     <div class="container footer-inner">
@@ -857,13 +855,47 @@
 
 
 
+<section id="social-proof" class="social-proof">
+  <div class="container">
+    <h2 class="section-title">Real people. Real momentum</h2>
+    <p class="lead">Small steps and visible change shared by people and creators who use Peakora</p>
 
+    <div class="proof-grid">
+      <figure class="test-card">
+        <blockquote>I stuck to the plan and felt progress in 6 days</blockquote>
+        <figcaption>Maya 32</figcaption>
+      </figure>
+
+      <figure class="test-card">
+        <blockquote>No pressure just steady wins. My mornings are different now</blockquote>
+        <figcaption>Omar 28</figcaption>
+      </figure>
+
+      <figure class="test-card">
+        <blockquote>I recommended Peakora to my followers and they loved the simple steps</blockquote>
+        <figcaption>Noor creator</figcaption>
+      </figure>
+    </div>
+
+    <div class="proof-row">
+      <div class="stat">85% saw progress in 7 days</div>
+
+      <div class="affiliate">
+        <h3>Partner with Peakora</h3>
+        <p>Earn for every person you help start small. Simple tracking and recurring rewards</p>
+        <a class="btn small" href="/affiliate">Join the program</a>
+      </div>
+    </div>
+
+    <div class="ugc-cta">
+      <p class="lead">Share your Day 7 win with <strong>#PeakoraWins</strong></p>
+    </div>
+  </div>
+</section>
 </body>
 
 
 </html>
-
-
 
 
 

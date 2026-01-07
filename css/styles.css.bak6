@@ -640,35 +640,3 @@ html, body {
   background: #2563eb !important;
   color: #ffffff !important;
 }
-/* --- HOW IT WORKS VISUAL IMPROVEMENTS --- */
-
-/* Increase illustration size + rounded edges */
-.how-illustration img {
-  max-width: 560px !important;
-  width: 100% !important;
-  border-radius: 18px !important;
-  display: block !important;
-}
-
-/* Increase spacing between columns */
-.how-layout {
-  gap: 70px !important;
-  justify-content: space-between !important;
-}
-
-/* Make the section width match other sections */
-.how-container {
-  max-width: 1200px !important;
-  margin: 0 auto !important;
-  padding: 60px 20px !important;
-}
-
-/* Ensure steps column doesn't shrink too much */
-.how-steps {
-  flex: 1 1 420px !important;
-}
-
-/* Ensure illustration column also expands properly */
-.how-illustration {
-  flex: 1 1 520px !important;
-}
