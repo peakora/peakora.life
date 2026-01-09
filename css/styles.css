@@ -46,9 +46,14 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+  /* Semi‑transparent warm glass */
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .header-inner {
@@ -58,9 +63,9 @@ html, body {
   padding: 14px 0;
 }
 
-.brand-logo {`n    height: 64px;
+.brand-logo {
   height: 48px;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8));
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
 }
 
 .nav {
@@ -76,7 +81,7 @@ html, body {
 }
 
 .nav-link:hover {
-  color: #0057ff;
+  color: #4a3aff; /* warmer hover tone */
 }
 
 /* HEADER SOCIAL ICONS */
@@ -88,7 +93,6 @@ html, body {
 .social-icon {
   width: 22px;
   height: 22px;
-  /* background-size removed for SVG */
   opacity: 0.85;
   transition: 0.2s ease;
 }
@@ -97,12 +101,6 @@ html, body {
   opacity: 1;
 }
 
-/* Social icon images */
-/* /* .ig { removed } */ */
-/* /* .pin { removed } */ */
-/* /* .fb { removed } */ */
-/* /* .tt { removed } */ */
-/* /* .yt { removed } */ */
 
 /* ------------------------------------------------------
    HERO SECTION
