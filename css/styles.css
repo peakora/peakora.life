@@ -694,11 +694,14 @@ html, body {
 ------------------------------------------------------ */
 
 body {
-  background: linear-gradient(135deg, #2a1433 0%, #3e1a4a 40%, #5a2a6b 100%);
+  background: linear-gradient(135deg, #fafaff 0%, #f3f4ff 40%, #e9ecff 100%);
   background-attachment: fixed;
   position: relative;
   z-index: 0;
 }
+
+
+
 
 
 
