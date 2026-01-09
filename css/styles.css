@@ -694,8 +694,9 @@ html, body {
 }
 
 div {
-  background: transparent !important;
+  outline: 3px solid lime !important;
 }
+
 
 
 body {
