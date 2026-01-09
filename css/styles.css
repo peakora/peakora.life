@@ -693,9 +693,15 @@ html, body {
   flex: 1 1 520px !important;
 }
 
-* {
-  background: none !important;
+.main-wrapper,
+.page-wrapper,
+.hero,
+.section,
+.container,
+.content {
+  background: transparent !important;
 }
+
 
 body {
   background: red !important;
