@@ -683,9 +683,11 @@ html, body {
 }
 
 
-.hero {
-  background: none;
+.hero,
+.hero-bg {
+  background: none !important;
 }
+
 
 /* ------------------------------------------------------
    GLOBAL DARK BACKGROUND — WARM, PREMIUM, NO EFFECTS
