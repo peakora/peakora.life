@@ -34,7 +34,7 @@ html, body {
 }
 
 /* ------------------------------------------------------
-   HEADER — DARK GLASS
+   HEADER — LIGHT, MINIMAL, PREMIUM
 ------------------------------------------------------ */
 
 .header {
@@ -42,62 +42,59 @@ html, body {
   top: 0;
   z-index: 1000;
 
-  /* Dark translucent glass */
-  background: rgba(20, 12, 35, 0.65);
-  backdrop-filter: blur(14px) saturate(160%);
-  -webkit-backdrop-filter: blur(14px) saturate(160%);
+  /* Light transparent header */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 0;
+  padding: 6px 0; /* reduced height */
 }
 
 .brand-logo {
-  height: 48px;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.55));
+  height: 40px; /* slightly smaller for balance */
+  filter: none; /* remove white glow */
 }
 
 .nav {
   display: flex;
-  gap: 24px;
+  gap: 20px;
 }
 
 .nav-link {
   text-decoration: none;
-  color: #ffffff;
+  color: #1a1a1a; /* dark text for light header */
   font-weight: 500;
   transition: 0.2s ease;
 }
 
 .nav-link:hover {
-  color: #ff7acb; /* warm hover tone */
+  color: #3a5cff; /* blue hover tone to match new icons */
 }
 
 /* HEADER SOCIAL ICONS */
 .header-social {
   display: flex;
-  gap: 14px;
+  gap: 12px;
 }
 
 .social-icon {
-  width: 22px;
-  height: 22px;
-  opacity: 1;
-  filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.6));
+  width: 20px;
+  height: 20px;
+  opacity: 0.9;
+  filter: none; /* remove dark glow */
   transition: 0.2s ease;
 }
 
 .social-icon:hover {
   opacity: 1;
-  filter: drop-shadow(0 0 6px rgba(255, 120, 180, 0.8));
 }
-
 
 /* ------------------------------------------------------
    HERO SECTION
