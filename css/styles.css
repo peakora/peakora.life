@@ -168,6 +168,14 @@ header .brand img.brand-logo {
   stroke: #3a5cff !important;
 }
 
+/* ------------------------------------------------------
+   GLOBAL SECTION SPACING — PEAKORA RHYTHM
+------------------------------------------------------ */
+
+section {
+  margin-top: 72px;
+  margin-bottom: 72px;
+}
 
 
 /* ------------------------------------------------------
