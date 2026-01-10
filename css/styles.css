@@ -1,6 +1,4 @@
 
-
-
 /* FOOTER BACKGROUND OVERRIDE */
 footer {
   background: #ffffff;
@@ -42,7 +40,6 @@ html, body {
   top: 0;
   z-index: 1000;
 
-  /* Light translucent header */
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -51,23 +48,23 @@ html, body {
   box-shadow: none;
 }
 
-/* This is the REAL height controller */
+/* REAL height controller */
+.header .container {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  /* Reduced header height */
-  padding: 6px 0;
 }
 
-/* Logo */
 .brand-logo {
-  height: 40px; /* smaller for compact header */
-  filter: none; /* remove white glow */
+  height: 40px;
+  filter: none;
 }
 
-/* Navigation */
 .nav {
   display: flex;
   gap: 20px;
@@ -75,32 +72,45 @@ html, body {
 
 .nav-link {
   text-decoration: none;
-  color: #1a1a1a; /* dark text for light header */
+  color: #1a1a1a;
   font-weight: 500;
   transition: 0.2s ease;
 }
 
 .nav-link:hover {
-  color: #3a5cff; /* blue hover tone */
+  color: #3a5cff;
 }
 
-/* Social icons container */
 .header-social {
   display: flex;
   gap: 12px;
 }
 
-/* Social icon wrapper */
 .social-icon {
   width: 20px;
   height: 20px;
   opacity: 0.9;
-  filter: none; /* remove dark glow */
+  filter: none;
   transition: 0.2s ease;
 }
 
 .social-icon:hover {
   opacity: 1;
+}
+
+/* SVG recoloring */
+.social-icon svg rect,
+.social-icon svg circle {
+  stroke: #3a5cff !important;
+  fill: none !important;
+}
+
+.social-icon svg circle[fill] {
+  fill: #3a5cff !important;
+}
+
+.social-icon svg path {
+  stroke: #3a5cff !important;
 }
 
 /* ------------------------------------------------------
