@@ -42,23 +42,26 @@ html, body {
   top: 0;
   z-index: 1000;
 
-  /* Light transparent header */
-  background: rgba(255, 255, 255, 0.4);
+  /* Light translucent header */
+  background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: none;
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px 0; /* reduced height */
+
+  /* Reduced height */
+  padding: 6px 0;
 }
 
 .brand-logo {
-  height: 40px; /* slightly smaller for balance */
+  height: 40px; /* smaller for the new compact header */
   filter: none; /* remove white glow */
 }
 
@@ -95,6 +98,12 @@ html, body {
 .social-icon:hover {
   opacity: 1;
 }
+
+/* Recolor inline SVG icons to blue */
+.social-icon svg path {
+  fill: #3a5cff !important;
+}
+
 
 /* ------------------------------------------------------
    HERO SECTION
