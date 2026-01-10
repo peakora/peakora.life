@@ -32,7 +32,7 @@ html, body {
 }
 
 /* ------------------------------------------------------
-   HEADER — LIGHT, MINIMAL, PREMIUM
+   HEADER — FINAL CLEAN VERSION
 ------------------------------------------------------ */
 
 .header {
@@ -48,22 +48,19 @@ html, body {
   box-shadow: none;
 }
 
-/* REAL height controller — override global container rules */
+/* Shrink header height */
 .header .container {
-  height: auto !important;
-  min-height: 0 !important;
-  padding-top: 4px !important;
-  padding-bottom: 4px !important;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
 
-/* Flex layout */
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Logo */
+/* Logo — now cropped, so we can shrink it */
 .brand {
   display: flex;
   align-items: center;
@@ -71,7 +68,7 @@ html, body {
 
 .brand-logo {
   display: block;
-  height: 32px;
+  height: 28px;
   margin: 0;
   padding: 0;
   filter: none;
