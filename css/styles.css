@@ -806,6 +806,9 @@ body {
   z-index: 0;
 }
 
+[id] {
+  scroll-margin-top: 80px;
+}
 
 
 
