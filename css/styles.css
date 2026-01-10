@@ -313,41 +313,61 @@ section {
    HOW IT WORKS
 ------------------------------------------------------ */
 
-.how-inner {
+.how-layout {
   display: flex;
+  gap: 48px;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
-  padding: 80px 0;
+  flex-wrap: wrap;
 }
 
-.step {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 24px;
+.how-illustration {
+  flex: 1;
+  position: relative;
 }
 
-.step-num {
-  width: 40px;
-  height: 40px;
-  background: #0057ff;
-  color: white;
+.glow-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.glow-wrap::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle, rgba(0,87,255,0.25) 0%, transparent 70%);
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
+  z-index: 0;
 }
 
-.how-img {
-  width: 420px;
-  max-width: 100%;
+.glow-wrap img {
+  position: relative;
+  width: 100%;
+  height: auto;
+  display: block;
+  z-index: 1;
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
 }
 
-/* Emotional lead-in */
+.how-steps {
+  flex: 1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.how-step {
+  margin-bottom: 32px;
+}
+
 .how-lead {
   text-align: center;
   margin-bottom: 48px;
@@ -356,7 +376,6 @@ section {
   line-height: 1.5;
 }
 
-/* Reassurance line */
 .how-reassurance {
   text-align: center;
   margin-top: 48px;
@@ -366,13 +385,16 @@ section {
   line-height: 1.5;
 }
 
-/* CTA microcopy */
-.how-cta-note {
+.how-cta-note.left-side {
   text-align: center;
-  margin-top: 24px;
-  color: #0f1f3d;
+  margin-top: 32px;
   font-size: 16px;
-  line-height: 1.5;
+  color: #0f1f3d;
+}
+
+.how-cta {
+  margin-top: 24px;
+  align-self: start;
 }
 
 /* ------------------------------------------------------
