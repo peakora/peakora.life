@@ -48,7 +48,7 @@ html, body {
   box-shadow: none;
 }
 
-/* Shrink header height */
+/* Header height */
 .header .container {
   height: 48px !important;
   padding-top: 0 !important;
@@ -65,7 +65,7 @@ html, body {
   width: 100%;
 }
 
-/* Logo — cropped and contained */
+/* Logo — restored to original visual size */
 .brand {
   display: flex;
   align-items: center;
@@ -75,9 +75,9 @@ html, body {
 
 .brand-logo {
   display: block;
-  height: 28px;
-  max-height: 100%;
+  height: 20px; /* restored original size */
   width: auto;
+  max-height: 100%;
   margin: 0;
   padding: 0;
   object-fit: contain;
@@ -118,6 +118,26 @@ html, body {
 
 .social-icon:hover {
   opacity: 1;
+}
+
+/* SVG recoloring */
+.social-icon svg rect,
+.social-icon svg circle {
+  stroke: #3a5cff !important;
+  fill: none !important;
+}
+
+.social-icon svg circle[fill] {
+  fill: #3a5cff !important;
+}
+
+.social-icon svg path {
+  stroke: #3a5cff !important;
+}
+
+/* Anchor scroll offset for sticky header */
+[id] {
+  scroll-margin-top: 80px;
 }
 
 /* ------------------------------------------------------
