@@ -347,6 +347,34 @@ section {
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
 }
 
+/* Emotional lead-in */
+.how-lead {
+  text-align: center;
+  margin-bottom: 48px;
+  color: #0f1f3d;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+/* Reassurance line */
+.how-reassurance {
+  text-align: center;
+  margin-top: 48px;
+  margin-bottom: 32px;
+  color: #0f1f3d;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+/* CTA microcopy */
+.how-cta-note {
+  text-align: center;
+  margin-top: 24px;
+  color: #0f1f3d;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
 /* ------------------------------------------------------
    WHAT YOU GET
 ------------------------------------------------------ */
