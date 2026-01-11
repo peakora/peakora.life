@@ -437,6 +437,11 @@ section {
    WHAT YOU GET
 ------------------------------------------------------ */
 
+/* Center the "What You Get" title only */
+.what .section-title {
+  text-align: center;
+}
+
 .what-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
