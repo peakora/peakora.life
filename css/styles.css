@@ -496,13 +496,33 @@ section {
    REAL LIFE — FINAL VERSION (MATCHING HOW SPECS)
 ------------------------------------------------------ */
 
+/* Glow effect to elevate section */
+.real-life {
+  position: relative;
+  z-index: 1;
+}
+
+.real-life::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  box-shadow: inset 0 60px 120px rgba(0, 87, 255, 0.08),
+              inset 0 -40px 80px rgba(0, 87, 255, 0.05);
+}
+
+/* Container */
 .real-life-container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 80px 0;
 }
 
-/* Center title + lead */
+/* Title + lead centering */
 .real-life-container .section-title,
 .real-life-lead {
   text-align: center;
@@ -512,7 +532,7 @@ section {
 .real-life-layout {
   display: flex;
   gap: 48px;
-  align-items: flex-start;  /* was center – now top-aligned like HOW */
+  align-items: flex-start;
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -525,13 +545,13 @@ section {
 
 .real-life-illustration img {
   width: 100%;
-  max-width: 520px;          /* same cap as HOW */
+  max-width: 520px;
   height: auto;
   display: block;
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
-  flex-shrink: 0;            /* don't let it shrink when text is tall */
+  flex-shrink: 0;
 }
 
 /* Content */
@@ -575,13 +595,15 @@ section {
   color: #0f1f3d;
 }
 
-/* CTA button — blue, centered, spaced */
+/* CTA button — bigger + centered */
 .real-life-cta {
-  margin-top: 32px;
-  align-self: center;
+  display: block;
+  margin: 40px auto 0 auto;
+  font-size: 18px;
+  padding: 16px 32px;
 }
 
-/* Force HOW-style blue button */
+/* Blue button style */
 .btn-outline {
   background: transparent !important;
   border: 2px solid #0057FF !important;
@@ -617,14 +639,8 @@ section {
   }
 
   .real-life-cta {
-    align-self: center;
+    margin-top: 40px;
   }
-}
-
-/* REAL LIFE — CTA button */
-.real-life-cta {
-  display: block;
-  margin: 32px auto 0 auto; /* centers the button + spacing */
 }
 
 /* ------------------------------------------------------
