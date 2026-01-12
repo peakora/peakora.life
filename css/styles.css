@@ -502,11 +502,13 @@ section {
   padding: 80px 0;
 }
 
+/* Center title + lead */
 .real-life-container .section-title,
 .real-life-lead {
   text-align: center;
 }
 
+/* Layout */
 .real-life-layout {
   display: flex;
   gap: 48px;
@@ -529,6 +531,7 @@ section {
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
+  flex-shrink: 0; /* prevents shrinking */
 }
 
 /* Content */
@@ -572,16 +575,17 @@ section {
   color: #0f1f3d;
 }
 
-/* CTA button */
+/* CTA button — blue, centered, spaced */
 .real-life-cta {
   margin-top: 32px;
   align-self: center;
 }
 
+/* Force HOW-style blue button */
 .btn-outline {
-  background: transparent;
-  border: 2px solid #0057FF;
-  color: #0057FF;
+  background: transparent !important;
+  border: 2px solid #0057FF !important;
+  color: #0057FF !important;
   padding: 12px 24px;
   border-radius: 8px;
   font-weight: 600;
@@ -591,8 +595,8 @@ section {
 }
 
 .btn-outline:hover {
-  background: #0057FF;
-  color: #fff;
+  background: #0057FF !important;
+  color: #fff !important;
 }
 
 .nowrap {
