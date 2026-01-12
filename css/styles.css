@@ -621,6 +621,12 @@ section {
   }
 }
 
+/* REAL LIFE — CTA button */
+.real-life-cta {
+  display: block;
+  margin: 32px auto 0 auto; /* centers the button + spacing */
+}
+
 /* ------------------------------------------------------
    FINAL CTA
 ------------------------------------------------------ */
