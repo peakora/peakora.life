@@ -504,7 +504,7 @@ section {
 }
 
 /* Title + lead centering */
-.real-life-container .section-title,
+.section-title,
 .real-life-lead {
   text-align: center;
 }
@@ -536,7 +536,6 @@ section {
   flex-shrink: 0;
 }
 
-/* Glow behind illustration */
 .real-life-illustration::before {
   content: "";
   position: absolute;
@@ -569,7 +568,6 @@ section {
   line-height: 1.5;
   color: #0f1f3d;
   margin-bottom: 32px;
-  text-align: center;
 }
 
 .real-life-point {
@@ -596,10 +594,9 @@ section {
   font-size: 18px;
   line-height: 1.5;
   color: #0f1f3d;
-  text-align: center;
 }
 
-/* CTA wrapper — forces centering */
+/* CTA wrapper — centers itself inside flex parent */
 .real-life-button-wrapper {
   width: 100%;
   display: flex;
@@ -607,13 +604,16 @@ section {
   margin-top: 48px;
   position: relative;
   z-index: 1;
+  align-self: center;
 }
 
 /* CTA button — glowing, centered, override-safe */
 .real-life-button {
-  display: inline-block;
-  margin: 0 auto;
-  background: linear-gradient(to right, #0057FF, #3A8BFF);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+  background: linear-gradient(to right, #0057FF, #3A88FF);
   color: #fff;
   font-size: 20px;
   font-weight: 600;
@@ -626,10 +626,8 @@ section {
   position: relative;
   z-index: 1;
   max-width: fit-content;
-  float: none;
 }
 
-/* Glow behind button */
 .real-life-button-wrapper::before {
   content: "";
   position: absolute;
@@ -674,7 +672,6 @@ section {
     margin-top: 48px;
   }
 }
-
 
 
 /* ------------------------------------------------------
