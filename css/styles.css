@@ -493,7 +493,7 @@ section {
 }
 
 /* ------------------------------------------------------
-   REAL LIFE — FINAL VERSION WITH CUSTOM CTA + GLOW EFFECT
+   REAL LIFE — FINAL CLEAN VERSION
 ------------------------------------------------------ */
 
 /* Container */
@@ -558,10 +558,10 @@ section {
 /* Content */
 .real-life-content {
   flex: 1;
-  text-align: left;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: center; /* <<< THIS CENTERS THE BUTTON AND ALL CONTENT */
+  text-align: left;
 }
 
 .real-life-lead {
@@ -569,10 +569,12 @@ section {
   line-height: 1.5;
   color: #0f1f3d;
   margin-bottom: 32px;
+  text-align: center;
 }
 
 .real-life-point {
   margin-bottom: 12px;
+  width: 100%;
 }
 
 .real-life-point h3 {
@@ -594,12 +596,13 @@ section {
   font-size: 18px;
   line-height: 1.5;
   color: #0f1f3d;
+  text-align: center;
 }
 
 /* Custom CTA button */
 .real-life-button {
   display: block;
-  margin: 48px auto 0 auto;
+  margin-top: 48px;
   background: linear-gradient(to right, #0057FF, #3A8BFF);
   color: #fff;
   font-size: 20px;
@@ -658,29 +661,6 @@ section {
   .real-life-button {
     margin-top: 48px;
   }
-}
-
-.real-life-button {
-  display: block;
-  margin: 48px auto 0 auto;
-  background: linear-gradient(to right, #0057FF, #3A8BFF);
-  color: #fff;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 18px 36px;
-  border-radius: 12px;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(0, 87, 255, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  z-index: 1;
-  max-width: fit-content;
-}
-
-/* Force button into its own row */
-.real-life-content .real-life-button {
-  align-self: center;
 }
 
 
