@@ -512,7 +512,7 @@ section {
 .real-life-layout {
   display: flex;
   gap: 48px;
-  align-items: center;
+  align-items: flex-start;  /* was center – now top-aligned like HOW */
   justify-content: space-between;
   flex-wrap: wrap;
 }
@@ -525,13 +525,13 @@ section {
 
 .real-life-illustration img {
   width: 100%;
-  max-width: 520px;
+  max-width: 520px;          /* same cap as HOW */
   height: auto;
   display: block;
   margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
-  flex-shrink: 0; /* prevents shrinking */
+  flex-shrink: 0;            /* don't let it shrink when text is tall */
 }
 
 /* Content */
