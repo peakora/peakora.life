@@ -493,27 +493,8 @@ section {
 }
 
 /* ------------------------------------------------------
-   REAL LIFE — FINAL VERSION (MATCHING HOW SPECS)
+   REAL LIFE — FINAL VERSION WITH CUSTOM CTA + GLOW EFFECT
 ------------------------------------------------------ */
-
-/* Glow effect to elevate section */
-.real-life {
-  position: relative;
-  z-index: 1;
-}
-
-.real-life::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: -1;
-  box-shadow: inset 0 60px 120px rgba(0, 87, 255, 0.08),
-              inset 0 -40px 80px rgba(0, 87, 255, 0.05);
-}
 
 /* Container */
 .real-life-container {
@@ -541,6 +522,7 @@ section {
 .real-life-illustration {
   flex: 1;
   text-align: center;
+  position: relative;
 }
 
 .real-life-illustration img {
@@ -552,6 +534,25 @@ section {
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
   flex-shrink: 0;
+}
+
+/* Glow behind illustration */
+.real-life-illustration::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 420px;
+  height: 420px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 87, 255, 0.18) 0%,
+    rgba(0, 87, 255, 0.05) 60%,
+    transparent 100%
+  );
+  filter: blur(40px);
+  z-index: -1;
 }
 
 /* Content */
@@ -595,30 +596,46 @@ section {
   color: #0f1f3d;
 }
 
-/* CTA button — bigger + centered */
-.real-life-cta {
+/* Custom CTA button */
+.real-life-button {
   display: block;
-  margin: 40px auto 0 auto;
-  font-size: 18px;
-  padding: 16px 32px;
-}
-
-/* Blue button style */
-.btn-outline {
-  background: transparent !important;
-  border: 2px solid #0057FF !important;
-  color: #0057FF !important;
-  padding: 12px 24px;
-  border-radius: 8px;
+  margin: 48px auto 0 auto;
+  background: linear-gradient(to right, #0057FF, #3A8BFF);
+  color: #fff;
+  font-size: 20px;
   font-weight: 600;
+  padding: 18px 36px;
+  border-radius: 12px;
+  text-align: center;
   text-decoration: none;
-  display: inline-block;
-  transition: background 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 87, 255, 0.3);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
-.btn-outline:hover {
-  background: #0057FF !important;
-  color: #fff !important;
+/* Glow behind button */
+.real-life-button::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 87, 255, 0.22) 0%,
+    rgba(0, 87, 255, 0.08) 60%,
+    transparent 100%
+  );
+  filter: blur(40px);
+  z-index: -1;
+}
+
+.real-life-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0, 87, 255, 0.4);
 }
 
 .nowrap {
@@ -638,10 +655,11 @@ section {
     text-align: center;
   }
 
-  .real-life-cta {
-    margin-top: 40px;
+  .real-life-button {
+    margin-top: 48px;
   }
 }
+
 
 /* ------------------------------------------------------
    FINAL CTA
