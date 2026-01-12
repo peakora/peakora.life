@@ -615,42 +615,38 @@ section {
 
 .peakora-crown-cta {
   width: 100%;
-  padding: 100px 0;
+  padding: 60px 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
   text-align: center;
+  position: relative;
   z-index: 10;
 }
 
-/* Glow behind the button */
-.peakora-crown-cta::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 320px;
-  height: 320px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(0, 87, 255, 0.25) 0%,
-    rgba(0, 87, 255, 0.10) 60%,
-    transparent 100%
-  );
-  filter: blur(50px);
-  z-index: 1;
+.peakora-cta-headline {
+  font-size: 28px;
+  font-weight: 700;
+  color: #0f1f3d;
+  margin-bottom: 20px;
+  max-width: 600px;
 }
 
-/* The button itself */
+.peakora-cta-subline {
+  font-size: 18px;
+  color: #0f1f3d;
+  margin-top: 20px;
+  max-width: 500px;
+}
+
 .peakora-crown-button {
   display: inline-block;
   background: linear-gradient(to right, #0057FF, #3A88FF);
   color: #fff;
   font-size: 22px;
   font-weight: 700;
-  padding: 20px 42px;
+  padding: 22px 48px;
   border-radius: 14px;
   text-decoration: none;
   text-align: center;
@@ -665,8 +661,35 @@ section {
   box-shadow: 0 14px 36px rgba(0, 87, 255, 0.45);
 }
 
-.nowrap {
-  white-space: nowrap;
+.peakora-crown-cta::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 360px;
+  height: 360px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 87, 255, 0.25) 0%,
+    rgba(0, 87, 255, 0.10) 60%,
+    transparent 100%
+  );
+  filter: blur(50px);
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .peakora-cta-headline {
+    font-size: 24px;
+  }
+  .peakora-crown-button {
+    font-size: 20px;
+    padding: 20px 40px;
+  }
+  .peakora-cta-subline {
+    font-size: 16px;
+  }
 }
 
 
