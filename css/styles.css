@@ -493,7 +493,7 @@ section {
 }
 
 /* ------------------------------------------------------
-   REAL LIFE — MATCHING HOW SECTION SPECS
+   REAL LIFE — FINAL VERSION (MATCHING HOW SPECS)
 ------------------------------------------------------ */
 
 .real-life-container {
@@ -574,8 +574,8 @@ section {
 
 /* CTA button */
 .real-life-cta {
-  margin-top: 8px;
-  align-self: flex-start;
+  margin-top: 32px;
+  align-self: center;
 }
 
 .btn-outline {
