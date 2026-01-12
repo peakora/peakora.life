@@ -493,20 +493,25 @@ section {
 }
 
 /* ------------------------------------------------------
-   REAL LIFE — FINAL VERSION WITH CENTERED BUTTON + GLOW
+   REAL LIFE — CLEAN VERSION (NO BUTTON)
 ------------------------------------------------------ */
 
-/* Container */
 .real-life-container {
   max-width: 1100px;
   margin: 0 auto;
   padding: 80px 0;
 }
 
-/* Title + lead centering */
 .section-title,
 .real-life-lead {
   text-align: center;
+}
+
+.real-life-lead {
+  font-size: 20px;
+  line-height: 1.5;
+  color: #0f1f3d;
+  margin-bottom: 32px;
 }
 
 /* Layout */
@@ -563,13 +568,6 @@ section {
   text-align: left;
 }
 
-.real-life-lead {
-  font-size: 20px;
-  line-height: 1.5;
-  color: #0f1f3d;
-  margin-bottom: 32px;
-}
-
 .real-life-point {
   margin-bottom: 12px;
   width: 100%;
@@ -590,69 +588,10 @@ section {
 
 .real-life-reassurance {
   margin-top: 24px;
-  margin-bottom: 16px;
+  margin-bottom: 0;
   font-size: 18px;
   line-height: 1.5;
   color: #0f1f3d;
-}
-
-/* CTA wrapper — centers itself inside flex parent */
-.real-life-button-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 48px;
-  position: relative;
-  z-index: 1;
-  align-self: center;
-}
-
-/* CTA button — glowing, centered, override-safe */
-.real-life-button {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  float: none;
-  background: linear-gradient(to right, #0057FF, #3A88FF);
-  color: #fff;
-  font-size: 20px;
-  font-weight: 600;
-  padding: 18px 36px;
-  border-radius: 12px;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: 0 8px 24px rgba(0, 87, 255, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
-  z-index: 1;
-  max-width: fit-content;
-}
-
-.real-life-button-wrapper::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 260px;
-  height: 260px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    circle,
-    rgba(0, 87, 255, 0.22) 0%,
-    rgba(0, 87, 255, 0.08) 60%,
-    transparent 100%
-  );
-  filter: blur(40px);
-  z-index: 0;
-}
-
-.real-life-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 87, 255, 0.4);
-}
-
-.nowrap {
-  white-space: nowrap;
 }
 
 /* Mobile */
@@ -667,10 +606,67 @@ section {
     align-items: center;
     text-align: center;
   }
+}
 
-  .real-life-button-wrapper {
-    margin-top: 48px;
-  }
+
+/* ------------------------------------------------------
+   PEAKORA CROWN CTA — STANDALONE, UNTOUCHABLE, CENTERED
+------------------------------------------------------ */
+
+.peakora-crown-cta {
+  width: 100%;
+  padding: 100px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  z-index: 10;
+}
+
+/* Glow behind the button */
+.peakora-crown-cta::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 320px;
+  height: 320px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(
+    circle,
+    rgba(0, 87, 255, 0.25) 0%,
+    rgba(0, 87, 255, 0.10) 60%,
+    transparent 100%
+  );
+  filter: blur(50px);
+  z-index: 1;
+}
+
+/* The button itself */
+.peakora-crown-button {
+  display: inline-block;
+  background: linear-gradient(to right, #0057FF, #3A88FF);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 700;
+  padding: 20px 42px;
+  border-radius: 14px;
+  text-decoration: none;
+  text-align: center;
+  box-shadow: 0 10px 28px rgba(0, 87, 255, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  z-index: 2;
+}
+
+.peakora-crown-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(0, 87, 255, 0.45);
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 
