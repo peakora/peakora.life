@@ -609,6 +609,15 @@ section {
   }
 }
 
+.real-life-section {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.real-life-section > *:last-child {
+  margin-bottom: 0 !important;
+}
+
 
 /* ------------------------------------------------------
    PEAKORA CROWN CTA — STANDALONE, UNTOUCHABLE, CENTERED
