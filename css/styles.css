@@ -183,8 +183,6 @@ section {
    HERO SECTION
 ------------------------------------------------------ */
 
-
-
 /* Soft animated gradient */
 .hero-bg {
   position: absolute;
@@ -221,12 +219,14 @@ section {
   max-width: 480px;
 }
 
+/* Only one CTA now, so spacing stays clean */
 .hero-ctas {
   margin-top: 28px;
   display: flex;
   gap: 16px;
 }
 
+/* Button base */
 .btn {
   padding: 12px 24px;
   border-radius: 8px;
@@ -235,17 +235,7 @@ section {
   transition: 0.2s ease;
 }
 
-.btn.primary {
-  background: #0057ff;
-  color: white;
-  border: 2px solid #0057ff;
-}
-
-.btn.primary:hover {
-  background: #0044cc;
-  color: white;
-}
-
+/* Outline button (the only one used in hero now) */
 .btn.outline {
   background: transparent;
   color: #0057ff;
@@ -257,6 +247,7 @@ section {
   color: white;
 }
 
+/* Hero image */
 .hero-img {
   width: 760px;
   max-width: 100%;
@@ -326,172 +317,6 @@ section {
   font-size: 16px;
 }
 
-
-/* ------------------------------------------------------
-   HOW IT WORKS
------------------------------------------------------- */
-
-.how-container {
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-.how-layout {
-  display: flex;
-  gap: 48px;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
-/* Left side: illustration + final line */
-
-.how-illustration {
-  flex: 1;
-  text-align: center;
-}
-
-.how-illustration img {
-  width: 100%;
-  max-width: 520px; /* bigger, more presence */
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(0, 87, 255, 0.25); /* soft glow, like hero */
-}
-
-.how-cta-note.left-side {
-  margin-top: 48px; /* was 24px */
-  font-size: 16px;
-  color: #0f1f3d;
-  line-height: 1.5;
-}
-
-/* Right side: steps + reassurance + button */
-
-.how-steps {
-  flex: 1;
-  text-align: left;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.how-step {
-  margin-bottom: 12px; /* tighter spacing between steps */
-}
-
-.how-step h3 {
-  margin-bottom: 4px; /* reduce gap between title and paragraph */
-}
-
-.how-step p {
-  margin: 0; /* remove default paragraph spacing */
-}
-
-/* Lead + reassurance */
-
-.how-lead {
-  text-align: center;
-  margin-bottom: 32px;
-  color: #0f1f3d;
-  font-size: 20px;
-  line-height: 1.5;
-}
-
-.how-reassurance {
-  margin-top: 24px;
-  margin-bottom: 16px;
-  color: #0f1f3d;
-  font-size: 18px;
-  line-height: 1.5;
-}
-
-/* CTA button */
-
-.how-cta {
-  margin-top: 8px;
-  align-self: flex-start;
-}
-
-/* Simple mobile adjustment */
-
-@media (max-width: 768px) {
-  .how-layout {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .how-steps {
-    align-items: center;
-    text-align: center;
-  }
-
-  .how-cta {
-    align-self: center;
-  }
-}
-
-/* ------------------------------------------------------
-   WHAT YOU GET
------------------------------------------------------- */
-
-/* Center the "What You Get" title only */
-.what .section-title {
-  text-align: center;
-}
-
-.what-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  padding: 40px 0;
-}
-
-@media (max-width: 1024px) {
-  .what-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .what-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.what-card {
-  background: rgba(0, 87, 255, 0.06);
-  padding: 28px;
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 8px 24px rgba(0, 87, 255, 0.08);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.what-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(0, 87, 255, 0.12);
-}
-
-.icon-wrap {
-  margin-bottom: 16px;
-}
-
-.what-card h3 {
-  margin-bottom: 8px;
-  font-size: 20px;
-  color: #0f1f3d;
-}
-
-.what-card p {
-  margin: 0;
-  color: #0f1f3d;
-  line-height: 1.55;
-  font-size: 16px;
-}
 
 /* ------------------------------------------------------
    REAL LIFE — CLEAN VERSION (NO BUTTON)
