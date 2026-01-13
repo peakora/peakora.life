@@ -785,6 +785,113 @@ section {
   scroll-margin-top: 80px;
 }
 
+/* ============================
+   PAGE LAYOUT (About, Terms, Privacy, Contact, Thank You)
+   ============================ */
+
+.page-section {
+  padding: 100px 0;
+}
+
+.page-title {
+  font-size: 36px;
+  font-weight: 700;
+  color: #0f1f3d;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  font-size: 20px;
+  color: #3a4a6a;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.divider {
+  width: 80px;
+  height: 4px;
+  background: #0057ff;
+  border-radius: 4px;
+  margin: 40px auto;
+}
+
+.page-heading {
+  font-size: 24px;
+  font-weight: 700;
+  color: #0f1f3d;
+  margin-bottom: 16px;
+}
+
+.page-text {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #3a4a6a;
+  margin-bottom: 24px;
+}
+
+.page-list {
+  margin: 0 0 24px 0;
+  padding-left: 20px;
+}
+
+.page-list li {
+  font-size: 18px;
+  color: #3a4a6a;
+  margin-bottom: 12px;
+}
+
+/* ============================
+   CONTACT FORM
+   ============================ */
+
+.contact-form {
+  max-width: 600px;
+  margin: 40px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.contact-label {
+  font-size: 18px;
+  color: #0f1f3d;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-input,
+.contact-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid #d0d6e0;
+  border-radius: 8px;
+  font-size: 16px;
+  color: #0f1f3d;
+  background: #fff;
+}
+
+.contact-textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-btn {
+  background: #0057ff;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.2s ease;
+}
+
+.contact-btn:hover {
+  background: #003fcc;
+}
 
 
 
