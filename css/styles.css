@@ -960,6 +960,13 @@ section {
   gap: 24px;
 }
 
+/* Force header social icons to Peakora Blue */
+.header-social .social-icon svg {
+  stroke: #3a5cff !important;
+  fill: none !important;
+  width: 20px;
+  height: 20px;
+}
 
 
 .contact-btn:hover {
