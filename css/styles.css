@@ -533,45 +533,6 @@ section {
 }
 
 
-/* ------------------------------------------------------
-   FINAL CTA
------------------------------------------------------- */
-
-.final-inner {
-  text-align: center;
-  padding: 80px 0;
-}
-
-.final-img {
-  width: 480px;
-  max-width: 100%;
-  border-radius: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
-}
-
-.final-btn {
-  margin-top: 20px;
-}
-
-/* ------------------------------------------------------
-   START SECTION
------------------------------------------------------- */
-
-.start-inner {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 40px;
-  padding: 60px 0;
-}
-
-.start-img {
-  width: 420px;
-  max-width: 100%;
-  border-radius: 16px;
-  box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
-}
 
 /* ------------------------------------------------------
    FOOTER
