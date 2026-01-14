@@ -367,11 +367,32 @@
   <script src="script.js"></script>
 
 
-<!-- FLOATING ASK PEAKORA BUTTON WITH TEAR MASCOT -->
+<!-- FLOATING ASK PEAKORA BUTTON -->
 <button id="assistantButton" class="peakora-btn">
-  <div id="peakoraMascot" class="peakora-mascot"></div>
+  <div id="peakoraMascot" class="peakora-mascot">
+    <!-- P‑tear mascot SVG (Peakora Blue) -->
+    <svg width="60" height="80" viewBox="0 0 60 80" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="peakoraBlueGlow" cx="50%" cy="35%" r="65%">
+          <stop offset="0%" stop-color="#7aa4ff"/>
+          <stop offset="40%" stop-color="#3d73ff"/>
+          <stop offset="100%" stop-color="#0057ff"/>
+        </radialGradient>
+      </defs>
+
+      <!-- Tear-shaped P (Peakora Blue) -->
+      <path d="M30 5
+               C47 5 55 18 55 32
+               C55 48 44 60 30 60
+               C16 60 5 48 5 32
+               C5 18 13 5 30 5 Z"
+            fill="url(#peakoraBlueGlow)"/>
+    </svg>
+  </div>
+
   <span class="peakora-label">Ask Peakora</span>
 </button>
+
 
 <!-- ASSISTANT MODAL -->
 <div id="assistantModal" class="assistant-modal-overlay">
