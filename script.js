@@ -47,8 +47,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const assistantMessages = document.getElementById("assistantMessages");
   const assistantInput = document.getElementById("assistantInput");
   const assistantSend = document.getElementById("assistantSend");
-
-  // NEW mascot reference (P‑tear SVG container)
   const peakoraMascot = document.getElementById("peakoraMascot");
 
   function addAssistantMessage(text, isUser = false) {
@@ -62,11 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function openAssistant() {
     assistantModal.classList.add("open");
-
-    // NEW mascot active state (glow + scale)
-    if (peakoraMascot) {
-      peakoraMascot.classList.add("active");
-    }
+    peakoraMascot.classList.add("active");
 
     if (!assistantMessages.dataset.initialized) {
       addAssistantMessage("You’re here. That’s enough for now. What feels present for you?");
@@ -76,11 +70,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeAssistant() {
     assistantModal.classList.remove("open");
-
-    // NEW mascot inactive state (soft glow)
-    if (peakoraMascot) {
-      peakoraMascot.classList.remove("active");
-    }
+    peakoraMascot.classList.remove("active");
   }
 
   function handleSend() {
@@ -90,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addAssistantMessage(text, true);
     assistantInput.value = "";
 
-    // Placeholder logic — replace later with real flows
     setTimeout(() => {
       addAssistantMessage("Thank you for sharing that. Tell me a bit more about how this feels for you.");
     }, 600);
@@ -105,9 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   assistantModal.addEventListener("click", (e) => {
-    if (e.target === assistantModal) {
-      closeAssistant();
-    }
+    if (e.target === assistantModal) closeAssistant();
   });
 });
+
 
