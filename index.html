@@ -367,10 +367,36 @@
   <script src="script.js"></script>
 
 
-<!-- FLOATING CTA: Peakora Glow -->
-<div class="peakora-cta" id="peakora-cta">
-    <div class="peakora-glow"></div>
-    <span class="peakora-cta-label">Ask Peakora</span>
+<!-- ASSISTANT BUTTON -->
+<button id="assistantButton" class="assistant-btn">
+  Ask Peakora
+</button>
+
+<!-- ASSISTANT MODAL -->
+<div id="assistantModal" class="assistant-modal-overlay">
+  <div class="assistant-modal">
+
+    <!-- HEADER -->
+    <div class="assistant-header">
+      <span class="assistant-title">Peakora Assistant</span>
+      <button id="assistantClose" class="assistant-close">&times;</button>
+    </div>
+
+    <!-- MASCOT AREA -->
+    <div class="assistant-mascot-container">
+      <div class="assistant-mascot"></div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div id="assistantMessages" class="assistant-messages"></div>
+
+    <!-- INPUT AREA -->
+    <div class="assistant-input-area">
+      <input id="assistantInput" type="text" placeholder="Type here..." />
+      <button id="assistantSend" class="assistant-send">Send</button>
+    </div>
+
+  </div>
 </div>
 
 
