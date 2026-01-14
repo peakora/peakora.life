@@ -890,61 +890,129 @@ section {
   background: #003fcc;
 }
 
-/* ============================
-   FLOATING CTA — PEAKORA GLOW
-============================ */
-.peakora-cta {
-  position: fixed;
-  bottom: 28px;
-  right: 24px;
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(6px);
-  padding: 10px 16px;
-  border-radius: 40px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
+/* ASSISTANT BUTTON — TRANSPARENT VERSION */
+.assistant-btn {
+  padding: 14px 26px;
+  background: transparent;
+  border: 2px solid #0057ff;
+  color: #0057ff;
+  border-radius: 10px;
+  font-size: 18px;
   cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition: 0.2s;
 }
 
-/* Hover (desktop only) */
-@media (hover: hover) {
-  .peakora-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
-  }
+.assistant-btn:hover {
+  background: rgba(0, 87, 255, 0.08);
 }
 
-/* CTA Label */
-.peakora-cta-label {
-  font-size: 15px;
-  font-weight: 600;
+/* MODAL OVERLAY */
+.assistant-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  z-index: 9999;
+}
+
+/* MODAL BOX */
+.assistant-modal {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(18px);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 480px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* HEADER */
+.assistant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.assistant-title {
+  font-size: 22px;
+  font-weight: 700;
   color: #0f1f3d;
-  white-space: nowrap;
 }
 
-/* ============================
-   PEAKORA GLOW — THE MASCOT
-============================ */
-.peakora-glow {
-  width: 22px;
-  height: 22px;
+.assistant-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* MASCOT AREA */
+.assistant-mascot-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90px;
+}
+
+.assistant-mascot {
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #3a5cff, #1e2f66);
-  box-shadow:
-    0 0 12px rgba(58, 92, 255, 0.6),
-    0 0 24px rgba(58, 92, 255, 0.4);
-  animation: peakora-breathe 3s ease-in-out infinite;
+  background: #dfe8ff;
 }
 
-/* Breathing animation */
-@keyframes peakora-breathe {
-  0%   { transform: scale(1);   box-shadow: 0 0 12px rgba(58, 92, 255, 0.6); }
-  50%  { transform: scale(1.12); box-shadow: 0 0 18px rgba(58, 92, 255, 0.75); }
-  100% { transform: scale(1);   box-shadow: 0 0 12px rgba(58, 92, 255, 0.6); }
+/* MESSAGES */
+.assistant-messages {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 300px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.assistant-message {
+  background: white;
+  padding: 14px 18px;
+  border-radius: 12px;
+  font-size: 16px;
+  color: #0f1f3d;
+  line-height: 1.5;
+  width: fit-content;
+  max-width: 85%;
+}
+
+/* INPUT AREA */
+.assistant-input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.assistant-input-area input {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #d4d9e2;
+  font-size: 16px;
+}
+
+.assistant-send {
+  padding: 12px 20px;
+  background: #0057ff;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.assistant-send:hover {
+  background: #003fcc;
 }
 
 /* ============================
