@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
-  // ⭐ FIX: force overlay to flex when opened
+  // FIXED: modal visibility
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
     assistantModalOverlay.style.display = "flex";
@@ -78,7 +78,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // ⭐ FIX: hide overlay properly
   function closeAssistant() {
     assistantModalOverlay.classList.remove("open");
     assistantModalOverlay.style.display = "none";
@@ -132,14 +131,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       setTimeout(() => {
-        addAssistantMessage(`Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`);
+        addAssistantMessage(
+          `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
+        );
       }, 400);
       return;
     }
 
     if (userName) {
       setTimeout(() => {
-        addAssistantMessage(`Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`);
+        addAssistantMessage(
+          `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
+        );
       }, 400);
     }
   }
