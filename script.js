@@ -59,6 +59,12 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
+  function addAssistantMessageWithDelay(text, delay) {
+    setTimeout(() => {
+      addAssistantMessage(text);
+    }, delay);
+  }
+
   function addUserMessage(text) {
     const msg = document.createElement("div");
     msg.classList.add("assistant-message", "user");
@@ -67,11 +73,37 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
+  function addRedirectButton(delay) {
+    setTimeout(() => {
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("assistant-message");
+
+      const btn = document.createElement("button");
+      btn.textContent = "Connect me to Peakora Assistant";
+      btn.style.padding = "10px 14px";
+      btn.style.background = "#0057ff";
+      btn.style.color = "white";
+      btn.style.border = "none";
+      btn.style.borderRadius = "8px";
+      btn.style.cursor = "pointer";
+      btn.style.fontSize = "14px";
+      btn.style.fontWeight = "600";
+
+      btn.addEventListener("click", () => {
+        window.open("https://peakora.com/assistant", "_blank");
+      });
+
+      wrapper.appendChild(btn);
+      assistantMessages.appendChild(wrapper);
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    }, delay);
+  }
+
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
 
     if (!assistantMessages.dataset.initialized) {
-      addAssistantMessage("Hi, I’m Peakora.\nHow can I help you?");
+      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?", 400);
       assistantMessages.dataset.initialized = "true";
     }
   }
@@ -99,19 +131,17 @@ document.addEventListener("DOMContentLoaded", () => {
         firstUserMessage.includes("evening");
 
       if (isGreeting) {
-        setTimeout(() => {
-          addAssistantMessage(
-            "It’s really nice to meet you.\nBefore we go further, may I know your name?"
-          );
-        }, 400);
+        addAssistantMessageWithDelay(
+          "It’s really nice to meet you.\nBefore we go further, may I know your name?",
+          600
+        );
         return;
       }
 
-      setTimeout(() => {
-        addAssistantMessage(
-          "I can definitely help you with that.\nBefore we go further, may I know your name?"
-        );
-      }, 400);
+      addAssistantMessageWithDelay(
+        "I can definitely help you with that.\nBefore we go further, may I know your name?",
+        600
+      );
       return;
     }
 
@@ -127,39 +157,30 @@ document.addEventListener("DOMContentLoaded", () => {
         firstUserMessage.includes("evening");
 
       if (isGreeting) {
-        setTimeout(() => {
-          addAssistantMessage(
-            `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`
-          );
-        }, 400);
+        addAssistantMessageWithDelay(
+          `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`,
+          600
+        );
         return;
       }
 
-      setTimeout(() => {
-        addAssistantMessage(
-          `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
-        );
-      }, 400);
+      addAssistantMessageWithDelay(
+        `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
+        600
+      );
 
-      // REDIRECT TO ASSISTANT PAGE
-      setTimeout(() => {
-        window.open("https://peakora.com/assistant", "_blank");
-      }, 1600);
-
+      addRedirectButton(1600);
       return;
     }
 
-    // ANY MESSAGE AFTER NAME → REDIRECT
+    // ANY MESSAGE AFTER NAME → OFFER REDIRECT
     if (userName) {
-      setTimeout(() => {
-        addAssistantMessage(
-          `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
-        );
-      }, 400);
+      addAssistantMessageWithDelay(
+        `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
+        600
+      );
 
-      setTimeout(() => {
-        window.open("https://peakora.com/assistant", "_blank");
-      }, 1600);
+      addRedirectButton(1600);
     }
   }
 
