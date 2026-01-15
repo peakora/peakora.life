@@ -87,6 +87,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addUserMessage(text);
     assistantInput.value = "";
 
+    // FIRST USER MESSAGE
     if (!firstUserMessage) {
       firstUserMessage = text.toLowerCase();
 
@@ -99,17 +100,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isGreeting) {
         setTimeout(() => {
-          addAssistantMessage("It’s really nice to meet you.\nBefore we go further, may I know your name?");
+          addAssistantMessage(
+            "It’s really nice to meet you.\nBefore we go further, may I know your name?"
+          );
         }, 400);
         return;
       }
 
       setTimeout(() => {
-        addAssistantMessage("I can definitely help you with that.\nBefore we go further, may I know your name?");
+        addAssistantMessage(
+          "I can definitely help you with that.\nBefore we go further, may I know your name?"
+        );
       }, 400);
       return;
     }
 
+    // USER PROVIDES NAME
     if (!userName) {
       userName = text;
 
@@ -122,7 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
       if (isGreeting) {
         setTimeout(() => {
-          addAssistantMessage(`Thank you for sharing that, ${userName}.\nWhat would you like support with today?`);
+          addAssistantMessage(
+            `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`
+          );
         }, 400);
         return;
       }
@@ -132,15 +140,26 @@ document.addEventListener("DOMContentLoaded", () => {
           `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
         );
       }, 400);
+
+      // REDIRECT TO ASSISTANT PAGE
+      setTimeout(() => {
+        window.open("https://peakora.com/assistant", "_blank");
+      }, 1600);
+
       return;
     }
 
+    // ANY MESSAGE AFTER NAME → REDIRECT
     if (userName) {
       setTimeout(() => {
         addAssistantMessage(
           `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`
         );
       }, 400);
+
+      setTimeout(() => {
+        window.open("https://peakora.com/assistant", "_blank");
+      }, 1600);
     }
   }
 
@@ -152,4 +171,3 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") handleSend();
   });
 });
-
