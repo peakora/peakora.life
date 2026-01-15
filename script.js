@@ -98,13 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const btn = document.createElement("button");
       btn.textContent = "Connect me to Peakora Assistant";
-      btn.style.padding = "10px 14px";
+      btn.style.padding = "12px 16px";
       btn.style.background = "#0057ff";
       btn.style.color = "white";
       btn.style.border = "none";
       btn.style.borderRadius = "8px";
       btn.style.cursor = "pointer";
-      btn.style.fontSize = "14px";
+      btn.style.fontSize = "15px";
       btn.style.fontWeight = "600";
 
       btn.addEventListener("click", () => {
@@ -121,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantModalOverlay.classList.add("open");
 
     if (!assistantMessages.dataset.initialized) {
-      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?", 800);
+      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?", 1600);
       assistantMessages.dataset.initialized = "true";
     }
   }
@@ -151,14 +151,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isGreeting) {
         addAssistantMessageWithDelay(
           "It’s really nice to meet you.\nBefore we go further, may I know your name?",
-          1000
+          1800
         );
         return;
       }
 
       addAssistantMessageWithDelay(
         "I can definitely help you with that.\nBefore we go further, may I know your name?",
-        1000
+        1800
       );
       return;
     }
@@ -177,17 +177,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isGreeting) {
         addAssistantMessageWithDelay(
           `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`,
-          1000
+          1800
         );
         return;
       }
 
       addAssistantMessageWithDelay(
         `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
-        1000
+        2000
       );
 
-      addRedirectButton(1800);
+      addRedirectButton(2600);
       return;
     }
 
@@ -195,10 +195,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userName) {
       addAssistantMessageWithDelay(
         `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
-        1000
+        2000
       );
 
-      addRedirectButton(1800);
+      addRedirectButton(2600);
     }
   }
 
