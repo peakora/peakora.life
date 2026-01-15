@@ -51,29 +51,52 @@ document.addEventListener("DOMContentLoaded", () => {
   let firstUserMessage = null;
   let userName = null;
 
+  /* Human-like rhythm based on message length */
   function rhythm(text) {
     const base = 900;
-    const perChar = 40;
+    const perChar = 45;
     return base + text.length * perChar;
   }
 
+  /* Smooth auto-scroll */
+  function smoothScroll() {
+    assistantMessages.scrollTo({
+      top: assistantMessages.scrollHeight,
+      behavior: "smooth"
+    });
+  }
+
+  /* User message */
   function addUserMessage(text) {
     const msg = document.createElement("div");
     msg.classList.add("assistant-message", "user");
     msg.textContent = text;
     assistantMessages.appendChild(msg);
-    assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    smoothScroll();
   }
 
+  /* Premium iMessage typing indicator */
   function showTypingIndicator() {
     if (document.getElementById("typingIndicator")) return;
 
     const typing = document.createElement("div");
     typing.id = "typingIndicator";
     typing.classList.add("typing-indicator");
-    typing.textContent = "Peakora is typing…";
+
+    const dot1 = document.createElement("div");
+    const dot2 = document.createElement("div");
+    const dot3 = document.createElement("div");
+
+    dot1.classList.add("dot");
+    dot2.classList.add("dot");
+    dot3.classList.add("dot");
+
+    typing.appendChild(dot1);
+    typing.appendChild(dot2);
+    typing.appendChild(dot3);
+
     assistantMessages.appendChild(typing);
-    assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    smoothScroll();
   }
 
   function hideTypingIndicator() {
@@ -81,6 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typing) typing.remove();
   }
 
+  /* Assistant message with rhythm + typing */
   function addAssistantMessageWithDelay(text) {
     const delay = rhythm(text);
 
@@ -93,10 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
       msg.classList.add("assistant-message");
       msg.textContent = text;
       assistantMessages.appendChild(msg);
-      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+      smoothScroll();
     }, delay);
   }
 
+  /* Redirect button */
   function addRedirectButton(text) {
     const delay = rhythm(text);
 
@@ -125,10 +150,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
       wrapper.appendChild(btn);
       assistantMessages.appendChild(wrapper);
-      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+      smoothScroll();
     }, delay);
   }
 
+  /* Modal open */
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
 
@@ -138,10 +164,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* Modal close */
   function closeAssistant() {
     assistantModalOverlay.classList.remove("open");
   }
 
+  /* Toggle modal on button click */
+  assistantButton.addEventListener("click", () => {
+    if (assistantModalOverlay.classList.contains("open")) {
+      closeAssistant();
+    } else {
+      openAssistant();
+    }
+  });
+
+  /* Close on X */
+  assistantClose.addEventListener("click", closeAssistant);
+
+  /* Close when clicking outside modal */
+  assistantModalOverlay.addEventListener("click", (e) => {
+    if (e.target === assistantModalOverlay) closeAssistant();
+  });
+
+  /* Main conversation logic */
   function handleSend() {
     const text = assistantInput.value.trim();
     if (!text) return;
@@ -202,8 +247,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addRedirectButton(msg);
   }
 
-  assistantButton.addEventListener("click", openAssistant);
-  assistantClose.addEventListener("click", closeAssistant);
   assistantSend.addEventListener("click", handleSend);
 
   assistantInput.addEventListener("keydown", (e) => {
