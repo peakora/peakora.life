@@ -1005,6 +1005,13 @@ section {
   }
 }
 
+.assistant-modal,
+.assistant-messages,
+.assistant-message,
+.assistant-input-area input {
+  color: #0f1f3d !important;
+}
+
 /* ============================
    MOBILE ADJUSTMENTS
 ============================ */
