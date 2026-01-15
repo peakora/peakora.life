@@ -42,7 +42,7 @@ if (contactModal) {
 
 document.addEventListener("DOMContentLoaded", () => {
   const assistantButton = document.getElementById("assistantButton");
-  const assistantModal = document.getElementById("assistantModal");
+  const assistantModalOverlay = document.getElementById("assistantModal");
   const assistantClose = document.getElementById("assistantClose");
   const assistantMessages = document.getElementById("assistantMessages");
   const assistantInput = document.getElementById("assistantInput");
@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function openAssistant() {
-    assistantModal.classList.add("open");
+    assistantModalOverlay.classList.add("open");
 
     if (!assistantMessages.dataset.initialized) {
       addAssistantMessage("Hi, I’m Peakora.\nHow can I help you?");
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function closeAssistant() {
-    assistantModal.classList.remove("open");
+    assistantModalOverlay.classList.remove("open");
   }
 
   function handleSend() {
@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addUserMessage(text);
     assistantInput.value = "";
 
-    // FIRST USER MESSAGE
     if (!firstUserMessage) {
       firstUserMessage = text.toLowerCase();
 
@@ -111,11 +110,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // USER PROVIDES NAME
     if (!userName) {
       userName = text;
 
-      // If first message was a greeting → ask for request
       const isGreeting =
         firstUserMessage.includes("hi") ||
         firstUserMessage.includes("hello") ||
@@ -130,15 +127,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // If first message was a request → redirect
       setTimeout(() => {
         addAssistantMessage(`Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`);
       }, 400);
-
       return;
     }
 
-    // USER GIVES REQUEST AFTER NAME
     if (userName) {
       setTimeout(() => {
         addAssistantMessage(`Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`);
