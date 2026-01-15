@@ -790,13 +790,13 @@ section {
   background: #003fcc;
 }
 
-/* Floating Ask Peakora button — clean reset */
+/* Floating Ask Peakora button */
 .peakora-btn {
   position: fixed;
   bottom: 24px;
   right: 24px;
   padding: 14px 22px;
-  background: rgba(0, 87, 255, 0.15); /* semi‑transparent Peakora blue */
+  background: rgba(0, 87, 255, 0.15);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(0, 87, 255, 0.25);
   border-radius: 14px;
@@ -813,120 +813,42 @@ section {
   transform: translateY(-2px);
 }
 
-
-/* Basic modal styling (adjust to your existing styles) */
-.assistant-modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 9998;
-}
-
-.assistant-modal.open {
-  display: flex;
-}
-
-.assistant-modal-content {
-  background: #ffffff;
-  border-radius: 16px;
-  max-width: 420px;
-  width: 100%;
-  padding: 20px;
-  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.assistant-close {
-  align-self: flex-end;
-  background: transparent;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-.assistant-messages {
-  max-height: 260px;
-  overflow-y: auto;
-  padding-right: 4px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  font-size: 14px;
-}
-
-.assistant-message {
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: #f4f6fb;
-  color: #222;
-  align-self: flex-start;
-}
-
-.assistant-message.user {
-  background: #0057ff;
-  color: #ffffff;
-  align-self: flex-end;
-}
-
-.assistant-input-row {
-  display: flex;
-  gap: 8px;
-  margin-top: 4px;
-}
-
-#assistantInput {
-  flex: 1;
-  padding: 8px 10px;
-  border-radius: 999px;
-  border: 1px solid #d0d5e6;
-  font-size: 14px;
-}
-
-#assistantSend {
-  padding: 8px 14px;
-  border-radius: 999px;
-  border: none;
-  background: #0057ff;
-  color: #ffffff;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* MODAL OVERLAY */
+/* Modal overlay */
 .assistant-modal-overlay {
   position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  bottom: 80px;
+  right: 24px;
   display: none;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
   z-index: 9998;
 }
 
-/* MODAL BOX */
-.assistant-modal {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  width: 100%;
-  max-width: 480px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22);
-  transform: scale(0.96);
-  opacity: 0;
-  transition: 0.22s ease;
+/* Slide-out animation */
+.assistant-modal-overlay.open {
+  display: block;
+  animation: slideUp 0.3s ease;
 }
 
-/* HEADER */
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Modal box */
+.assistant-modal {
+  background: #ffffff;
+  border-radius: 18px;
+  width: 360px;
+  max-height: 70vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 18px rgba(0, 87, 255, 0.35);
+  border: 1px solid rgba(0, 87, 255, 0.25);
+  overflow: hidden;
+}
+
+/* Header */
 .assistant-header {
   display: flex;
   justify-content: space-between;
@@ -934,81 +856,47 @@ section {
 }
 
 .assistant-title {
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
-  color: #0f1f3d;
+  color: #0057ff;
 }
 
 .assistant-close {
   background: none;
   border: none;
-  font-size: 28px;
+  font-size: 26px;
   cursor: pointer;
   color: #4a5670;
 }
 
-/* MASCOT AREA */
-.assistant-mascot-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 120px;
-}
-
-.assistant-mascot-svg {
-  width: 90px;
-  height: 90px;
-}
-
-/* Halo ring */
-.halo-ring {
-  fill: none;
-  stroke: rgba(0, 87, 255, 0.45);
-  stroke-width: 8;
-  filter: drop-shadow(0 0 18px rgba(0, 87, 255, 0.55));
-  transform-origin: 50% 50%;
-  animation: halo-breathe 5s ease-in-out infinite;
-}
-
-/* Droplet body */
-.droplet-body {
-  fill: url(#dropletGradient);
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, 0.22));
-  transform-origin: 50% 50%;
-  animation: droplet-breathe 5s ease-in-out infinite;
-}
-
-/* MESSAGES */
+/* Messages */
 .assistant-messages {
+  flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-height: 260px;
+  gap: 12px;
   overflow-y: auto;
   padding-right: 6px;
 }
 
 .assistant-message {
-  background: white;
-  padding: 14px 18px;
+  background: #f4f6fb;
+  padding: 12px 16px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 15px;
   color: #0f1f3d;
-  line-height: 1.5;
+  max-width: 80%;
   width: fit-content;
-  max-width: 85%;
   box-shadow: 0 4px 12px rgba(15, 31, 61, 0.08);
-  opacity: 0;
-  transform: translateY(6px);
-  animation: message-in 0.25s ease forwards;
 }
 
 .assistant-message.user {
   margin-left: auto;
-  background: #e4ecff;
+  background: #0057ff;
+  color: white;
 }
 
-/* INPUT AREA */
+/* Input area */
 .assistant-input-area {
   display: flex;
   gap: 10px;
@@ -1019,7 +907,7 @@ section {
   padding: 12px 16px;
   border-radius: 10px;
   border: 1px solid #d4d9e2;
-  font-size: 16px;
+  font-size: 15px;
 }
 
 .assistant-send {
@@ -1029,42 +917,7 @@ section {
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  transition: 0.2s;
   font-weight: 600;
-}
-
-.assistant-send:hover {
-  background: #003fcc;
-}
-
-/* ANIMATIONS */
-@keyframes halo-breathe {
-  0%   { transform: scale(1);   opacity: 0.9; }
-  50%  { transform: scale(1.08); opacity: 1;   }
-  100% { transform: scale(1);   opacity: 0.9; }
-}
-
-@keyframes droplet-breathe {
-  0%   { transform: scale(1);   }
-  50%  { transform: scale(1.04); }
-  100% { transform: scale(1);   }
-}
-
-@keyframes message-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* MODAL VISIBLE STATE (JS toggles a class) */
-.assistant-modal-overlay.open {
-  display: flex;
-}
-
-.assistant-modal-overlay.open .assistant-modal {
-  opacity: 1;
-  transform: scale(1);
 }
 
 
