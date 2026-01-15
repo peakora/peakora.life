@@ -51,20 +51,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let firstUserMessage = null;
   let userName = null;
 
-  function addAssistantMessage(text) {
-    const msg = document.createElement("div");
-    msg.classList.add("assistant-message");
-    msg.textContent = text;
-    assistantMessages.appendChild(msg);
-    assistantMessages.scrollTop = assistantMessages.scrollHeight;
-  }
-
-  function addAssistantMessageWithDelay(text, delay) {
-    setTimeout(() => {
-      addAssistantMessage(text);
-    }, delay);
-  }
-
   function addUserMessage(text) {
     const msg = document.createElement("div");
     msg.classList.add("assistant-message", "user");
@@ -73,8 +59,40 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
-  function addRedirectButton(delay) {
+  function showTypingIndicator() {
+    const typing = document.createElement("div");
+    typing.classList.add("assistant-message");
+    typing.id = "typingIndicator";
+    typing.textContent = "Peakora is typing…";
+    assistantMessages.appendChild(typing);
+    assistantMessages.scrollTop = assistantMessages.scrollHeight;
+  }
+
+  function hideTypingIndicator() {
+    const typing = document.getElementById("typingIndicator");
+    if (typing) typing.remove();
+  }
+
+  function addAssistantMessageWithDelay(text, delay) {
+    showTypingIndicator();
+
     setTimeout(() => {
+      hideTypingIndicator();
+
+      const msg = document.createElement("div");
+      msg.classList.add("assistant-message");
+      msg.textContent = text;
+      assistantMessages.appendChild(msg);
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    }, delay);
+  }
+
+  function addRedirectButton(delay) {
+    showTypingIndicator();
+
+    setTimeout(() => {
+      hideTypingIndicator();
+
       const wrapper = document.createElement("div");
       wrapper.classList.add("assistant-message");
 
@@ -103,7 +121,7 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantModalOverlay.classList.add("open");
 
     if (!assistantMessages.dataset.initialized) {
-      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?", 400);
+      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?", 800);
       assistantMessages.dataset.initialized = "true";
     }
   }
@@ -133,14 +151,14 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isGreeting) {
         addAssistantMessageWithDelay(
           "It’s really nice to meet you.\nBefore we go further, may I know your name?",
-          600
+          1000
         );
         return;
       }
 
       addAssistantMessageWithDelay(
         "I can definitely help you with that.\nBefore we go further, may I know your name?",
-        600
+        1000
       );
       return;
     }
@@ -159,17 +177,17 @@ document.addEventListener("DOMContentLoaded", () => {
       if (isGreeting) {
         addAssistantMessageWithDelay(
           `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`,
-          600
+          1000
         );
         return;
       }
 
       addAssistantMessageWithDelay(
         `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
-        600
+        1000
       );
 
-      addRedirectButton(1600);
+      addRedirectButton(1800);
       return;
     }
 
@@ -177,10 +195,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (userName) {
       addAssistantMessageWithDelay(
         `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`,
-        600
+        1000
       );
 
-      addRedirectButton(1600);
+      addRedirectButton(1800);
     }
   }
 
