@@ -48,12 +48,46 @@ document.addEventListener("DOMContentLoaded", () => {
   const assistantInput = document.getElementById("assistantInput");
   const assistantSend = document.getElementById("assistantSend");
 
+  // NEW: Smart reply container
+  const smartReplies = document.createElement("div");
+  smartReplies.id = "smartReplies";
+  smartReplies.style.display = "none";
+  smartReplies.style.gap = "8px";
+  smartReplies.style.margin = "8px 0";
+  smartReplies.style.flexWrap = "wrap";
+  smartReplies.style.padding = "0 12px";
+  smartReplies.style.display = "flex";
+
+  assistantMessages.parentNode.insertBefore(smartReplies, assistantMessages.nextSibling);
+
+  // NEW: Session reset button
+  const resetButton = document.createElement("button");
+  resetButton.textContent = "Reset chat";
+  resetButton.style.position = "absolute";
+  resetButton.style.top = "12px";
+  resetButton.style.right = "12px";
+  resetButton.style.background = "transparent";
+  resetButton.style.border = "none";
+  resetButton.style.color = "#666";
+  resetButton.style.cursor = "pointer";
+  resetButton.style.fontSize = "12px";
+  resetButton.style.textDecoration = "underline";
+  resetButton.style.display = "none";
+
+  assistantModalOverlay.appendChild(resetButton);
+
+  // NEW: Online status
+  const onlineStatus = document.createElement("div");
+  onlineStatus.textContent = "Peakora is online";
+  onlineStatus.style.fontSize = "12px";
+  onlineStatus.style.color = "#4CAF50";
+  onlineStatus.style.margin = "8px 0 0 12px";
+
+  assistantMessages.parentNode.insertBefore(onlineStatus, assistantMessages);
+
   let userName = null;
-  let conversationStage = 1; 
-  // 1 = greeting
-  // 2 = name collection
-  // 3 = problem collection
-  // 4 = redirect stage
+  let conversationStage = 1;
+  let assistantBusy = false;
 
   function rhythm(text) {
     const base = 900;
@@ -61,27 +95,39 @@ document.addEventListener("DOMContentLoaded", () => {
     return base + text.length * perChar;
   }
 
+  function scrollSmooth() {
+    assistantMessages.scrollTo({
+      top: assistantMessages.scrollHeight,
+      behavior: "smooth"
+    });
+  }
+
   function addUserMessage(text) {
     const msg = document.createElement("div");
     msg.classList.add("assistant-message", "user");
     msg.textContent = text;
     assistantMessages.appendChild(msg);
-    assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    scrollSmooth();
   }
 
   function showTypingIndicator() {
     if (document.getElementById("typingIndicator")) return;
+    assistantBusy = true;
+    assistantSend.disabled = true;
+
     const typing = document.createElement("div");
     typing.id = "typingIndicator";
     typing.classList.add("assistant-message");
     typing.textContent = "Peakora is typing…";
     assistantMessages.appendChild(typing);
-    assistantMessages.scrollTop = assistantMessages.scrollHeight;
+    scrollSmooth();
   }
 
   function hideTypingIndicator() {
     const typing = document.getElementById("typingIndicator");
     if (typing) typing.remove();
+    assistantBusy = false;
+    assistantSend.disabled = false;
   }
 
   function addAssistantMessageWithDelay(text) {
@@ -94,7 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
       msg.classList.add("assistant-message");
       msg.textContent = text;
       assistantMessages.appendChild(msg);
-      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+      scrollSmooth();
     }, delay);
   }
 
@@ -125,7 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       wrapper.appendChild(btn);
       assistantMessages.appendChild(wrapper);
-      assistantMessages.scrollTop = assistantMessages.scrollHeight;
+      scrollSmooth();
     }, delay);
   }
 
@@ -144,21 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const lower = text.toLowerCase().trim();
 
     const banned = [
-      "why",
-      "because",
-      "idk",
-      "i don't know",
-      "dont know",
-      "no",
-      "none",
-      "nothing",
-      "later",
-      "not now",
-      "skip",
-      "no name",
-      "anonymous",
-      "help",
-      "what can you do"
+      "why", "because", "idk", "i don't know", "dont know", "no", "none",
+      "nothing", "later", "not now", "skip", "no name", "anonymous",
+      "help", "what can you do"
     ];
 
     if (banned.includes(lower)) return false;
@@ -172,19 +206,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const lower = text.toLowerCase().trim();
 
     const banned = [
-      "idk",
-      "i don't know",
-      "dont know",
-      "nothing",
-      "no",
-      "why",
-      "later",
-      "not now",
-      "skip",
-      "?",
-      "help",
-      "what can you do",
-      "not sure"
+      "idk", "i don't know", "dont know", "nothing", "no", "why", "later",
+      "not now", "skip", "?", "help", "what can you do", "not sure"
     ];
 
     if (banned.includes(lower)) return false;
@@ -193,11 +216,51 @@ document.addEventListener("DOMContentLoaded", () => {
     return true;
   }
 
+  function showSmartReplies() {
+    smartReplies.innerHTML = "";
+    smartReplies.style.display = "flex";
+
+    const replies = [
+      "I need support",
+      "I have a question",
+      "I want guidance"
+    ];
+
+    replies.forEach(text => {
+      const chip = document.createElement("button");
+      chip.textContent = text;
+      chip.style.padding = "6px 12px";
+      chip.style.background = "#f1f1f1";
+      chip.style.border = "1px solid #ddd";
+      chip.style.borderRadius = "16px";
+      chip.style.cursor = "pointer";
+      chip.style.fontSize = "13px";
+      chip.style.color = "#0f1f3d";
+
+      chip.addEventListener("click", () => {
+        assistantInput.value = text;
+        handleSend();
+      });
+
+      smartReplies.appendChild(chip);
+    });
+  }
+
+  function hideSmartReplies() {
+    smartReplies.style.display = "none";
+  }
+
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
+    assistantInput.focus();
+    resetButton.style.display = "block";
 
     if (!assistantMessages.dataset.initialized) {
-      addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?");
+      setTimeout(() => {
+        addAssistantMessageWithDelay("Hi, I’m Peakora.\nHow can I help you?");
+        showSmartReplies();
+      }, 600);
+
       assistantMessages.dataset.initialized = "true";
     }
   }
@@ -220,12 +283,27 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === assistantModalOverlay) closeAssistant();
   });
 
+  resetButton.addEventListener("click", () => {
+    assistantMessages.innerHTML = "";
+    smartReplies.innerHTML = "";
+    userName = null;
+    conversationStage = 1;
+    assistantMessages.dataset.initialized = "";
+    openAssistant();
+  });
+
+  assistantInput.addEventListener("input", () => {
+    assistantSend.disabled = assistantInput.value.trim().length === 0 || assistantBusy;
+  });
+
   function handleSend() {
     const text = assistantInput.value.trim();
-    if (!text) return;
+    if (!text || assistantBusy) return;
 
+    hideSmartReplies();
     addUserMessage(text);
     assistantInput.value = "";
+    assistantSend.disabled = true;
 
     // -------------------------
     // STAGE 1 — GREETING
@@ -249,25 +327,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const lower = text.toLowerCase().trim();
 
       const optOutTriggers = [
-        "why",
-        "no",
-        "not now",
-        "later",
-        "skip",
-        "none",
-        "i don't want to",
-        "i dont want to",
-        "idk",
-        "don't know",
-        "dont know",
-        "no name",
-        "anonymous"
+        "why", "no", "not now", "later", "skip", "none",
+        "i don't want to", "i dont want to", "idk", "don't know",
+        "dont know", "no name", "anonymous"
       ];
 
       if (optOutTriggers.includes(lower)) {
         addAssistantMessageWithDelay("No worries — you can stay anonymous. What would you like support with?");
         userName = "friend";
         conversationStage = 3;
+        showSmartReplies();
         return;
       }
 
@@ -284,6 +353,7 @@ document.addEventListener("DOMContentLoaded", () => {
       userName = text;
       addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
       conversationStage = 3;
+      showSmartReplies();
       return;
     }
 
@@ -293,6 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (conversationStage === 3) {
       if (!looksLikeProblem(text)) {
         addAssistantMessageWithDelay(`No worries, ${userName}. Take your time — what would you like support with today?`);
+        showSmartReplies();
         return;
       }
 
@@ -317,3 +388,4 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Enter") handleSend();
   });
 });
+
