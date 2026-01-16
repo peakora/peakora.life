@@ -48,10 +48,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const assistantInput = document.getElementById("assistantInput");
   const assistantSend = document.getElementById("assistantSend");
 
-  let firstUserMessage = null;
   let userName = null;
+  let conversationStage = 1; 
+  // 1 = greeting
+  // 2 = name collection
+  // 3 = problem collection
+  // 4 = redirect stage
 
-  // Human-like rhythm based on message length
   function rhythm(text) {
     const base = 900;
     const perChar = 45;
@@ -68,7 +71,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function showTypingIndicator() {
     if (document.getElementById("typingIndicator")) return;
-
     const typing = document.createElement("div");
     typing.id = "typingIndicator";
     typing.classList.add("assistant-message");
@@ -84,12 +86,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function addAssistantMessageWithDelay(text) {
     const delay = rhythm(text);
-
     showTypingIndicator();
 
     setTimeout(() => {
       hideTypingIndicator();
-
       const msg = document.createElement("div");
       msg.classList.add("assistant-message");
       msg.textContent = text;
@@ -98,9 +98,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }, delay);
   }
 
-  function addRedirectButton(text) {
-    const delay = rhythm(text);
-
+  function addRedirectButton() {
+    const delay = 1200;
     showTypingIndicator();
 
     setTimeout(() => {
@@ -130,6 +129,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }, delay);
   }
 
+  function isGreeting(text) {
+    const t = text.toLowerCase();
+    return (
+      t.includes("hi") ||
+      t.includes("hello") ||
+      t.includes("hey") ||
+      t.includes("morning") ||
+      t.includes("evening")
+    );
+  }
+
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
 
@@ -143,7 +153,6 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantModalOverlay.classList.remove("open");
   }
 
-  // Toggle modal on button click
   assistantButton.addEventListener("click", () => {
     if (assistantModalOverlay.classList.contains("open")) {
       closeAssistant();
@@ -152,10 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Close on X
   assistantClose.addEventListener("click", closeAssistant);
 
-  // Close when clicking outside modal
   assistantModalOverlay.addEventListener("click", (e) => {
     if (e.target === assistantModalOverlay) closeAssistant();
   });
@@ -167,60 +174,61 @@ document.addEventListener("DOMContentLoaded", () => {
     addUserMessage(text);
     assistantInput.value = "";
 
-    // First user message
-    if (!firstUserMessage) {
-      firstUserMessage = text.toLowerCase();
-
-      const isGreeting =
-        firstUserMessage.includes("hi") ||
-        firstUserMessage.includes("hello") ||
-        firstUserMessage.includes("hey") ||
-        firstUserMessage.includes("morning") ||
-        firstUserMessage.includes("evening");
-
-      if (isGreeting) {
-        addAssistantMessageWithDelay(
-          "It’s really nice to meet you.\nBefore we go further, may I know your name?"
-        );
+    // -------------------------
+    // STAGE 1 — GREETING
+    // -------------------------
+    if (conversationStage === 1) {
+      if (isGreeting(text)) {
+        addAssistantMessageWithDelay("It’s really nice to meet you. What’s your name?");
+        conversationStage = 2;
         return;
       }
 
-      addAssistantMessageWithDelay(
-        "I can definitely help you with that.\nBefore we go further, may I know your name?"
-      );
+      // User skipped greeting
+      addAssistantMessageWithDelay("Before I help you, may I know your name?");
+      conversationStage = 2;
       return;
     }
 
-    // User provides name
-    if (!userName) {
+    // -------------------------
+    // STAGE 2 — NAME COLLECTION
+    // -------------------------
+    if (conversationStage === 2) {
+      const lower = text.toLowerCase();
+
+      if (lower.includes("why") && lower.includes("name")) {
+        addAssistantMessageWithDelay("I ask your name so I can speak to you personally. What should I call you?");
+        return;
+      }
+
+      if (text.length < 2) {
+        addAssistantMessageWithDelay("I didn’t catch that. What name should I use?");
+        return;
+      }
+
       userName = text;
-
-      const isGreeting =
-        firstUserMessage.includes("hi") ||
-        firstUserMessage.includes("hello") ||
-        firstUserMessage.includes("hey") ||
-        firstUserMessage.includes("morning") ||
-        firstUserMessage.includes("evening");
-
-      if (isGreeting) {
-        addAssistantMessageWithDelay(
-          `Thank you for sharing that, ${userName}.\nWhat would you like support with today?`
-        );
-        return;
-      }
-
-      const msg = `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`;
-
-      addAssistantMessageWithDelay(msg);
-      addRedirectButton(msg);
+      addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
+      conversationStage = 3;
       return;
     }
 
-    // Any message after name → offer redirect
-    const msg = `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`;
+    // -------------------------
+    // STAGE 3 — PROBLEM COLLECTION
+    // -------------------------
+    if (conversationStage === 3) {
+      addAssistantMessageWithDelay(`Thank you for sharing that, ${userName}. I know exactly where you’ll get the support you need.`);
+      addRedirectButton();
+      conversationStage = 4;
+      return;
+    }
 
-    addAssistantMessageWithDelay(msg);
-    addRedirectButton(msg);
+    // -------------------------
+    // STAGE 4 — REDIRECT
+    // -------------------------
+    if (conversationStage === 4) {
+      addAssistantMessageWithDelay(`I’m here with you, ${userName}. You can continue with the Peakora Assistant whenever you're ready.`);
+      return;
+    }
   }
 
   assistantSend.addEventListener("click", handleSend);
