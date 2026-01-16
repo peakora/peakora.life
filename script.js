@@ -51,46 +51,30 @@ document.addEventListener("DOMContentLoaded", () => {
   let firstUserMessage = null;
   let userName = null;
 
-  /* Human-like rhythm */
+  // Human-like rhythm based on message length
   function rhythm(text) {
     const base = 900;
     const perChar = 45;
     return base + text.length * perChar;
   }
 
-  /* Smooth scroll */
-  function smoothScroll() {
-    assistantMessages.scrollTo({
-      top: assistantMessages.scrollHeight,
-      behavior: "smooth"
-    });
-  }
-
-  /* User message */
   function addUserMessage(text) {
     const msg = document.createElement("div");
     msg.classList.add("assistant-message", "user");
     msg.textContent = text;
     assistantMessages.appendChild(msg);
-    smoothScroll();
+    assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
-  /* iMessage typing indicator */
   function showTypingIndicator() {
     if (document.getElementById("typingIndicator")) return;
 
     const typing = document.createElement("div");
     typing.id = "typingIndicator";
-    typing.classList.add("typing-indicator");
-
-    for (let i = 0; i < 3; i++) {
-      const dot = document.createElement("div");
-      dot.classList.add("dot");
-      typing.appendChild(dot);
-    }
-
+    typing.classList.add("assistant-message");
+    typing.textContent = "Peakora is typing…";
     assistantMessages.appendChild(typing);
-    smoothScroll();
+    assistantMessages.scrollTop = assistantMessages.scrollHeight;
   }
 
   function hideTypingIndicator() {
@@ -98,7 +82,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (typing) typing.remove();
   }
 
-  /* Assistant message */
   function addAssistantMessageWithDelay(text) {
     const delay = rhythm(text);
 
@@ -111,11 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
       msg.classList.add("assistant-message");
       msg.textContent = text;
       assistantMessages.appendChild(msg);
-      smoothScroll();
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
     }, delay);
   }
 
-  /* Redirect button */
   function addRedirectButton(text) {
     const delay = rhythm(text);
 
@@ -144,11 +126,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
       wrapper.appendChild(btn);
       assistantMessages.appendChild(wrapper);
-      smoothScroll();
+      assistantMessages.scrollTop = assistantMessages.scrollHeight;
     }, delay);
   }
 
-  /* Modal open */
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
 
@@ -158,12 +139,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  /* Modal close */
   function closeAssistant() {
     assistantModalOverlay.classList.remove("open");
   }
 
-  /* Toggle modal */
+  // Toggle modal on button click
   assistantButton.addEventListener("click", () => {
     if (assistantModalOverlay.classList.contains("open")) {
       closeAssistant();
@@ -172,15 +152,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* Close on X */
+  // Close on X
   assistantClose.addEventListener("click", closeAssistant);
 
-  /* Close on outside click */
+  // Close when clicking outside modal
   assistantModalOverlay.addEventListener("click", (e) => {
     if (e.target === assistantModalOverlay) closeAssistant();
   });
 
-  /* Conversation logic */
   function handleSend() {
     const text = assistantInput.value.trim();
     if (!text) return;
@@ -188,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addUserMessage(text);
     assistantInput.value = "";
 
+    // First user message
     if (!firstUserMessage) {
       firstUserMessage = text.toLowerCase();
 
@@ -211,6 +191,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // User provides name
     if (!userName) {
       userName = text;
 
@@ -235,6 +216,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
+    // Any message after name → offer redirect
     const msg = `Thank you for sharing that, ${userName}.\nI know exactly where you’ll get the support you need.\nLet me connect you with the Peakora Assistant`;
 
     addAssistantMessageWithDelay(msg);
