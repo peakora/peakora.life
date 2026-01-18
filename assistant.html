@@ -800,23 +800,31 @@
     }
 
     // ====== INIT ======
-    document.addEventListener("DOMContentLoaded", () => {
-      const hasState = loadState();
+   document.addEventListener("DOMContentLoaded", () => {
+  const hasState = loadState();
 
-    if (hasState && state.email) {
-    clearState();
-    state.stepIndex = 0;
+  // CASE 1 — First-time user
+  if (!hasState) {
+    state.stepIndex = steps.indexOf("welcome");
     renderStep();
-} else if (hasState && isOnboardingStep(steps[state.stepIndex])) {
-    state.mode = "onboarding";
-    state.stepIndex = 0;
-    renderStep();
-} else {
-    state.stepIndex = 0;
-    renderStep();
-}
+    return;
+  }
 
-    });
+  // CASE 2 — Returning user who completed onboarding
+  if (state.completed === true) {
+    state.stepIndex = steps.indexOf("returning");
+    renderStep();
+    return;
+  }
+
+  // CASE 3 — Returning user mid-onboarding
+  if (state.completed === false) {
+    state.stepIndex = steps.indexOf("returning");
+    renderStep();
+    return;
+  }
+});
+
   </script>
 </body>
 </html>
