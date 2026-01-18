@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.style.fontWeight = "600";
 
       btn.addEventListener("click", () => {
-        window.open("https://peakora.com/assistant", "_blank");
+        window.open("https://peakora.github.io/peakora-site//assistant.html", "_blank");
       });
 
       wrapper.appendChild(btn);
