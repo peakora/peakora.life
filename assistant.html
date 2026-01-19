@@ -517,8 +517,13 @@
     }
 
     function handleBackToHome() {
-      window.location.href = "https://peakora.github.io/assistant.html";
-    }
+  const ref = document.referrer || "";
+  if (ref.includes("index.html")) {
+    window.location.href = "index.html";
+  } else {
+    goToStepKey("returning");
+  }
+}
 
     document.addEventListener("DOMContentLoaded", () => {
       const hasState = loadState();
