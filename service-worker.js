@@ -1,4 +1,6 @@
-const CACHE_NAME = "peakora-cache-v2";
+const CACHE_VERSION = "v3"; 
+const CACHE_NAME = `peakora-cache-${CACHE_VERSION}`;
+
 const OFFLINE_URL = "/peakora-site/offline.html";
 
 const FILES_TO_CACHE = [
@@ -23,7 +25,7 @@ self.addEventListener("activate", event => {
     caches.keys().then(keys =>
       Promise.all(
         keys
-          .filter(key => key !== CACHE_NAME)
+          .filter(key => key.startsWith("peakora-cache-") && key !== CACHE_NAME)
           .map(key => caches.delete(key))
       )
     )
