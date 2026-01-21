@@ -1,4 +1,5 @@
-const CACHE_NAME = "peakora-cache-v1";
+const CACHE_NAME = "peakora-cache-v2";
+const OFFLINE_URL = "/peakora-site/offline.html";
 
 const FILES_TO_CACHE = [
   "/peakora-site/",
@@ -6,7 +7,9 @@ const FILES_TO_CACHE = [
   "/peakora-site/assistant.html",
   "/peakora-site/assistant.css",
   "/peakora-site/manifest.json",
-  "/peakora-site/assets/peakora-logo.png"
+  "/peakora-site/assets/peakora-icon-192.png",
+  "/peakora-site/assets/peakora-icon-512.png",
+  OFFLINE_URL
 ];
 
 self.addEventListener("install", event => {
@@ -15,10 +18,24 @@ self.addEventListener("install", event => {
   );
 });
 
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key => key !== CACHE_NAME)
+          .map(key => caches.delete(key))
+      )
+    )
+  );
+});
+
 self.addEventListener("fetch", event => {
   event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
+    fetch(event.request).catch(() =>
+      caches.match(event.request).then(response => {
+        return response || caches.match(OFFLINE_URL);
+      })
+    )
   );
 });
