@@ -405,11 +405,17 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      userName = cleaned;
-      addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
-      conversationStage = 3;
-      showSmartReplies();
-      return;
+      if (!cleaned || cleaned.length < 2) {
+  addAssistantMessageWithDelay("I didn’t quite catch that as a name. What should I call you?");
+  return;
+}
+
+userName = cleaned;
+addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
+conversationStage = 3;
+showSmartReplies();
+return;
+
     }
 
 
