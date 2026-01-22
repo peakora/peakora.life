@@ -188,6 +188,7 @@ document.addEventListener("DOMContentLoaded", () => {
     smartReplies.style.display = "none";
   }
 
+
   // --------------------
   // OPEN / CLOSE ASSISTANT
   // --------------------
@@ -238,6 +239,7 @@ document.addEventListener("DOMContentLoaded", () => {
   assistantInput.addEventListener("input", () => {
     assistantSend.disabled = assistantInput.value.trim().length === 0 || assistantBusy;
   });
+
 
   // --------------------
   // INTENT DETECTION
@@ -300,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return "general";
   }
 
+
   // --------------------
   // FIRST FOLLOW-UP QUESTION PER INTENT
   // --------------------
@@ -338,45 +341,6 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
   // --------------------
-  // SECOND STEP: MICRO GUIDANCE PER INTENT
-  // --------------------
-
-  function respondSecondStepForIntent(intent) {
-    if (intent === "calm") {
-      addAssistantMessageWithDelay(
-        "Here is a gentle step you can try: take one slow breath in, hold for two seconds, and let it out softly. Notice how your body feels after that."
-      );
-      return;
-    }
-
-    if (intent === "routine") {
-      addAssistantMessageWithDelay(
-        "Let us anchor one moment in your day. Choose one small thing you want to do tomorrow that would make your day feel a little more yours."
-      );
-      return;
-    }
-
-    if (intent === "overwhelm") {
-      addAssistantMessageWithDelay(
-        "Let us shrink the day a bit. It is okay to let something wait. Choose one thing you can set aside for now so you can breathe."
-      );
-      return;
-    }
-
-    if (intent === "small_step") {
-      addAssistantMessageWithDelay(
-        "Here is a small step you can take now: drink a glass of water, stretch your shoulders, and soften your jaw. It helps your body remember that it is safe to slow down."
-      );
-      return;
-    }
-
-    addAssistantMessageWithDelay(
-      "Thank you for opening up. Even small moments of honesty with yourself are a real step forward."
-    );
-  }
-
-
-  // --------------------
   // MAIN CONVERSATION LOGIC
   // --------------------
 
@@ -389,22 +353,16 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantInput.value = "";
     assistantSend.disabled = true;
 
+
     // --------------------
-    // STAGE 1 — GREETING
+    // STAGE 1 — ALWAYS ASK FOR NAME
     // --------------------
     if (conversationStage === 1) {
-      usedSmartReply = false;
-
-      if (isGreeting(text)) {
-        addAssistantMessageWithDelay("It is really nice to meet you. What is your name?");
-        conversationStage = 2;
-        return;
-      }
-
-      addAssistantMessageWithDelay("Before I help you, may I know your name?");
+      addAssistantMessageWithDelay("It is really nice to meet you. What is your name?");
       conversationStage = 2;
       return;
     }
+
 
     // --------------------
     // STAGE 2 — NAME COLLECTION
@@ -413,6 +371,15 @@ document.addEventListener("DOMContentLoaded", () => {
       usedSmartReply = false;
 
       const lower = text.toLowerCase().trim();
+
+      // Extract name even if user says "my name is ala"
+      const cleaned = lower
+        .replace("my name is", "")
+        .replace("i am", "")
+        .replace("i'm", "")
+        .replace("call me", "")
+        .replace("name", "")
+        .trim();
 
       const optOutTriggers = [
         "why", "no", "not now", "later", "skip", "none",
@@ -433,17 +400,18 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (!looksLikeName(text)) {
+      if (!looksLikeName(cleaned)) {
         addAssistantMessageWithDelay("I did not quite catch that as a name. What name should I use for you?");
         return;
       }
 
-      userName = text;
+      userName = cleaned;
       addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
       conversationStage = 3;
       showSmartReplies();
       return;
     }
+
 
     // --------------------
     // STAGE 3 — INTENT DETECTION + FIRST FOLLOW-UP
@@ -477,7 +445,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (conversationStage === 4) {
       respondSecondStepForIntent(currentIntent || "general");
 
-      // Delay redirect block so guidance appears first
+      // Delay redirect so guidance appears first
       setTimeout(() => {
         addRedirectBlock();
         conversationStage = 5;
@@ -485,6 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       return;
     }
+
 
     // --------------------
     // STAGE 5 — AFTER REDIRECT
