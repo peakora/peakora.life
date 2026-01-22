@@ -1,5 +1,5 @@
 // ------------------------------------------------------
-// PEAKORA - Unified Modal + UI Interactions
+// PEAKORA — Unified Modal + UI Interactions
 // ------------------------------------------------------
 
 
@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   assistantMessages.parentNode.insertBefore(smartReplies, assistantMessages.nextSibling);
 
-  // Session reset button - inside modal, top right
+  // Reset chat button (INSIDE MODAL ONLY)
   const resetButton = document.createElement("button");
   resetButton.textContent = "Reset chat";
   resetButton.style.position = "absolute";
@@ -74,8 +74,9 @@ document.addEventListener("DOMContentLoaded", () => {
   resetButton.style.textDecoration = "underline";
   resetButton.style.display = "none";
 
-  // Try to attach to inner modal content if it exists
+  // Attach reset button to inner modal container
   const innerModal = document.querySelector("#assistantModal .assistant-modal") || assistantModalOverlay;
+  innerModal.style.position = innerModal.style.position || "relative";
   innerModal.appendChild(resetButton);
 
   // Online status
@@ -87,16 +88,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   assistantMessages.parentNode.insertBefore(onlineStatus, assistantMessages);
 
+  // Conversation state
   let userName = null;
   let conversationStage = 1;
   let assistantBusy = false;
   let usedSmartReply = false;
   let currentIntent = null;
 
+  // Timing rhythm
   function rhythm(text) {
-    const base = 900;
-    const perChar = 45;
-    return base + text.length * perChar;
+    return 900 + text.length * 45;
   }
 
   function scrollSmooth() {
@@ -147,83 +148,9 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollSmooth();
     }, delay);
   }
-
-  function addRedirectBlock() {
-    const delay = 1200;
-    showTypingIndicator();
-
-    setTimeout(() => {
-      hideTypingIndicator();
-
-      const wrapper = document.createElement("div");
-      wrapper.classList.add("assistant-message");
-
-      const textEl = document.createElement("p");
-      textEl.style.margin = "0 0 8px 0";
-      textEl.textContent = "For deeper support and a full plan, I will take you to the Peakora Assistant when you are ready.";
-
-      const btn = document.createElement("button");
-      btn.textContent = "Connect me to Peakora Assistant";
-      btn.style.padding = "12px 16px";
-      btn.style.background = "#0057ff";
-      btn.style.color = "white";
-      btn.style.border = "none";
-      btn.style.borderRadius = "8px";
-      btn.style.cursor = "pointer";
-      btn.style.fontSize = "15px";
-      btn.style.fontWeight = "600";
-
-      btn.addEventListener("click", () => {
-        window.open("https://peakora.github.io/peakora-site//assistant.html", "_blank");
-      });
-
-      wrapper.appendChild(textEl);
-      wrapper.appendChild(btn);
-      assistantMessages.appendChild(wrapper);
-      scrollSmooth();
-    }, delay);
-  }
-
-  function isGreeting(text) {
-    const t = text.toLowerCase();
-    return (
-      t.includes("hi") ||
-      t.includes("hello") ||
-      t.includes("hey") ||
-      t.includes("morning") ||
-      t.includes("evening")
-    );
-  }
-
-  function looksLikeName(text) {
-    const lower = text.toLowerCase().trim();
-
-    const banned = [
-      "why", "because", "idk", "i don't know", "dont know", "no", "none",
-      "nothing", "later", "not now", "skip", "no name", "anonymous",
-      "help", "what can you do"
-    ];
-
-    if (banned.includes(lower)) return false;
-    if (lower.length < 2) return false;
-    if (lower.split(" ").length > 4) return false;
-
-    return true;
-  }
-
-  function looksLikeProblem(text) {
-    const lower = text.toLowerCase().trim();
-
-    const banned = [
-      "idk", "i don't know", "dont know", "nothing", "no", "why", "later",
-      "not now", "skip", "?", "help", "what can you do", "not sure"
-    ];
-
-    if (banned.includes(lower)) return false;
-    if (lower.length < 3) return false;
-
-    return true;
-  }
+  // --------------------
+  // SMART REPLIES + HELPERS
+  // --------------------
 
   function showSmartReplies() {
     smartReplies.innerHTML = "";
@@ -261,6 +188,10 @@ document.addEventListener("DOMContentLoaded", () => {
     smartReplies.style.display = "none";
   }
 
+  // --------------------
+  // OPEN / CLOSE ASSISTANT
+  // --------------------
+
   function openAssistant() {
     assistantModalOverlay.classList.add("open");
     assistantInput.focus();
@@ -269,7 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!assistantMessages.dataset.initialized) {
       setTimeout(() => {
         addAssistantMessageWithDelay("Hi, I am Peakora.\nHow can I help you?");
-        showSmartReplies();
       }, 600);
 
       assistantMessages.dataset.initialized = "true";
@@ -308,6 +238,10 @@ document.addEventListener("DOMContentLoaded", () => {
   assistantInput.addEventListener("input", () => {
     assistantSend.disabled = assistantInput.value.trim().length === 0 || assistantBusy;
   });
+
+  // --------------------
+  // INTENT DETECTION
+  // --------------------
 
   function detectIntent(text) {
     const lower = text.toLowerCase();
@@ -366,6 +300,10 @@ document.addEventListener("DOMContentLoaded", () => {
     return "general";
   }
 
+  // --------------------
+  // FIRST FOLLOW-UP QUESTION PER INTENT
+  // --------------------
+
   function respondFirstStepForIntent(intent) {
     if (intent === "calm") {
       addAssistantMessageWithDelay(
@@ -399,32 +337,48 @@ document.addEventListener("DOMContentLoaded", () => {
       `Thank you for sharing that, ${userName}. Tell me a little more about what you are feeling right now.`
     );
   }
+  // --------------------
+  // SECOND STEP: MICRO GUIDANCE PER INTENT
+  // --------------------
 
   function respondSecondStepForIntent(intent) {
     if (intent === "calm") {
       addAssistantMessageWithDelay(
         "Here is a gentle step you can try: take one slow breath in, hold for two seconds, and let it out softly. Notice how your body feels after that."
       );
-    } else if (intent === "routine") {
+      return;
+    }
+
+    if (intent === "routine") {
       addAssistantMessageWithDelay(
         "Let us anchor one moment in your day. Choose one small thing you want to do tomorrow that would make your day feel a little more yours."
       );
-    } else if (intent === "overwhelm") {
+      return;
+    }
+
+    if (intent === "overwhelm") {
       addAssistantMessageWithDelay(
         "Let us shrink the day a bit. It is okay to let something wait. Choose one thing you can set aside for now so you can breathe."
       );
-    } else if (intent === "small_step") {
+      return;
+    }
+
+    if (intent === "small_step") {
       addAssistantMessageWithDelay(
         "Here is a small step you can take now: drink a glass of water, stretch your shoulders, and soften your jaw. It helps your body remember that it is safe to slow down."
       );
-    } else {
-      addAssistantMessageWithDelay(
-        "Thank you for opening up. Even small moments of honesty with yourself are a real step forward."
-      );
+      return;
     }
 
-    addRedirectBlock();
+    addAssistantMessageWithDelay(
+      "Thank you for opening up. Even small moments of honesty with yourself are a real step forward."
+    );
   }
+
+
+  // --------------------
+  // MAIN CONVERSATION LOGIC
+  // --------------------
 
   function handleSend() {
     const text = assistantInput.value.trim();
@@ -435,7 +389,9 @@ document.addEventListener("DOMContentLoaded", () => {
     assistantInput.value = "";
     assistantSend.disabled = true;
 
-    // STAGE 1 - GREETING (kept as is)
+    // --------------------
+    // STAGE 1 — GREETING
+    // --------------------
     if (conversationStage === 1) {
       usedSmartReply = false;
 
@@ -450,7 +406,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // STAGE 2 - NAME COLLECTION (kept, no skip)
+    // --------------------
+    // STAGE 2 — NAME COLLECTION
+    // --------------------
     if (conversationStage === 2) {
       usedSmartReply = false;
 
@@ -487,7 +445,9 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // STAGE 3 - FIRST INTENT AND FOCUSED QUESTION
+    // --------------------
+    // STAGE 3 — INTENT DETECTION + FIRST FOLLOW-UP
+    // --------------------
     if (conversationStage === 3) {
       let intent;
 
@@ -511,15 +471,24 @@ document.addEventListener("DOMContentLoaded", () => {
       conversationStage = 4;
       return;
     }
-
-    // STAGE 4 - MICRO GUIDANCE AND REDIRECT BLOCK
+    // --------------------
+    // STAGE 4 — MICRO GUIDANCE + REDIRECT
+    // --------------------
     if (conversationStage === 4) {
       respondSecondStepForIntent(currentIntent || "general");
-      conversationStage = 5;
+
+      // Delay redirect block so guidance appears first
+      setTimeout(() => {
+        addRedirectBlock();
+        conversationStage = 5;
+      }, 1200);
+
       return;
     }
 
-    // STAGE 5 - AFTER REDIRECT SUGGESTION
+    // --------------------
+    // STAGE 5 — AFTER REDIRECT
+    // --------------------
     if (conversationStage === 5) {
       addAssistantMessageWithDelay(
         `I am still here with you, ${userName}. You can continue with the Peakora Assistant whenever you feel ready.`
@@ -528,6 +497,50 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+
+  // --------------------
+  // REDIRECT BLOCK
+  // --------------------
+  function addRedirectBlock() {
+    showTypingIndicator();
+
+    setTimeout(() => {
+      hideTypingIndicator();
+
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("assistant-message");
+
+      const textEl = document.createElement("p");
+      textEl.style.margin = "0 0 8px 0";
+      textEl.textContent =
+        "For deeper support and a full plan, I will take you to the Peakora Assistant when you are ready.";
+
+      const btn = document.createElement("button");
+      btn.textContent = "Connect me to Peakora Assistant";
+      btn.style.padding = "12px 16px";
+      btn.style.background = "#0057ff";
+      btn.style.color = "white";
+      btn.style.border = "none";
+      btn.style.borderRadius = "8px";
+      btn.style.cursor = "pointer";
+      btn.style.fontSize = "15px";
+      btn.style.fontWeight = "600";
+
+      btn.addEventListener("click", () => {
+        window.open("https://peakora.github.io/peakora-site//assistant.html", "_blank");
+      });
+
+      wrapper.appendChild(textEl);
+      wrapper.appendChild(btn);
+      assistantMessages.appendChild(wrapper);
+      scrollSmooth();
+    }, 1200);
+  }
+
+
+  // --------------------
+  // EVENT LISTENERS
+  // --------------------
   assistantSend.addEventListener("click", handleSend);
 
   assistantInput.addEventListener("keydown", (e) => {
