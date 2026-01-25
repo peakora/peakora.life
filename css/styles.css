@@ -1,15 +1,5 @@
-
-/* FOOTER BACKGROUND OVERRIDE */
-footer {
-  background: #ffffff;
-  position: relative;
-  z-index: 1;
-}
-
-
 /* ------------------------------------------------------
-   PEAKORA - CALM WELLNESS THEME 
-   Global Styles, Layout, Components, Effects
+   PART 1 — RESET, GLOBAL, HEADER, NAVIGATION, MOBILE MENU
 ------------------------------------------------------ */
 
 /* RESET */
@@ -21,69 +11,83 @@ footer {
 
 html, body {
   font-family: "Inter", sans-serif;
-    color: #1a1a1a;
+  color: #1a1a1a;
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background: #ffffff;
 }
 
-/* CONTAINERS */
+/* GLOBAL CONTAINER */
 .container {
   width: 90%;
   max-width: 1200px;
   margin: 0 auto;
 }
 
+/* GLOBAL SECTION SPACING (desktop reduced from 72px → 60px) */
+section {
+  margin-top: 60px;
+  margin-bottom: 60px;
+}
+
+/* MOBILE SECTION SPACING */
+@media (max-width: 768px) {
+  section {
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+}
+
 /* ------------------------------------------------------
-   HEADER — FINAL CLEAN VERSION
+   HEADER — PREMIUM, CLEAN, MOBILE-READY
 ------------------------------------------------------ */
 
 .header {
   position: sticky;
   top: 0;
   z-index: 1000;
-
   background: rgba(255, 255, 255, 0.35);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  box-shadow: none;
 }
 
-/* Header height */
+/* Header container */
 .header .container {
-  height: 48px !important;
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
-  display: flex;
-  align-items: center;
-}
-
-/* Flex layout */
-.header-inner {
+  height: 56px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 100%;
 }
 
-/* Logo container */
+/* Brand */
 .brand {
   display: flex;
   align-items: center;
-  height: 48px;
-  overflow: hidden;
+  height: 56px;
 }
 
-/* Navigation */
+.brand img.brand-logo {
+  height: 24px !important;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------------
+   NAVIGATION — DESKTOP
+------------------------------------------------------ */
+
 .nav {
   display: flex;
-  gap: 20px;
+  gap: 24px;
+  align-items: center;
 }
 
 .nav-link {
   text-decoration: none;
   color: #1a1a1a;
   font-weight: 500;
+  font-size: 15px;
   transition: 0.2s ease;
 }
 
@@ -94,108 +98,132 @@ html, body {
 /* Social icons */
 .header-social {
   display: flex;
-  gap: 12px;
+  gap: 14px;
+  align-items: center;
 }
 
-.social-icon {
+.header-social .social-icon svg {
   width: 20px;
   height: 20px;
-  opacity: 0.9;
-  filter: none;
-  transition: 0.2s ease;
-}
-
-.social-icon:hover {
-  opacity: 1;
-}
-
-/* SVG recoloring */
-.social-icon svg rect,
-.social-icon svg circle {
   stroke: #3a5cff !important;
   fill: none !important;
+  transition: opacity 0.2s ease;
 }
 
-.social-icon svg circle[fill] {
-  fill: #3a5cff !important;
-}
-
-.social-icon svg path {
-  stroke: #3a5cff !important;
-}
-
-/* Smooth scroll offset for sticky header */
-[id] {
-  scroll-margin-top: 80px;
-}
-
-/* Smooth scrolling behavior */
-html {
-  scroll-behavior: smooth;
+.header-social .social-icon:hover svg {
+  opacity: 0.7;
 }
 
 /* ------------------------------------------------------
-   FINAL OVERRIDE — STRONGEST SELECTOR FOR LOGO SIZE
+   MOBILE MENU — PEAKORA CUSTOM ICON + SLIDE PANEL
 ------------------------------------------------------ */
 
-header .brand img.brand-logo {
-  height: 20px !important;
-  width: auto !important;
-  max-height: 100% !important;
-  display: block !important;
-  object-fit: contain !important;
-  object-position: center !important;
+/* Hide desktop nav on mobile */
+@media (max-width: 768px) {
+  .nav,
+  .header-social {
+    display: none;
+  }
 }
 
+/* Mobile menu icon (Peakora custom soft icon) */
+.mobile-menu-btn {
+  display: none;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  background: rgba(0, 87, 255, 0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: background 0.2s ease;
+}
+
+.mobile-menu-btn:hover {
+  background: rgba(0, 87, 255, 0.15);
+}
+
+/* Icon lines */
+.mobile-menu-btn span {
+  display: block;
+  width: 22px;
+  height: 3px;
+  background: #0057ff;
+  border-radius: 3px;
+  margin: 4px 0;
+}
+
+/* Show mobile menu button */
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block;
+  }
+}
+
+/* Mobile menu panel */
+.mobile-menu-panel {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 78%;
+  max-width: 320px;
+  height: 100vh;
+  background: #ffffff;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.12);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  transition: right 0.35s ease;
+  z-index: 2000;
+}
+
+/* Open state */
+.mobile-menu-panel.open {
+  right: 0;
+}
+
+/* Mobile nav links */
+.mobile-nav-link {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0f1f3d;
+  text-decoration: none;
+  padding: 8px 0;
+  transition: color 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  color: #0057ff;
+}
+
+/* Mobile social icons */
+.mobile-menu-social {
+  display: flex;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.mobile-menu-social svg {
+  width: 22px;
+  height: 22px;
+  stroke: #0057ff !important;
+}
+
+/* Safe-area padding for iOS */
+.mobile-menu-panel {
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
+/* ------------------------------------------------------
+   PART 2 — HERO, WHY, REAL‑LIFE, STORIES
+------------------------------------------------------ */
 
 /* ------------------------------------------------------
-   SVG ICON RECOLORING — MATCHES YOUR EXACT SVG STRUCTURE
+   HERO SECTION — PREMIUM, RESPONSIVE, MOBILE‑READY
 ------------------------------------------------------ */
 
-/* Instagram icon shapes */
-.social-icon svg rect,
-.social-icon svg circle {
-  stroke: #3a5cff !important;
-  fill: none !important;
-}
-
-/* The small filled circle in Instagram */
-.social-icon svg circle[fill] {
-  fill: #3a5cff !important;
-}
-
-/* TikTok icon */
-.social-icon svg path {
-  stroke: #3a5cff !important;
-}
-
-/* ------------------------------------------------------
-   GLOBAL SECTION SPACING — PEAKORA RHYTHM
------------------------------------------------------- */
-
-section {
-  margin-top: 72px;
-  margin-bottom: 72px;
-}
-
-
-/* ------------------------------------------------------
-   HERO SECTION
------------------------------------------------------- */
-
-/* Soft animated gradient */
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, #dbe8ff, #eaf1ff, #f7faff);
-  animation: gradientShift 12s ease infinite;
-  z-index: -1;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+.hero {
+  position: relative;
+  padding: 80px 0 120px;
 }
 
 .hero-inner {
@@ -219,14 +247,12 @@ section {
   max-width: 480px;
 }
 
-/* Only one CTA now, so spacing stays clean */
 .hero-ctas {
   margin-top: 28px;
   display: flex;
   gap: 16px;
 }
 
-/* Button base */
 .btn {
   padding: 12px 24px;
   border-radius: 8px;
@@ -235,7 +261,6 @@ section {
   transition: 0.2s ease;
 }
 
-/* Outline button (the only one used in hero now) */
 .btn.outline {
   background: transparent;
   color: #0057ff;
@@ -247,7 +272,6 @@ section {
   color: white;
 }
 
-/* Hero image */
 .hero-img {
   width: 760px;
   max-width: 100%;
@@ -255,9 +279,43 @@ section {
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
 }
 
-/* ----------------------------------- */
-/* WHY PEAKORA SECTION */
-/* ----------------------------------- */
+/* HERO — MOBILE */
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 0 80px;
+  }
+
+  .hero-inner {
+    flex-direction: column;
+    text-align: center;
+    gap: 28px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-sub {
+    font-size: 17px;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-ctas {
+    justify-content: center;
+  }
+
+  .hero-img {
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 0 28px rgba(0, 87, 255, 0.22);
+  }
+}
+
+/* ------------------------------------------------------
+   WHY PEAKORA SECTION
+------------------------------------------------------ */
 
 .why {
   padding: 80px 0;
@@ -265,7 +323,7 @@ section {
 
 .section-title {
   text-align: center;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
   font-size: 32px;
   font-weight: 700;
   color: #0f1f3d;
@@ -285,18 +343,6 @@ section {
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   margin-top: 48px;
-}
-
-@media (max-width: 1020px) {
-  .what-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 768px) {
-  .what-grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 .what-card {
@@ -337,8 +383,38 @@ section {
   font-size: 16px;
 }
 
+/* WHY — MOBILE */
+@media (max-width: 768px) {
+  .why {
+    padding: 60px 0;
+  }
+
+  .section-title {
+    font-size: 26px;
+  }
+
+  .section-lead {
+    font-size: 17px;
+    margin-bottom: 36px;
+  }
+
+  .what-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .what-card {
+    padding: 24px 20px;
+  }
+
+  .icon-wrap svg {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* ------------------------------------------------------
-   REAL LIFE — CLEAN VERSION (NO BUTTON)
+   REAL‑LIFE SECTION
 ------------------------------------------------------ */
 
 .real-life-container {
@@ -347,19 +423,6 @@ section {
   padding: 80px 0;
 }
 
-.section-title,
-.real-life-lead {
-  text-align: center;
-}
-
-.real-life-lead {
-  font-size: 20px;
-  line-height: 1.5;
-  color: #0f1f3d;
-  margin-bottom: 32px;
-}
-
-/* Layout */
 .real-life-layout {
   display: flex;
   gap: 48px;
@@ -368,7 +431,6 @@ section {
   flex-wrap: wrap;
 }
 
-/* Illustration */
 .real-life-illustration {
   flex: 1;
   text-align: center;
@@ -378,12 +440,8 @@ section {
 .real-life-illustration img {
   width: 100%;
   max-width: 520px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
   border-radius: 16px;
   box-shadow: 0 0 40px rgba(0, 87, 255, 0.25);
-  flex-shrink: 0;
 }
 
 .real-life-illustration::before {
@@ -404,18 +462,15 @@ section {
   z-index: -1;
 }
 
-/* Content */
 .real-life-content {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  text-align: left;
 }
 
 .real-life-point {
   margin-bottom: 12px;
-  width: 100%;
 }
 
 .real-life-point h3 {
@@ -433,38 +488,154 @@ section {
 
 .real-life-reassurance {
   margin-top: 24px;
-  margin-bottom: 0;
   font-size: 18px;
   line-height: 1.5;
   color: #0f1f3d;
 }
 
-/* Mobile */
+/* REAL‑LIFE — MOBILE */
 @media (max-width: 768px) {
+  .real-life-container {
+    padding: 60px 0;
+  }
+
   .real-life-layout {
     flex-direction: column;
-    align-items: center;
+    gap: 32px;
     text-align: center;
   }
 
   .real-life-content {
     align-items: center;
-    text-align: center;
+  }
+
+  .real-life-illustration img {
+    max-width: 380px;
+    box-shadow: 0 0 28px rgba(0, 87, 255, 0.22);
+  }
+
+  .real-life-illustration::before {
+    width: 300px;
+    height: 300px;
+    filter: blur(30px);
+  }
+
+  .real-life-point h3 {
+    font-size: 17px;
+  }
+
+  .real-life-point p {
+    font-size: 15px;
+  }
+
+  .real-life-reassurance {
+    font-size: 17px;
   }
 }
 
-.real-life-section {
-  margin-bottom: 0 !important;
-  padding-bottom: 0 !important;
+/* ------------------------------------------------------
+   STORIES SECTION
+------------------------------------------------------ */
+
+.stories {
+  padding: 100px 0;
 }
 
-.real-life-section > *:last-child {
-  margin-bottom: 0 !important;
+.stories-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0f1f3d;
+  margin-bottom: 16px;
 }
 
+.stories-lead {
+  text-align: center;
+  font-size: 20px;
+  line-height: 1.6;
+  color: #3a4a6a;
+  max-width: 640px;
+  margin: 0 auto 60px auto;
+}
+
+.stories-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.story-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.story-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(0, 87, 255, 0.12);
+}
+
+.story-accent {
+  width: 48px;
+  height: 4px;
+  background: #0057ff;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.story-text {
+  font-size: 18px;
+  line-height: 1.7;
+  color: #0f1f3d;
+  margin-bottom: 20px;
+}
+
+.story-author {
+  font-size: 16px;
+  color: #3a4a6a;
+  font-weight: 600;
+}
+
+/* STORIES — MOBILE */
+@media (max-width: 768px) {
+  .stories {
+    padding: 70px 0;
+  }
+
+  .stories-title {
+    font-size: 26px;
+  }
+
+  .stories-lead {
+    font-size: 17px;
+    margin-bottom: 40px;
+  }
+
+  .stories-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .story-card {
+    padding: 24px;
+  }
+
+  .story-text {
+    font-size: 16px;
+  }
+
+  .story-author {
+    font-size: 15px;
+  }
+}
+/* ------------------------------------------------------
+   PART 3 — CTA CROWN, FOOTER, SOCIAL ICONS, GLOBAL SPACING
+------------------------------------------------------ */
 
 /* ------------------------------------------------------
-   PEAKORA CROWN CTA — STANDALONE, UNTOUCHABLE, CENTERED
+   PEAKORA CROWN CTA — CENTERED, PREMIUM, RESPONSIVE
 ------------------------------------------------------ */
 
 .peakora-crown-cta {
@@ -477,7 +648,6 @@ section {
   text-align: center;
   position: relative;
   z-index: 10;
-  min-height: auto;
 }
 
 .peakora-crown-cta *,
@@ -525,529 +695,29 @@ section {
   z-index: 1;
 }
 
+/* CTA CROWN — MOBILE */
 @media (max-width: 768px) {
   .peakora-crown-button {
     font-size: 22px;
     padding: 26px 52px;
   }
-}
 
-/* ----------------------------------- */
-/* STORIES SECTION */
-/* ----------------------------------- */
-
-.stories {
-  padding: 100px 0;
-}
-
-.stories-title {
-  text-align: center;
-  font-size: 32px;
-  font-weight: 700;
-  color: #0f1f3d;
-  margin-bottom: 16px;
-}
-
-.stories-lead {
-  text-align: center;
-  font-size: 20px;
-  line-height: 1.6;
-  color: #3a4a6a;
-  max-width: 640px;
-  margin: 0 auto 60px auto;
-}
-
-.stories-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
-
-@media (max-width: 1020px) {
-  .stories-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .peakora-crown-cta::before {
+    width: 300px;
+    height: 300px;
+    filter: blur(40px);
   }
 }
 
-@media (max-width: 768px) {
-  .stories-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.story-card {
-  background: #ffffff;
-  border-radius: 16px;
-  padding: 32px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
-  position: relative;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-
-.story-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 36px rgba(0, 87, 255, 0.12);
-}
-
-.story-accent {
-  width: 48px;
-  height: 4px;
-  background: #0057ff;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-.story-text {
-  font-size: 18px;
-  line-height: 1.7;
-  color: #0f1f3d;
-  margin-bottom: 20px;
-}
-
-.story-author {
-  font-size: 16px;
-  color: #3a4a6a;
-  font-weight: 600;
-}
- 
 /* ------------------------------------------------------
-   FOOTER
+   FOOTER — CLEAN, RESPONSIVE, SAFE‑AREA READY
 ------------------------------------------------------ */
 
-/* FOOTER RESET — override global drift */
 .footer {
   background-color: #0f1f3d;
   padding: 40px 0;
   text-align: center;
-}
-
-.footer-brand {
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0 0 16px 0;
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-  font-size: 14px;
-  font-weight: 500;
-}
-
-.footer-social {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin-top: 12px;
-}
-
-.footer-social .social-icon svg {
-  stroke: white !important;
-  fill: none !important;
-  width: 20px;
-  height: 20px;
-}
-
-
-
-.brand-logo { height: 64px !important; }
-
-/* FIX #1: Force logo size */
-.brand-logo { height: 64px !important; }
-
-/* FIX #1: Force logo size (200px) */
-.brand-logo { height: 200px !important; }
-
-/* FIX #1: Force logo size (120px) */
-.brand-logo { height: 120px !important; }
-.header-social, .footer-social {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.social-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: white;
-  transition: opacity 0.2s ease;
-}
-
-.social-icon:hover svg {
-  opacity: 0.7;
-}
-.header-social, .footer-social {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-}
-
-.social-icon svg {
-  width: 24px;
-  height: 24px;
-  stroke: white;
-  transition: opacity 0.2s ease;
-}
-
-.social-icon:hover svg {
-  opacity: 0.7;
-}
-
-
-/* ============================
-   HERO + WHY OVERRIDES
-============================ */
-.hero {
-  padding: 80px 0 120px;
-}
-
-/* Why section typography + layout */
-#why .lead {
-  font-size:18px !important;
-  line-height:1.6 !important;
-  text-align:center !important;
-  color:#222 !important;
-  font-weight:400 !important;
-  margin:0 0 12px 0 !important;
-  display:block !important;
-}
-
-#why .close {
-  font-size:18px !important;
-  line-height:1.6 !important;
-  text-align:center !important;
-  color:#222 !important;
-  font-weight:400 !important;
-  margin:12px 0 0 0 !important;
-  display:block !important;
-}
-
-#why .why-card p {
-  font-size:18px !important;
-  line-height:1.6 !important;
-  text-align:center !important;
-  margin:0 0 12px 0 !important;
-  color:#222 !important;
-}
-
-#why .why-card h3 {
-  text-align:center !important;
-  margin:0 0 8px 0 !important;
-  font-weight:600 !important;
-}
-
-#why .container,
-#why .why-grid {
-  text-align:center !important;
-}
-
-/* responsive tweak */
-@media (max-width:720px){
-  #why .lead,
-  #why .close,
-  #why .why-card p {
-    font-size:16px !important;
-  }
-}
-
-/* extra gap */
-#why .lead {
-  margin-bottom: 18px !important;
-}
-
-#why .close {
-  margin-top: 18px !important;
-}
-
-/* Hero background + section title */
-.hero,
-.hero-bg {
-  background: none !important;
-}
-
-.section-title {
-  margin-bottom: 32px;
-}
-
-/* Scroll offset */
-[id] {
-  scroll-margin-top: 80px;
-}
-
-
-
-.contact-btn:hover {
-  background: #003fcc;
-}
-
-/* -------------------------------------------------------
-  css starts here
-------------------------------------------------------- */
-/* -------------------------------------------------------
-   FLOATING ASK PEAKORA BUTTON
-------------------------------------------------------- */
-/* Floating Button */
-.peakora-btn {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  padding: 10px 18px;
-  background: rgba(255, 255, 255, 0.0);
-  border: 1px solid rgba(255, 255, 255, 0.65);
-  border-radius: 12px;
-  color: #0057ff;
-  font-size: 15px;
-  font-weight: 600;
-  cursor: pointer;
-  z-index: 9999;
-  backdrop-filter: blur(8px);
-  transition: background 0.25s ease, transform 0.25s ease;
-  animation: peakoraGlow 4s ease-in-out infinite;
-}
-
-.peakora-btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-2px);
-}
-
-@keyframes peakoraGlow {
-  0%   { box-shadow: 0 0 8px rgba(0, 87, 255, 0.25); }
-  50%  { box-shadow: 0 0 16px rgba(0, 87, 255, 0.45); }
-  100% { box-shadow: 0 0 8px rgba(0, 87, 255, 0.25); }
-}
-
-/* Overlay */
-.assistant-modal-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  z-index: 9998;
-  background: transparent;
-
-  /* Align modal bottom-right */
-  align-items: flex-end;
-  justify-content: flex-end;
-  padding: 0 24px 90px 24px;
-}
-
-.assistant-modal-overlay.open {
-  display: flex;
-  animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Modal Box */
-.assistant-modal {
-  background: #ffffff;
-  border-radius: 18px;
-  width: 360px;
-  max-height: 70vh;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  box-shadow: 0 0 18px rgba(0, 87, 255, 0.35);
-  border: 1px solid rgba(0, 87, 255, 0.25);
-  overflow: hidden;
-}
-
-/* Header */
-.assistant-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.assistant-title {
-  font-size: 20px;
-  font-weight: 700;
-  color: #0057ff;
-}
-
-.assistant-close {
-  background: none;
-  border: none;
-  font-size: 26px;
-  cursor: pointer;
-  color: #4a5670;
-}
-
-/* Messages */
-.assistant-messages {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  padding-right: 6px;
-}
-
-.assistant-message {
-  background: #f4f6fb;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 15px;
-  color: #0f1f3d;
-  max-width: 80%;
-  width: fit-content;
-  box-shadow: 0 4px 12px rgba(15, 31, 61, 0.08);
-}
-
-.assistant-message.user {
-  margin-left: auto;
-  background: #0057ff;
-  color: white;
-}
-
-/* Input */
-.assistant-input-area {
-  display: flex;
-  gap: 10px;
-}
-
-.assistant-input-area input {
-  flex: 1;
-  padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid #d4d9e2;
-  font-size: 15px;
-}
-
-.assistant-send {
-  padding: 12px 20px;
-  background: #0057ff;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: 0.2s;
-}
-
-.assistant-send:hover {
-  background: #003fcc;
-}
-
-#smartReplies button {
-  transition: background 0.2s ease;
-}
-
-#smartReplies button:hover {
-  background: #e6e6e6;
-}
-
-/* -------------------------------------------------------
-   iMessage‑style Smart Replies (Integrated)
-------------------------------------------------------- */
-
-.assistant-smart-replies {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: -4px;
-}
-
-.assistant-smart-reply {
-  background: #e9ecf5;
-  color: #0f1f3d;
-  padding: 8px 14px;
-  border-radius: 18px;
-  font-size: 14px;
-  border: none;
-  cursor: pointer;
-  width: fit-content;
-  max-width: 80%;
-  box-shadow: 0 2px 6px rgba(15, 31, 61, 0.08);
-  transition: background 0.2s ease, transform 0.15s ease;
-}
-
-.assistant-smart-reply:hover {
-  background: #dfe3ef;
-  transform: translateY(-1px);
-}
-
-.assistant-smart-reply:active {
-  transform: scale(0.97);
-}
-
-
-/* ============================
-   MOBILE ADJUSTMENTS
-============================ */
-@media (max-width: 768px) {
-  .peakora-cta {
-    bottom: 22px;
-    right: 18px;
-    padding: 8px 14px;
-  }
-
-  .peakora-glow {
-    width: 20px;
-    height: 20px;
-  }
-
-  .peakora-cta-label {
-    font-size: 14px;
-  }
-}
-
-/* ============================
-  Social media Icons
-============================ */
-.header-social,
-.footer-social {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.header-social a svg,
-.footer-social a svg {
-  display: block;
-}
-
-/* ============================
-   SMOOTH SCROLL OFFSET
-============================ */
-html {
-  scroll-behavior: smooth;
-}
-
-[id] {
-  scroll-margin-top: 80px;
-}
-
-/* ============================
-   HEADER SOCIAL ICONS — PEAKORA BLUE
-============================ */
-.header-social .social-icon svg {
-  stroke: #3a5cff !important;
-  fill: none !important;
-  width: 20px;
-  height: 20px;
-}
-
-/* ============================
-   FOOTER RESET — BACKGROUND + ICONS + ALIGNMENT
-============================ */
-.footer {
-  background-color: #0f1f3d;
-  padding: 40px 0;
-  text-align: center;
+  padding-bottom: calc(40px + env(safe-area-inset-bottom));
 }
 
 .footer-brand {
@@ -1085,13 +755,195 @@ html {
   fill: none !important;
   width: 20px;
   height: 20px;
+  transition: opacity 0.2s ease;
 }
 
-/* ============================
-   CONTACT BUTTON HOVER FIX
-============================ */
-.contact-btn:hover {
-  background: #003fcc;
+.footer-social .social-icon:hover svg {
+  opacity: 0.7;
 }
 
+/* FOOTER — MOBILE */
+@media (max-width: 768px) {
+  .footer {
+    padding: 32px 0;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+  }
 
+  .footer-brand {
+    font-size: 15px;
+  }
+
+  .footer-links {
+    gap: 18px;
+  }
+
+  .footer-links a {
+    font-size: 13px;
+  }
+
+  .footer-social svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* ------------------------------------------------------
+   SOCIAL ICONS — GLOBAL CLEANUP
+------------------------------------------------------ */
+
+.header-social,
+.footer-social {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.header-social a svg,
+.footer-social a svg {
+  display: block;
+}
+
+/* ------------------------------------------------------
+   GLOBAL TYPOGRAPHY + SPACING CLEANUP
+------------------------------------------------------ */
+
+/* Soft mobile typography scale */
+@media (max-width: 768px) {
+  h1, .hero-title, .stories-title, .section-title {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p, li, .story-text, .real-life-point p {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+}
+
+/* Global spacing rhythm */
+@media (max-width: 768px) {
+  .container {
+    width: 92%;
+  }
+}
+/* ------------------------------------------------------
+   PART 4 — FLOATING CTA, SAFE‑AREA, MOBILE BREAKPOINTS, CLEANUP
+------------------------------------------------------ */
+
+/* ------------------------------------------------------
+   FLOATING ASK PEAKORA BUTTON — PREMIUM, RESPONSIVE
+------------------------------------------------------ */
+
+.peakora-btn {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  right: 24px;
+  padding: 10px 18px;
+  background: rgba(255, 255, 255, 0.0);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 12px;
+  color: #0057ff;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  z-index: 9999;
+  backdrop-filter: blur(8px);
+  transition: background 0.25s ease, transform 0.25s ease;
+  animation: peakoraGlow 4s ease-in-out infinite;
+}
+
+.peakora-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+@keyframes peakoraGlow {
+  0%   { box-shadow: 0 0 8px rgba(0, 87, 255, 0.25); }
+  50%  { box-shadow: 0 0 16px rgba(0, 87, 255, 0.45); }
+  100% { box-shadow: 0 0 8px rgba(0, 87, 255, 0.25); }
+}
+
+/* FLOATING CTA — MOBILE */
+@media (max-width: 768px) {
+  .peakora-btn {
+    bottom: calc(18px + env(safe-area-inset-bottom));
+    right: 18px;
+    padding: 8px 14px;
+    font-size: 14px;
+    border-radius: 10px;
+    box-shadow: 0 6px 18px rgba(0, 87, 255, 0.25);
+  }
+}
+
+/* ------------------------------------------------------
+   SAFE‑AREA FIXES — iOS NOTCH + HOME INDICATOR
+------------------------------------------------------ */
+
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.header {
+  padding-top: env(safe-area-inset-top);
+}
+
+/* ------------------------------------------------------
+   GLOBAL MOBILE BREAKPOINTS — FINAL PASS
+------------------------------------------------------ */
+
+@media (max-width: 768px) {
+
+  /* Reduce container width slightly */
+  .container {
+    width: 92%;
+  }
+
+  /* Reduce global spacing */
+  section {
+    margin-top: 48px;
+    margin-bottom: 48px;
+  }
+
+  /* Soft typography */
+  h1, .hero-title, .stories-title, .section-title {
+    font-size: 26px;
+  }
+
+  h2 {
+    font-size: 22px;
+  }
+
+  h3 {
+    font-size: 18px;
+  }
+
+  p, li {
+    font-size: 15px;
+    line-height: 1.55;
+  }
+}
+
+/* ------------------------------------------------------
+   CLEANUP — REMOVE DUPLICATE LOGO RULES
+------------------------------------------------------ */
+
+.brand-logo {
+  height: 24px !important;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ------------------------------------------------------
+   FINAL TOUCH — SMOOTH SCROLL OFFSET
+------------------------------------------------------ */
+
+[id] {
+  scroll-margin-top: 80px;
+}
