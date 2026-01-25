@@ -371,7 +371,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (last.includes("energ") || last.includes("energy"))) {
+      if (last.includes("energ") || last.includes("energy")) {
         addAssistantMessageWithDelay(
           "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose."
         );
