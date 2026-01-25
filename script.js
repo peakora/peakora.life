@@ -1,315 +1,327 @@
 // ------------------------------------------------------
-// PEAKORA — Unified Modal + UI Interactions
+// PEAKORA — Assistant Modal + Conversation Flow
 // ------------------------------------------------------
 
-
-// --------------------
-// CONTACT FORM MODAL
-// --------------------
-const contactForm = document.getElementById("contactForm");
-const contactModal = document.getElementById("contactModal");
-const contactClose = document.getElementById("contactClose");
-
-if (contactForm) {
-  contactForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    contactModal.classList.add("active");
-
-    setTimeout(() => {
-      contactModal.classList.remove("active");
-    }, 3000);
-  });
-}
-
-if (contactClose) {
-  contactClose.addEventListener("click", () => {
-    contactModal.classList.remove("active");
-  });
-}
-
-if (contactModal) {
-  contactModal.addEventListener("click", (e) => {
-    if (e.target === contactModal) {
-      contactModal.classList.remove("active");
-    }
-  });
-}
-
-
-// --------------------
-// ASSISTANT MODAL
-// --------------------
-
 document.addEventListener("DOMContentLoaded", () => {
+  // --------------------
+  // DOM ELEMENTS
+  // --------------------
   const assistantButton = document.getElementById("assistantButton");
   const assistantModalOverlay = document.getElementById("assistantModal");
-  const assistantClose = document.getElementById("assistantClose");
   const assistantMessages = document.getElementById("assistantMessages");
   const assistantInput = document.getElementById("assistantInput");
   const assistantSend = document.getElementById("assistantSend");
+  const assistantClose = document.getElementById("assistantClose");
 
-  // Smart reply container
-  const smartReplies = document.createElement("div");
-  smartReplies.id = "smartReplies";
-  smartReplies.style.display = "none";
-  smartReplies.style.gap = "8px";
-  smartReplies.style.margin = "8px 0";
-  smartReplies.style.flexWrap = "wrap";
-  smartReplies.style.padding = "0 12px";
-  smartReplies.style.display = "flex";
-
-  assistantMessages.parentNode.insertBefore(smartReplies, assistantMessages.nextSibling);
-
-  // Reset chat button (INSIDE MODAL ONLY)
-  const resetButton = document.createElement("button");
-  resetButton.textContent = "Reset chat";
-  resetButton.style.position = "absolute";
-  resetButton.style.top = "12px";
-  resetButton.style.right = "12px";
-  resetButton.style.background = "transparent";
-  resetButton.style.border = "none";
-  resetButton.style.color = "#666";
-  resetButton.style.cursor = "pointer";
-  resetButton.style.fontSize = "12px";
-  resetButton.style.textDecoration = "underline";
-  resetButton.style.display = "none";
-
-  // Attach reset button to inner modal container
-  const innerModal = document.querySelector("#assistantModal .assistant-modal") || assistantModalOverlay;
-  innerModal.style.position = innerModal.style.position || "relative";
-  innerModal.appendChild(resetButton);
-
-  // Online status
-  const onlineStatus = document.createElement("div");
-  onlineStatus.textContent = "Peakora is online";
-  onlineStatus.style.fontSize = "12px";
-  onlineStatus.style.color = "#4CAF50";
-  onlineStatus.style.margin = "8px 0 0 12px";
-
-  assistantMessages.parentNode.insertBefore(onlineStatus, assistantMessages);
-
-  // Conversation state
-  let userName = null;
-  let conversationStage = 1;
-  let assistantBusy = false;
-  let usedSmartReply = false;
+  // --------------------
+  // STATE
+  // --------------------
+  let conversationStage = 1; // 1: ask name, 2: get name, 3: first follow-up, 4: second, 5: third+redirect, 6: final
+  let userName = "";
   let currentIntent = null;
+  let usedSmartReply = false;
+  let typingTimeout = null;
 
-  // Timing rhythm
-  function rhythm(text) {
-    return 900 + text.length * 45;
-  }
-
-  function scrollSmooth() {
-    assistantMessages.scrollTo({
-      top: assistantMessages.scrollHeight,
-      behavior: "smooth"
-    });
-  }
-
-  function addUserMessage(text) {
-    const msg = document.createElement("div");
-    msg.classList.add("assistant-message", "user");
-    msg.textContent = text;
-    assistantMessages.appendChild(msg);
-    scrollSmooth();
-  }
-
+  // --------------------
+  // TYPING INDICATOR
+  // --------------------
   function showTypingIndicator() {
-    if (document.getElementById("typingIndicator")) return;
-    assistantBusy = true;
-    assistantSend.disabled = true;
+    let existing = assistantMessages.querySelector(".assistant-typing");
+    if (existing) return;
 
     const typing = document.createElement("div");
-    typing.id = "typingIndicator";
-    typing.classList.add("assistant-message");
-    typing.textContent = "Peakora is typing...";
+    typing.classList.add("assistant-message", "assistant-typing");
+    typing.innerHTML = `<span class="typing-dots"><span></span><span></span><span></span></span>`;
     assistantMessages.appendChild(typing);
     scrollSmooth();
   }
 
   function hideTypingIndicator() {
-    const typing = document.getElementById("typingIndicator");
+    const typing = assistantMessages.querySelector(".assistant-typing");
     if (typing) typing.remove();
-    assistantBusy = false;
-    assistantSend.disabled = false;
   }
 
-  function addAssistantMessageWithDelay(text) {
-    const delay = rhythm(text);
-    showTypingIndicator();
-
-    setTimeout(() => {
-      hideTypingIndicator();
-      const msg = document.createElement("div");
-      msg.classList.add("assistant-message");
-      msg.textContent = text;
-      assistantMessages.appendChild(msg);
-      scrollSmooth();
-    }, delay);
-  }
-
-
   // --------------------
-  // SMART REPLIES + HELPERS
+  // SCROLL
   // --------------------
-
-  function showSmartReplies() {
-    smartReplies.innerHTML = "";
-    smartReplies.style.display = "flex";
-
-    const replies = [
-      "I want to feel calmer today",
-      "I need help with my routine",
-      "I’m feeling overwhelmed",
-      "I want a small step I can take now"
-    ];
-
-    replies.forEach(text => {
-      const chip = document.createElement("button");
-      chip.textContent = text;
-      chip.style.padding = "6px 12px";
-      chip.style.background = "#f1f1f1";
-      chip.style.border = "1px solid #ddd";
-      chip.style.borderRadius = "16px";
-      chip.style.cursor = "pointer";
-      chip.style.fontSize = "13px";
-      chip.style.color = "#0f1f3d";
-
-      chip.addEventListener("click", () => {
-        assistantInput.value = text;
-        usedSmartReply = true;
-        handleSend();
-      });
-
-      smartReplies.appendChild(chip);
+  function scrollSmooth() {
+    if (!assistantMessages) return;
+    assistantMessages.scrollTo({
+      top: assistantMessages.scrollHeight,
+      behavior: "smooth",
     });
   }
 
-  function hideSmartReplies() {
-    smartReplies.style.display = "none";
+  // --------------------
+  // MESSAGE HELPERS
+  // --------------------
+  function addAssistantMessage(text) {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("assistant-message", "assistant");
+
+    const p = document.createElement("p");
+    p.textContent = text;
+    wrapper.appendChild(p);
+
+    assistantMessages.appendChild(wrapper);
+    scrollSmooth();
   }
 
+  function addUserMessage(text) {
+    const wrapper = document.createElement("div");
+    wrapper.classList.add("assistant-message", "user");
+
+    const p = document.createElement("p");
+    p.textContent = text;
+    wrapper.appendChild(p);
+
+    assistantMessages.appendChild(wrapper);
+    scrollSmooth();
+  }
+
+  function addAssistantMessageWithDelay(text, delay = 600) {
+    showTypingIndicator();
+    if (typingTimeout) clearTimeout(typingTimeout);
+
+    typingTimeout = setTimeout(() => {
+      hideTypingIndicator();
+      addAssistantMessage(text);
+    }, delay);
+  }
 
   // --------------------
-  // OPEN / CLOSE ASSISTANT
+  // SMART REPLIES
   // --------------------
+  function clearSmartReplies() {
+    const existing = assistantMessages.querySelectorAll(".assistant-smart-replies");
+    existing.forEach((el) => el.remove());
+  }
 
+  function createSmartReplyButton(label, value) {
+    const btn = document.createElement("button");
+    btn.classList.add("assistant-smart-reply");
+    btn.textContent = label;
+    btn.addEventListener("click", () => {
+      usedSmartReply = true;
+      clearSmartReplies();
+      addUserMessage(value);
+      handleSend(value, true);
+    });
+    return btn;
+  }
+
+  function showSmartRepliesForName() {
+    clearSmartReplies();
+    const container = document.createElement("div");
+    container.classList.add("assistant-smart-replies");
+
+    const btn1 = createSmartReplyButton("I prefer not to share my name", "I prefer not to share my name");
+    const btn2 = createSmartReplyButton("Call me friend", "You can call me friend");
+    const btn3 = createSmartReplyButton("I’ll share it later", "I’ll share it later");
+
+    container.appendChild(btn1);
+    container.appendChild(btn2);
+    container.appendChild(btn3);
+
+    assistantMessages.appendChild(container);
+    scrollSmooth();
+  }
+
+  function showSmartRepliesForIntent() {
+    clearSmartReplies();
+    const container = document.createElement("div");
+    container.classList.add("assistant-smart-replies");
+
+    const btn1 = createSmartReplyButton("I feel overwhelmed", "I feel overwhelmed");
+    const btn2 = createSmartReplyButton("My routine is off", "My routine is off");
+    const btn3 = createSmartReplyButton("I just need something small", "I just need a small step");
+
+    container.appendChild(btn1);
+    container.appendChild(btn2);
+    container.appendChild(btn3);
+
+    assistantMessages.appendChild(container);
+    scrollSmooth();
+  }
+
+  // --------------------
+  // MODAL OPEN/CLOSE
+  // --------------------
   function openAssistant() {
+    if (!assistantModalOverlay) return;
     assistantModalOverlay.classList.add("open");
-    assistantInput.focus();
-    resetButton.style.display = "block";
 
-    if (!assistantMessages.dataset.initialized) {
-      setTimeout(() => {
-        addAssistantMessageWithDelay("Hi, I am Peakora.\nHow can I help you?");
-        conversationStage = 1; // IMPORTANT FIX
-      }, 600);
-
-      assistantMessages.dataset.initialized = "true";
+    if (!assistantMessages || assistantMessages.children.length === 0) {
+      startConversation();
     }
+
+    assistantInput?.focus();
   }
 
   function closeAssistant() {
+    if (!assistantModalOverlay) return;
     assistantModalOverlay.classList.remove("open");
   }
 
-  assistantButton.addEventListener("click", () => {
-    if (assistantModalOverlay.classList.contains("open")) {
-      closeAssistant();
-    } else {
-      openAssistant();
-    }
-  });
-
-  assistantClose.addEventListener("click", closeAssistant);
-
-  assistantModalOverlay.addEventListener("click", (e) => {
-    if (e.target === assistantModalOverlay) closeAssistant();
-  });
-
-  resetButton.addEventListener("click", () => {
-    assistantMessages.innerHTML = "";
-    smartReplies.innerHTML = "";
-    userName = null;
+  // --------------------
+  // CONVERSATION START
+  // --------------------
+  function startConversation() {
     conversationStage = 1;
-    usedSmartReply = false;
+    userName = "";
     currentIntent = null;
-    assistantMessages.dataset.initialized = "";
-    openAssistant();
-  });
+    usedSmartReply = false;
+    clearSmartReplies();
+    assistantMessages.innerHTML = "";
 
-  assistantInput.addEventListener("input", () => {
-    assistantSend.disabled = assistantInput.value.trim().length === 0 || assistantBusy;
-  });
+    addAssistantMessageWithDelay(
+      "Hi, I’m Peakora. Before we go deeper, what name would you like me to use for you?"
+    );
+    showSmartRepliesForName();
+  }
 
+  // NOTE: handleSend, intent detection, stages, emotional flows,
+  // redirect block, and event listeners come in Parts 2–4.
+  // ------------------------------------------------------
+  // CONVERSATION ENGINE — HANDLE USER INPUT
+  // ------------------------------------------------------
+  function handleSend(forcedText = null, fromSmartReply = false) {
+    const text = forcedText || assistantInput.value.trim();
+    if (!text) return;
 
-  // --------------------
+    addUserMessage(text);
+    assistantInput.value = "";
+    clearSmartReplies();
+
+    // --------------------
+    // STAGE 1 — ASK NAME
+    // --------------------
+    if (conversationStage === 1) {
+      addAssistantMessageWithDelay(
+        "I’m here with you. What name feels right for me to call you?"
+      );
+      showSmartRepliesForName();
+      conversationStage = 2;
+      return;
+    }
+
+    // --------------------
+    // STAGE 2 — GET NAME
+    // --------------------
+    if (conversationStage === 2) {
+      if (!looksLikeName(text)) {
+        addAssistantMessageWithDelay(
+          "That’s okay. You can share a name, a nickname, or anything you’re comfortable with."
+        );
+        showSmartRepliesForName();
+        return;
+      }
+
+      userName = text;
+      addAssistantMessageWithDelay(
+        `Thank you, ${userName}. What’s been weighing on you lately?`
+      );
+      showSmartRepliesForIntent();
+      conversationStage = 3;
+      return;
+    }
+
+    // --------------------
+    // STAGE 3 — INTENT DETECTION + FIRST FOLLOW-UP
+    // --------------------
+    if (conversationStage === 3) {
+      let intent;
+
+      if (fromSmartReply) {
+        intent = mapSmartReplyToIntent(text);
+      } else {
+        if (!looksLikeProblem(text)) {
+          addAssistantMessageWithDelay(
+            `I want to understand you clearly, ${userName}. Tell me what you’re feeling in a few simple words.`
+          );
+          showSmartRepliesForIntent();
+          return;
+        }
+        intent = detectIntent(text);
+      }
+
+      currentIntent = intent;
+      usedSmartReply = false;
+
+      respondFirstStepForIntent(intent);
+      conversationStage = 4;
+      return;
+    }
+
+    // --------------------
+    // STAGE 4 — SECOND EMOTIONAL FOLLOW-UP
+    // --------------------
+    if (conversationStage === 4) {
+      respondSecondStepForIntent(currentIntent || "general");
+      conversationStage = 5;
+      return;
+    }
+
+    // --------------------
+    // STAGE 5 — THIRD EMOTIONAL FOLLOW-UP + REDIRECT
+    // --------------------
+    if (conversationStage === 5) {
+      respondThirdStepForIntent(currentIntent || "general");
+
+      setTimeout(() => {
+        addRedirectBlock();
+        conversationStage = 6;
+      }, 1200);
+
+      return;
+    }
+
+    // --------------------
+    // STAGE 6 — FINAL SUPPORTIVE MESSAGE
+    // --------------------
+    if (conversationStage === 6) {
+      addAssistantMessageWithDelay(
+        `I’m still right here with you, ${userName}. Whenever you’re ready, we can continue together.`
+      );
+      return;
+    }
+  }
+
+  // ------------------------------------------------------
   // INTENT DETECTION
-  // --------------------
-
+  // ------------------------------------------------------
   function detectIntent(text) {
-    const lower = text.toLowerCase();
+    const t = text.toLowerCase();
 
-    if (
-      lower.includes("calm") ||
-      lower.includes("anxious") ||
-      lower.includes("anxiety") ||
-      lower.includes("stress") ||
-      lower.includes("stressed")
-    ) {
-      return "calm";
-    }
-
-    if (
-      lower.includes("routine") ||
-      lower.includes("habit") ||
-      lower.includes("schedule") ||
-      lower.includes("structure") ||
-      lower.includes("morning") ||
-      lower.includes("evening")
-    ) {
-      return "routine";
-    }
-
-    if (
-      lower.includes("overwhelmed") ||
-      lower.includes("overwhelm") ||
-      lower.includes("too much") ||
-      lower.includes("burnout") ||
-      lower.includes("burned out")
-    ) {
+    if (t.includes("overwhelm") || t.includes("too much") || t.includes("stress"))
       return "overwhelm";
-    }
 
-    if (
-      lower.includes("small step") ||
-      lower.includes("first step") ||
-      lower.includes("start") ||
-      lower.includes("begin")
-    ) {
+    if (t.includes("routine") || t.includes("schedule") || t.includes("habits"))
+      return "routine";
+
+    if (t.includes("calm") || t.includes("anxiety") || t.includes("peace"))
+      return "calm";
+
+    if (t.includes("small") || t.includes("step") || t.includes("tiny"))
       return "small_step";
-    }
 
     return "general";
   }
 
   function mapSmartReplyToIntent(text) {
-    const lower = text.toLowerCase();
+    const t = text.toLowerCase();
 
-    if (lower.includes("calmer")) return "calm";
-    if (lower.includes("routine")) return "routine";
-    if (lower.includes("overwhelmed")) return "overwhelm";
-    if (lower.includes("small step")) return "small_step";
+    if (t.includes("overwhelmed")) return "overwhelm";
+    if (t.includes("routine")) return "routine";
+    if (t.includes("small")) return "small_step";
 
     return "general";
   }
+  // ------------------------------------------------------
+  // EMOTIONAL FLOW — FIRST, SECOND, THIRD FOLLOW‑UPS
+  // ------------------------------------------------------
 
-
-  // --------------------
-  // FIRST FOLLOW-UP QUESTION PER INTENT
-  // --------------------
-
+  // FIRST FOLLOW-UP (after detecting intent)
   function respondFirstStepForIntent(intent) {
     if (intent === "calm") {
       addAssistantMessageWithDelay(
@@ -320,14 +332,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (intent === "routine") {
       addAssistantMessageWithDelay(
-        `Got it, ${userName}. Which part of your routine feels most out of sync right now, mornings or evenings?`
+        `Got it, ${userName}. Which part of your routine feels most out of sync right now — mornings or evenings?`
       );
       return;
     }
 
     if (intent === "overwhelm") {
       addAssistantMessageWithDelay(
-        `You are carrying a lot, ${userName}. What feels most overwhelming for you at this moment?`
+        `You’re carrying a lot, ${userName}. What feels most overwhelming for you at this moment?`
       );
       return;
     }
@@ -340,15 +352,113 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     addAssistantMessageWithDelay(
-      `Thank you for sharing that, ${userName}. Tell me a little more about what you are feeling right now.`
+      `Thank you for sharing that, ${userName}. Tell me a little more about what you’re feeling right now.`
     );
   }
 
+  // SECOND FOLLOW-UP (micro-guidance)
+  function respondSecondStepForIntent(intent) {
+    const last = assistantMessages
+      .querySelector(".assistant-message.user:last-child")
+      ?.textContent.toLowerCase();
 
-  // --------------------
-  // TEXT HELPERS (RESTORED — THIS WAS THE MISSING PIECE)
-  // --------------------
+    // SMALL STEP INTENT
+    if (intent === "small_step") {
+      if (last.includes("calm") || last.includes("calming")) {
+        addAssistantMessageWithDelay(
+          "I hear you. Let’s slow things down together for a moment. Place one hand on your chest, breathe in gently, and feel your body soften just a little."
+        );
+        return;
+      }
 
+      if (last.includes("energ") || last.includes("energy"))) {
+        addAssistantMessageWithDelay(
+          "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose."
+        );
+        return;
+      }
+
+      if (last.includes("ground") || last.includes("grounding")) {
+        addAssistantMessageWithDelay(
+          "Okay. Look around you and name one thing you can see, one thing you can touch, and one thing you can hear. You’re doing great."
+        );
+        return;
+      }
+
+      addAssistantMessageWithDelay(
+        "Thank you for trusting me with that. Let’s take one small step together: relax your jaw, drop your shoulders, and breathe in slowly through your nose."
+      );
+      return;
+    }
+
+    // CALM INTENT
+    if (intent === "calm") {
+      addAssistantMessageWithDelay(
+        "You deserve a moment of peace. Try this: breathe in for 4 seconds, hold for 2, and exhale for 6. Let your body know it’s safe to soften."
+      );
+      return;
+    }
+
+    // ROUTINE INTENT
+    if (intent === "routine") {
+      addAssistantMessageWithDelay(
+        "I get it. Routines can feel heavy when life is already full. Let’s choose one tiny anchor for today — something you can finish in under 2 minutes."
+      );
+      return;
+    }
+
+    // OVERWHELM INTENT
+    if (intent === "overwhelm") {
+      addAssistantMessageWithDelay(
+        "You’re carrying a lot, and it makes sense that it feels like too much. Let’s pause for a moment. What’s the one thing that feels the heaviest right now?"
+      );
+      return;
+    }
+
+    // GENERAL INTENT
+    addAssistantMessageWithDelay(
+      "Thank you for opening up. Even acknowledging how you feel is a meaningful step forward."
+    );
+  }
+
+  // THIRD FOLLOW-UP (emotional reinforcement)
+  function respondThirdStepForIntent(intent) {
+    if (intent === "small_step") {
+      addAssistantMessageWithDelay(
+        "You’re doing better than you think. These tiny shifts you’re making — they matter. They’re signals to your mind and body that you’re choosing yourself again."
+      );
+      return;
+    }
+
+    if (intent === "calm") {
+      addAssistantMessageWithDelay(
+        "I’m really glad you’re taking a moment for yourself. Even a few breaths can change the whole tone of your day."
+      );
+      return;
+    }
+
+    if (intent === "routine") {
+      addAssistantMessageWithDelay(
+        "You don’t need a perfect routine — just one small promise to yourself that you can keep today. That’s how real change begins."
+      );
+      return;
+    }
+
+    if (intent === "overwhelm") {
+      addAssistantMessageWithDelay(
+        "You’re not alone in this. Naming what feels heavy is the first step toward making it lighter. I’m here with you."
+      );
+      return;
+    }
+
+    addAssistantMessageWithDelay(
+      "Thank you for sharing that with me. You’re taking real steps forward, even if they feel small."
+    );
+  }
+
+  // ------------------------------------------------------
+  // TEXT VALIDATION HELPERS
+  // ------------------------------------------------------
   function looksLikeName(text) {
     if (!text) return false;
     const cleaned = text.toLowerCase().trim();
@@ -377,240 +487,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     return lower.length >= 3;
   }
-
-function respondSecondStepForIntent(intent) {
-  const last = assistantMessages
-    .querySelector(".assistant-message.user:last-child")
-    ?.textContent.toLowerCase();
-
-  // SMALL STEP INTENT
-  if (intent === "small_step") {
-
-    if (last.includes("calm") || last.includes("calming")) {
-      addAssistantMessageWithDelay(
-        "I hear you. Let’s slow things down together for a moment. Place one hand on your chest, breathe in gently, and feel your body soften just a little."
-      );
-      return;
-    }
-
-    if (last.includes("energ") || last.includes("energy")) {
-      addAssistantMessageWithDelay(
-        "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose."
-      );
-      return;
-    }
-
-    if (last.includes("ground") || last.includes("grounding")) {
-      addAssistantMessageWithDelay(
-        "Okay. Look around you and name one thing you can see, one thing you can touch, and one thing you can hear. You’re doing great."
-      );
-      return;
-    }
-
-    addAssistantMessageWithDelay(
-      "Thank you for trusting me with that. Let’s take one small step together: relax your jaw, drop your shoulders, and breathe in slowly through your nose."
-    );
-    return;
-  }
-
-  // CALM INTENT
-  if (intent === "calm") {
-    addAssistantMessageWithDelay(
-      "You deserve a moment of peace. Try this: breathe in for 4 seconds, hold for 2, and exhale for 6. Let your body know it’s safe to soften."
-    );
-    return;
-  }
-
-  // ROUTINE INTENT
-  if (intent === "routine") {
-    addAssistantMessageWithDelay(
-      "I get it. Routines can feel heavy when life is already full. Let’s choose one tiny anchor for today — something you can finish in under 2 minutes."
-    );
-    return;
-  }
-
-  // OVERWHELM INTENT
-  if (intent === "overwhelm") {
-    addAssistantMessageWithDelay(
-      "You’re carrying a lot, and it makes sense that it feels like too much. Let’s pause for a moment. What’s the one thing that feels the heaviest right now?"
-    );
-    return;
-  }
-
-  // GENERAL INTENT
-  addAssistantMessageWithDelay(
-    "Thank you for opening up. Even acknowledging how you feel is a meaningful step forward."
-  );
-}
-
-  function respondThirdStepForIntent(intent) {
-  if (intent === "small_step") {
-    addAssistantMessageWithDelay(
-      "You’re doing better than you think. These tiny shifts you’re making — they matter. They’re signals to your mind and body that you’re choosing yourself again."
-    );
-    return;
-  }
-
-  if (intent === "calm") {
-    addAssistantMessageWithDelay(
-      "I’m really glad you’re taking a moment for yourself. Even a few breaths can change the whole tone of your day."
-    );
-    return;
-  }
-
-  if (intent === "routine") {
-    addAssistantMessageWithDelay(
-      "You don’t need a perfect routine — just one small promise to yourself that you can keep today. That’s how real change begins."
-    );
-    return;
-  }
-
-  if (intent === "overwhelm") {
-    addAssistantMessageWithDelay(
-      "You’re not alone in this. Naming what feels heavy is the first step toward making it lighter. I’m here with you."
-    );
-    return;
-  }
-
-  addAssistantMessageWithDelay(
-    "Thank you for sharing that with me. You’re taking real steps forward, even if they feel small."
-  );
-}
-
-  // --------------------
-  // MAIN CONVERSATION LOGIC
-  // --------------------
-
-  function handleSend() {
-    const text = assistantInput.value.trim();
-    if (!text || assistantBusy) return;
-
-    hideSmartReplies();
-    addUserMessage(text);
-    assistantInput.value = "";
-    assistantSend.disabled = true;
-
-
-    // --------------------
-    // STAGE 1 — ALWAYS ASK FOR NAME
-    // --------------------
-    if (conversationStage === 1) {
-      addAssistantMessageWithDelay("It is really nice to meet you. What is your name?");
-      conversationStage = 2;
-      return;
-    }
-
-
-    // --------------------
-    // STAGE 2 — NAME COLLECTION
-    // --------------------
-    if (conversationStage === 2) {
-      usedSmartReply = false;
-
-      const lower = text.toLowerCase().trim();
-
-      const cleaned = lower
-        .replace("my name is", "")
-        .replace("i am", "")
-        .replace("i'm", "")
-        .replace("call me", "")
-        .replace("name", "")
-        .trim();
-
-      const optOutTriggers = [
-        "why", "no", "not now", "later", "skip", "none",
-        "i don't want to", "i dont want to", "idk", "don't know",
-        "dont know", "no name", "anonymous"
-      ];
-
-      if (optOutTriggers.includes(lower)) {
-        addAssistantMessageWithDelay("No worries, you can stay anonymous. What would you like support with today?");
-        userName = "friend";
-        conversationStage = 3;
-        showSmartReplies();
-        return;
-      }
-
-      if (lower.includes("why")) {
-        addAssistantMessageWithDelay("I ask your name so I can speak to you personally. What should I call you?");
-        return;
-      }
-
-      if (!looksLikeName(cleaned)) {
-        addAssistantMessageWithDelay("I did not quite catch that as a name. What name should I use for you?");
-        return;
-      }
-
-      userName = cleaned;
-      addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
-      conversationStage = 3;
-      showSmartReplies();
-      return;
-    }
-
-
-    // --------------------
-    // STAGE 3 — INTENT DETECTION + FIRST FOLLOW-UP
-    // --------------------
-    if (conversationStage === 3) {
-      let intent;
-
-      if (usedSmartReply) {
-        intent = mapSmartReplyToIntent(text);
-      } else {
-        if (!looksLikeProblem(text)) {
-          addAssistantMessageWithDelay(
-            `I want to understand you clearly, ${userName}. Tell me what you are feeling in a few simple words.`
-          );
-          showSmartReplies();
-          return;
-        }
-        intent = detectIntent(text);
-      }
-
-      currentIntent = intent;
-      usedSmartReply = false;
-
-      respondFirstStepForIntent(intent);
-      conversationStage = 4;
-      return;
-    }
-
-
-    // --------------------
-    // STAGE 4 — MICRO GUIDANCE + REDIRECT
-    // --------------------
-   if (conversationStage === 4) {
-  respondSecondStepForIntent(currentIntent || "general");
-  conversationStage = 5;
-  return;
-}
-
-
-    // --------------------
-    // STAGE 5 — AFTER REDIRECT
-    // --------------------
-    if (conversationStage === 5) {
-  respondThirdStepForIntent(currentIntent || "general");
-
-  setTimeout(() => {
-    addRedirectBlock();
-    conversationStage = 6;
-  }, 1200);
-
-  return;
-}
-
-if (conversationStage === 6) {
-  addAssistantMessageWithDelay(
-    `I’m still right here with you, ${userName}. Whenever you’re ready, we can continue together.`
-  );
-  return;
-}
-
-  // --------------------
-  // REDIRECT BLOCK
-  // --------------------
+  // ------------------------------------------------------
+  // REDIRECT BLOCK — OFFER FULL PEAKORA ASSISTANT
+  // ------------------------------------------------------
   function addRedirectBlock() {
     showTypingIndicator();
 
@@ -623,7 +502,7 @@ if (conversationStage === 6) {
       const textEl = document.createElement("p");
       textEl.style.margin = "0 0 8px 0";
       textEl.textContent =
-        "For deeper support and a full plan, I will take you to the Peakora Assistant when you are ready.";
+        "For deeper support and a full plan, I can take you to the Peakora Assistant whenever you're ready.";
 
       const btn = document.createElement("button");
       btn.textContent = "Connect me to Peakora Assistant";
@@ -637,23 +516,47 @@ if (conversationStage === 6) {
       btn.style.fontWeight = "600";
 
       btn.addEventListener("click", () => {
-        window.open("https://peakora.github.io/peakora-site//assistant.html", "_blank");
+        window.open("https://peakora.github.io/peakora-site/assistant.html", "_blank");
       });
 
       wrapper.appendChild(textEl);
       wrapper.appendChild(btn);
       assistantMessages.appendChild(wrapper);
       scrollSmooth();
-    }, 1200);
+    }, 900);
   }
 
-
-  // --------------------
+  // ------------------------------------------------------
   // EVENT LISTENERS
-  // --------------------
-  assistantSend.addEventListener("click", handleSend);
+  // ------------------------------------------------------
 
-  assistantInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleSend();
+  // Floating button → open modal
+  assistantButton?.addEventListener("click", () => {
+    openAssistant();
   });
-});
+
+  // Close button
+  assistantClose?.addEventListener("click", () => {
+    closeAssistant();
+  });
+
+  // Click outside modal closes it
+  assistantModalOverlay?.addEventListener("click", (e) => {
+    if (e.target === assistantModalOverlay) {
+      closeAssistant();
+    }
+  });
+
+  // Send button
+  assistantSend?.addEventListener("click", () => {
+    handleSend();
+  });
+
+  // Enter key
+  assistantInput?.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSend();
+    }
+  });
+
+}); // <-- END OF DOMContentLoaded WRAPPER
