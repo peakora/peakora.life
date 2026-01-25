@@ -791,6 +791,9 @@ section {
 }
 
 /* -------------------------------------------------------
+  css starts here
+------------------------------------------------------- */
+/* -------------------------------------------------------
    FLOATING ASK PEAKORA BUTTON
 ------------------------------------------------------- */
 /* Floating Button */
@@ -946,6 +949,41 @@ section {
 #smartReplies button:hover {
   background: #e6e6e6;
 }
+
+/* -------------------------------------------------------
+   iMessage‑style Smart Replies (Integrated)
+------------------------------------------------------- */
+
+.assistant-smart-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: -4px;
+}
+
+.assistant-smart-reply {
+  background: #e9ecf5;
+  color: #0f1f3d;
+  padding: 8px 14px;
+  border-radius: 18px;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  width: fit-content;
+  max-width: 80%;
+  box-shadow: 0 2px 6px rgba(15, 31, 61, 0.08);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.assistant-smart-reply:hover {
+  background: #dfe3ef;
+  transform: translateY(-1px);
+}
+
+.assistant-smart-reply:active {
+  transform: scale(0.97);
+}
+
 
 /* ============================
    MOBILE ADJUSTMENTS
