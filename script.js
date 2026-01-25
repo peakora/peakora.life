@@ -378,6 +378,104 @@ document.addEventListener("DOMContentLoaded", () => {
     return lower.length >= 3;
   }
 
+function respondSecondStepForIntent(intent) {
+  const last = assistantMessages
+    .querySelector(".assistant-message.user:last-child")
+    ?.textContent.toLowerCase();
+
+  // SMALL STEP INTENT
+  if (intent === "small_step") {
+
+    if (last.includes("calm") || last.includes("calming")) {
+      addAssistantMessageWithDelay(
+        "I hear you. Let’s slow things down together for a moment. Place one hand on your chest, breathe in gently, and feel your body soften just a little."
+      );
+      return;
+    }
+
+    if (last.includes("energ") || last.includes("energy")) {
+      addAssistantMessageWithDelay(
+        "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose."
+      );
+      return;
+    }
+
+    if (last.includes("ground") || last.includes("grounding")) {
+      addAssistantMessageWithDelay(
+        "Okay. Look around you and name one thing you can see, one thing you can touch, and one thing you can hear. You’re doing great."
+      );
+      return;
+    }
+
+    addAssistantMessageWithDelay(
+      "Thank you for trusting me with that. Let’s take one small step together: relax your jaw, drop your shoulders, and breathe in slowly through your nose."
+    );
+    return;
+  }
+
+  // CALM INTENT
+  if (intent === "calm") {
+    addAssistantMessageWithDelay(
+      "You deserve a moment of peace. Try this: breathe in for 4 seconds, hold for 2, and exhale for 6. Let your body know it’s safe to soften."
+    );
+    return;
+  }
+
+  // ROUTINE INTENT
+  if (intent === "routine") {
+    addAssistantMessageWithDelay(
+      "I get it. Routines can feel heavy when life is already full. Let’s choose one tiny anchor for today — something you can finish in under 2 minutes."
+    );
+    return;
+  }
+
+  // OVERWHELM INTENT
+  if (intent === "overwhelm") {
+    addAssistantMessageWithDelay(
+      "You’re carrying a lot, and it makes sense that it feels like too much. Let’s pause for a moment. What’s the one thing that feels the heaviest right now?"
+    );
+    return;
+  }
+
+  // GENERAL INTENT
+  addAssistantMessageWithDelay(
+    "Thank you for opening up. Even acknowledging how you feel is a meaningful step forward."
+  );
+}
+
+  function respondThirdStepForIntent(intent) {
+  if (intent === "small_step") {
+    addAssistantMessageWithDelay(
+      "You’re doing better than you think. These tiny shifts you’re making — they matter. They’re signals to your mind and body that you’re choosing yourself again."
+    );
+    return;
+  }
+
+  if (intent === "calm") {
+    addAssistantMessageWithDelay(
+      "I’m really glad you’re taking a moment for yourself. Even a few breaths can change the whole tone of your day."
+    );
+    return;
+  }
+
+  if (intent === "routine") {
+    addAssistantMessageWithDelay(
+      "You don’t need a perfect routine — just one small promise to yourself that you can keep today. That’s how real change begins."
+    );
+    return;
+  }
+
+  if (intent === "overwhelm") {
+    addAssistantMessageWithDelay(
+      "You’re not alone in this. Naming what feels heavy is the first step toward making it lighter. I’m here with you."
+    );
+    return;
+  }
+
+  addAssistantMessageWithDelay(
+    "Thank you for sharing that with me. You’re taking real steps forward, even if they feel small."
+  );
+}
 
   // --------------------
   // MAIN CONVERSATION LOGIC
@@ -482,29 +580,33 @@ document.addEventListener("DOMContentLoaded", () => {
     // --------------------
     // STAGE 4 — MICRO GUIDANCE + REDIRECT
     // --------------------
-    if (conversationStage === 4) {
-      respondSecondStepForIntent(currentIntent || "general");
-
-      setTimeout(() => {
-        addRedirectBlock();
-        conversationStage = 5;
-      }, 1200);
-
-      return;
-    }
+   if (conversationStage === 4) {
+  respondSecondStepForIntent(currentIntent || "general");
+  conversationStage = 5;
+  return;
+}
 
 
     // --------------------
     // STAGE 5 — AFTER REDIRECT
     // --------------------
     if (conversationStage === 5) {
-      addAssistantMessageWithDelay(
-        `I am still here with you, ${userName}. You can continue with the Peakora Assistant whenever you feel ready.`
-      );
-      return;
-    }
-  }
+  respondThirdStepForIntent(currentIntent || "general");
 
+  setTimeout(() => {
+    addRedirectBlock();
+    conversationStage = 6;
+  }, 1200);
+
+  return;
+}
+
+if (conversationStage === 6) {
+  addAssistantMessageWithDelay(
+    `I’m still right here with you, ${userName}. Whenever you’re ready, we can continue together.`
+  );
+  return;
+}
 
   // --------------------
   // REDIRECT BLOCK
