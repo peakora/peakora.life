@@ -148,6 +148,8 @@ document.addEventListener("DOMContentLoaded", () => {
       scrollSmooth();
     }, delay);
   }
+
+
   // --------------------
   // SMART REPLIES + HELPERS
   // --------------------
@@ -201,6 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!assistantMessages.dataset.initialized) {
       setTimeout(() => {
         addAssistantMessageWithDelay("Hi, I am Peakora.\nHow can I help you?");
+        conversationStage = 1; // IMPORTANT FIX
       }, 600);
 
       assistantMessages.dataset.initialized = "true";
@@ -340,6 +343,42 @@ document.addEventListener("DOMContentLoaded", () => {
       `Thank you for sharing that, ${userName}. Tell me a little more about what you are feeling right now.`
     );
   }
+
+
+  // --------------------
+  // TEXT HELPERS (RESTORED — THIS WAS THE MISSING PIECE)
+  // --------------------
+
+  function looksLikeName(text) {
+    if (!text) return false;
+    const cleaned = text.toLowerCase().trim();
+
+    const bad = [
+      "why", "no", "not now", "later", "skip", "none",
+      "i don't want to", "i dont want to", "idk", "don't know",
+      "dont know", "no name", "anonymous"
+    ];
+
+    if (bad.includes(cleaned)) return false;
+
+    return /^[a-zA-Z]{2,20}$/.test(text.trim());
+  }
+
+  function looksLikeProblem(text) {
+    if (!text) return false;
+    const lower = text.toLowerCase().trim();
+
+    const bad = [
+      "idk", "i don't know", "dont know", "nothing", "no", "why",
+      "later", "not now", "skip", "?"
+    ];
+
+    if (bad.includes(lower)) return false;
+
+    return lower.length >= 3;
+  }
+
+
   // --------------------
   // MAIN CONVERSATION LOGIC
   // --------------------
@@ -372,7 +411,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const lower = text.toLowerCase().trim();
 
-      // Extract name even if user says "my name is ala"
       const cleaned = lower
         .replace("my name is", "")
         .replace("i am", "")
@@ -405,17 +443,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      if (!cleaned || cleaned.length < 2) {
-  addAssistantMessageWithDelay("I didn’t quite catch that as a name. What should I call you?");
-  return;
-}
-
-userName = cleaned;
-addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
-conversationStage = 3;
-showSmartReplies();
-return;
-
+      userName = cleaned;
+      addAssistantMessageWithDelay(`Thank you, ${userName}. What would you like support with today?`);
+      conversationStage = 3;
+      showSmartReplies();
+      return;
     }
 
 
@@ -445,13 +477,14 @@ return;
       conversationStage = 4;
       return;
     }
+
+
     // --------------------
     // STAGE 4 — MICRO GUIDANCE + REDIRECT
     // --------------------
     if (conversationStage === 4) {
       respondSecondStepForIntent(currentIntent || "general");
 
-      // Delay redirect so guidance appears first
       setTimeout(() => {
         addRedirectBlock();
         conversationStage = 5;
