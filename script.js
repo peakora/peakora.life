@@ -173,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
     addAssistantMessageWithDelay("Hi I'm Peakora");
     setTimeout(() => {
       addAssistantMessageWithDelay("How can I help you today?");
-      showSmartRepliesForName();
     }, 700);
   }
 
