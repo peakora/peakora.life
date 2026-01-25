@@ -378,69 +378,71 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // SECOND FOLLOW-UP (micro-guidance)
-  function respondSecondStepForIntent(intent) {
-    const last = assistantMessages
-      .querySelector(".assistant-message.user:last-child")
-      ?.textContent.toLowerCase();
+ function respondSecondStepForIntent(intent) {
+  const last = assistantMessages
+    .querySelector(".assistant-message.user:last-child")
+    ?.textContent.toLowerCase();
 
-    // SMALL STEP INTENT
-    if (intent === "small_step") {
-      if (last.includes("calm") || last.includes("calming")) {
-        addAssistantMessageWithDelay(
-          "I hear you. Let’s slow things down together for a moment. Place one hand on your chest, breathe in gently, and feel your body soften just a little."
-        );
-        return;
-      }
+  let message = "";
 
-      if (last.includes("energ") || last.includes("energy")) {
-        addAssistantMessageWithDelay(
-          "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose."
-        );
-        return;
-      }
-
-      if (last.includes("ground") || last.includes("grounding")) {
-        addAssistantMessageWithDelay(
-          "Okay. Look around you and name one thing you can see, one thing you can touch, and one thing you can hear. You’re doing great."
-        );
-        return;
-      }
-
-      addAssistantMessageWithDelay(
-        "Thank you for trusting me with that. Let’s take one small step together: relax your jaw, drop your shoulders, and breathe in slowly through your nose."
-      );
-      return;
+  // SMALL STEP INTENT
+  if (intent === "small_step") {
+    if (last.includes("calm") || last.includes("calming")) {
+      message =
+        "I hear you. Let’s slow things down together for a moment. Place one hand on your chest, breathe in gently, and feel your body soften just a little.";
+    } else if (last.includes("energ") || last.includes("energy")) {
+      message =
+        "Alright, let’s wake your system up a bit. Roll your shoulders back, lift your chin slightly, and take one deep, sharp inhale through your nose.";
+    } else if (last.includes("ground") || last.includes("grounding")) {
+      message =
+        "Okay. Look around you and name one thing you can see, one thing you can touch, and one thing you can hear. You are doing great.";
+    } else {
+      message =
+        "Thank you for trusting me with that. Let’s take one small step together. Relax your jaw, drop your shoulders, and breathe in slowly through your nose.";
     }
-
-    // CALM INTENT
-    if (intent === "calm") {
-      addAssistantMessageWithDelay(
-        "You deserve a moment of peace. Try this: breathe in for 4 seconds, hold for 2, and exhale for 6. Let your body know it’s safe to soften."
-      );
-      return;
-    }
-
-    // ROUTINE INTENT
-    if (intent === "routine") {
-      addAssistantMessageWithDelay(
-        "I get it. Routines can feel heavy when life is already full. Let’s choose one tiny anchor for today — something you can finish in under 2 minutes."
-      );
-      return;
-    }
-
-    // OVERWHELM INTENT
-    if (intent === "overwhelm") {
-      addAssistantMessageWithDelay(
-        "You’re carrying a lot, and it makes sense that it feels like too much. Let’s pause for a moment. What’s the one thing that feels the heaviest right now?"
-      );
-      return;
-    }
-
-    // GENERAL INTENT
-    addAssistantMessageWithDelay(
-      "Thank you for opening up. Even acknowledging how you feel is a meaningful step forward."
-    );
   }
+
+  // CALM INTENT
+  else if (intent === "calm") {
+    message =
+      "You deserve a moment of peace. Try this: breathe in for 4 seconds, hold for 2, and exhale for 6. Let your body know it is safe to soften.";
+  }
+
+  // ROUTINE INTENT
+  else if (intent === "routine") {
+    message =
+      "I get it. Routines can feel heavy when life is already full. Let’s choose one tiny anchor for today. Something you can finish in under 2 minutes.";
+  }
+
+  // OVERWHELM INTENT
+  else if (intent === "overwhelm") {
+    message =
+      "You are carrying a lot, and it makes sense that it feels like too much. Let’s pause for a moment. What is the one thing that feels the heaviest right now?";
+  }
+
+  // GENERAL INTENT
+  else {
+    message =
+      "Thank you for opening up. Even acknowledging how you feel is a meaningful step forward.";
+  }
+
+  addAssistantMessageWithDelay(message);
+
+  // SMART REPLIES TO CONTINUE
+  setTimeout(() => {
+    clearSmartReplies();
+
+    const container = document.createElement("div");
+    container.classList.add("assistant-smart-replies");
+
+    container.appendChild(createSmartReplyButton("That helped", "That helped"));
+    container.appendChild(createSmartReplyButton("I want more", "I want more"));
+    container.appendChild(createSmartReplyButton("I'm ready to continue", "I'm ready to continue"));
+
+    assistantMessages.appendChild(container);
+    scrollSmooth();
+  }, 800);
+}
 
   // THIRD FOLLOW-UP (emotional reinforcement)
   function respondThirdStepForIntent(intent) {
