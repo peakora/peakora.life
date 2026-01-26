@@ -86,7 +86,7 @@ header .brand img.brand-logo {
   }
 
   header .brand img.brand-logo {
-    height: 40px !important;   /* Clean mobile logo */
+    height: 32px !important;   /* Clean mobile logo */
   }
 }
 
