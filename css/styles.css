@@ -82,11 +82,11 @@ header .brand img.brand-logo {
 /* MOBILE LOGO SIZE */
 @media (max-width: 768px) {
   .brand {
-    height: 40px;              /* Clean mobile height */
+    height: 32px;              /* Clean mobile height */
   }
 
   header .brand img.brand-logo {
-    height: 32px !important;   /* Clean mobile logo */
+    height: 20px !important;   /* Clean mobile logo */
   }
 }
 
