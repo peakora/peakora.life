@@ -86,11 +86,11 @@ header .brand img.brand-logo {
   }
 
   .brand {
-    height: 32px;
+    height: 40px;
   }
 
   header .brand img.brand-logo {
-    height: 20px !important;
+    height: 40px !important;
   }
 }
 
