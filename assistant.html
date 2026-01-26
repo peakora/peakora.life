@@ -51,15 +51,15 @@
     </div>
   </div>
 
- <script>
-  /* INSTALL EVENT CAPTURE */
-  let deferredPrompt = null;
-  let isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+  <script>
+    /* INSTALL EVENT CAPTURE */
+    let deferredPrompt = null;
+    let isInstalled = window.matchMedia('(display-mode: standalone)').matches;
 
-  window.addEventListener("beforeinstallprompt", (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
+    window.addEventListener("beforeinstallprompt", (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
 
     const steps = [
       "welcome",
@@ -76,11 +76,11 @@
       "pricing",
       "done",
       "returning",
-      "install_prompt"
-      "exit",
       "daily_intro",
       "daily_checkin",
       "daily_summary",
+      "install_prompt",
+      "exit"
     ];
 
     const onboardingSteps = [
@@ -96,7 +96,7 @@
       "processing",
       "recommendations",
       "pricing",
-      "done",
+      "done"
     ];
 
     const state = {
@@ -202,6 +202,7 @@
           </div>`;
         return;
       }
+
       if (key === "explanation") {
         container.innerHTML = `
           <div class="step">
@@ -357,7 +358,7 @@
         return;
       }
 
-           if (key === "done") {
+      if (key === "done") {
         state.completed = true;
         saveState();
         container.innerHTML = `
@@ -366,7 +367,7 @@
             <p>You showed up for yourself today. That matters more than you think.</p>
             <p class="soft-note">Come back anytime for a new plan or a gentle check‑in.</p>
           </div>`;
-                setTimeout(() => {
+        setTimeout(() => {
           if (!isInstalled && deferredPrompt) {
             goToStepKey("install_prompt");
           }
@@ -384,47 +385,12 @@
               <button class="btn ghost" onclick="restartOnboarding()">Start a new 7‑day plan</button>
             </div>
           </div>`;
-       if (!isInstalled && deferredPrompt) {
+        if (!isInstalled && deferredPrompt) {
           container.innerHTML += `
             <div class="actions" style="margin-top: 20px; justify-content: center;">
               <button class="btn primary" onclick="goToStepKey('install_prompt')">Install Peakora</button>
             </div>`;
         }
-        return;
-      }
-
-      if (key === "install_prompt") {
-        container.innerHTML = `
-          <div class="step step-centered">
-            <h2>Make Peakora your space</h2>
-            <p class="soft-note">A calmer, faster, more grounded experience — right from your home screen.</p>
-
-            <ul class="preview-list" style="margin-top: 14px; text-align: left;">
-              <li>One‑tap access to your daily check‑ins</li>
-              <li>Your 7‑day plans available even offline</li>
-              <li>A quiet space without browser tabs or noise</li>
-              <li>Faster loading and smoother transitions</li>
-              <li>New tools coming soon: mood tracker, micro‑journal, breath reset</li>
-            </ul>
-
-            <div class="actions" style="margin-top: 20px; justify-content: center;">
-              <button class="btn primary" onclick="triggerInstall()">Install Peakora</button>
-            </div>
-
-            <div class="actions" style="margin-top: 8px; justify-content: center;">
-              <button class="btn ghost" onclick="goToStepKey('exit')">Maybe later</button>
-            </div>
-          </div>`;
-        return;
-      }
-
-      if (key === "exit") {
-        container.innerHTML = `
-          <div class="step step-centered">
-            <h2>We’re done for now</h2>
-            <p>You can close this tab whenever you’re ready.</p>
-            <p class="soft-note">When you’re back, I’ll be right where you left me.</p>
-          </div>`;
         return;
       }
 
@@ -462,14 +428,44 @@
             <p>I’ve noted ${feeling.toLowerCase()} as part of your ongoing pattern.</p>
             <p class="soft-note">Small moments of honesty like this are what slowly shift things.</p>
             <div class="actions">
-              <button class="btn primary" onclick="goToStepKey('exit')">Close for now</button>
+              <button class="btn primary" onclick="goToStepKey('install_prompt')">Continue</button>
             </div>
           </div>`;
-               setTimeout(() => {
-          if (!isInstalled && deferredPrompt) {
-            goToStepKey("install_prompt");
-          }
-        }, 800);
+        return;
+      }
+
+      if (key === "install_prompt") {
+        container.innerHTML = `
+          <div class="step step-centered">
+            <h2>Make Peakora your space</h2>
+            <p class="soft-note">A calmer, faster, more grounded experience — right from your home screen.</p>
+
+            <ul class="preview-list" style="margin-top: 14px; text-align: left;">
+              <li>One‑tap access to your daily check‑ins</li>
+              <li>Your 7‑day plans available even offline</li>
+              <li>A quiet space without browser tabs or noise</li>
+              <li>Faster loading and smoother transitions</li>
+              <li>New tools coming soon: mood tracker, micro‑journal, breath reset</li>
+            </ul>
+
+            <div class="actions" style="margin-top: 20px; justify-content: center;">
+              <button class="btn primary" onclick="triggerInstall()">Install Peakora</button>
+            </div>
+
+            <div class="actions" style="margin-top: 8px; justify-content: center;">
+              <button class="btn ghost" onclick="goToStepKey('exit')">Maybe later</button>
+            </div>
+          </div>`;
+        return;
+      }
+
+      if (key === "exit") {
+        container.innerHTML = `
+          <div class="step step-centered">
+            <h2>We’re done for now</h2>
+            <p>You can close this tab whenever you’re ready.</p>
+            <p class="soft-note">When you’re back, I’ll be right where you left me.</p>
+          </div>`;
         return;
       }
     }
@@ -578,15 +574,15 @@
     }
 
     function handleBackToHome() {
-  const ref = document.referrer || "";
-  if (ref.includes("index.html")) {
-    window.location.href = "index.html";
-  } else {
-    goToStepKey("returning");
-  }
-}
+      const ref = document.referrer || "";
+      if (ref.includes("index.html")) {
+        window.location.href = "index.html";
+      } else {
+        goToStepKey("returning");
+      }
+    }
 
-       function triggerInstall() {
+    function triggerInstall() {
       if (!deferredPrompt) {
         goToStepKey("exit");
         return;
@@ -620,11 +616,11 @@
     });
   </script>
 
-<script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./service-worker.js");
-  }
-</script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./service-worker.js");
+    }
+  </script>
 
 </body>
 </html>
