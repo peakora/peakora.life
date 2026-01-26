@@ -872,44 +872,84 @@ section {
 }
 
 /* ------------------------------------------------------
-   HEADER — MOBILE/TABLET FIXES ONLY
-   (Desktop remains untouched)
+   MOBILE MENU — OVERLAY SYSTEM (DESKTOP UNTOUCHED)
 ------------------------------------------------------ */
 
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 3001;
+}
+
+.menu-toggle span {
+  width: 100%;
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  transition: 0.25s ease;
+}
+
+/* X animation */
+.menu-toggle.open span:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.menu-toggle.open span:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle.open span:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* MOBILE ONLY */
 @media (max-width: 768px) {
 
-  /* Mobile order: MENU → LOGO → SOCIAL */
+  /* Show hamburger */
   .menu-toggle {
-    display: flex !important;
-    order: 1;
+    display: flex;
   }
 
-  .brand {
-    order: 2;
+  /* Hide desktop nav */
+  .desktop-nav {
+    display: none;
   }
 
-  .header-social {
-    order: 3;
-    display: flex !important;
-  }
-
-  /* Off‑canvas mobile nav */
-  .nav {
+  /* Fullscreen overlay */
+  .mobile-nav-overlay {
     position: fixed;
     top: 0;
     left: 0;
-    width: 260px;
+    width: 100%;
     height: 100vh;
-    background: #ffffff;
-    padding: 40px 20px;
+    background: white;
+    display: flex;
     flex-direction: column;
-    gap: 20px;
+    padding: 80px 24px;
+    gap: 24px;
     transform: translateX(-100%);
-    transition: transform 0.25s ease;
-    z-index: 2000;
+    transition: transform 0.35s ease;
+    z-index: 3000;
   }
 
-  .nav.nav-open {
+  .mobile-nav-overlay.open {
     transform: translateX(0);
+  }
+
+  .mobile-nav a {
+    font-size: 20px;
+    color: #1a1a1a;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  /* Prevent scrolling when menu open */
+  body.menu-open {
+    overflow: hidden;
   }
 }
