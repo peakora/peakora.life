@@ -872,27 +872,15 @@ section {
 }
 
 /* ------------------------------------------------------
-   MOBILE RESET — NO MENU, ONLY LOGO + SOCIAL
+   MOBILE RESET — REMOVE NAV COMPLETELY
 ------------------------------------------------------ */
 
 @media (max-width: 768px) {
   .nav {
-    display: none;
-  }
-
-  .header-inner {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-  }
-
-  .brand {
-    flex: 1;
-  }
-
-  .header-social {
-    display: flex;
-    gap: 12px;
+    display: none !important;
+    visibility: hidden;
+    height: 0;
+    overflow: hidden;
   }
 }
+
