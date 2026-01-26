@@ -51,9 +51,12 @@
   </div>
 
   <script>
-    /* INSTALL EVENT CAPTURE */
+    /* INSTALL + DEVICE DETECTION */
     let deferredPrompt = null;
-    let isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+    let isInstalled = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+
+    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isDesktop = !isMobile;
 
     window.addEventListener("beforeinstallprompt", (e) => {
       e.preventDefault();
@@ -333,6 +336,7 @@
               <li>Built‑in forgiveness for off days</li>
             </ul>
             <div class="actions">
+              <button class="btn secondary" onclick="goToPrevious()">Back</button>
               <button class="btn primary" onclick="goToStepKey('pricing')">Continue</button>
             </div>
           </div>`;
@@ -351,6 +355,7 @@
             </ul>
             <p>You’ll also be able to add Peakora to your home screen for quick access.</p>
             <div class="actions">
+              <button class="btn secondary" onclick="goToPrevious()">Back</button>
               <button class="btn primary" onclick="goToStepKey('done')">Finish</button>
             </div>
           </div>`;
@@ -366,7 +371,7 @@
             <p class="soft-note">Come back anytime for a new plan or a gentle check‑in.</p>
           </div>`;
         setTimeout(() => {
-          if (!isInstalled && deferredPrompt) {
+          if (!isInstalled) {
             goToStepKey("install_prompt");
           }
         }, 800);
@@ -383,7 +388,7 @@
               <button class="btn ghost" onclick="restartOnboarding()">Start a new 7‑day plan</button>
             </div>
           </div>`;
-        if (!isInstalled && deferredPrompt) {
+        if (!isInstalled) {
           container.innerHTML += `
             <div class="actions" style="margin-top: 20px; justify-content: center;">
               <button class="btn primary" onclick="goToStepKey('install_prompt')">Install Peakora</button>
@@ -426,6 +431,7 @@
             <p>I’ve noted ${feeling.toLowerCase()} as part of your ongoing pattern.</p>
             <p class="soft-note">Small moments of honesty like this are what slowly shift things.</p>
             <div class="actions">
+              <button class="btn secondary" onclick="goToStepKey('daily_checkin')">Back</button>
               <button class="btn primary" onclick="goToStepKey('install_prompt')">Continue</button>
             </div>
           </div>`;
@@ -433,10 +439,14 @@
       }
 
       if (key === "install_prompt") {
+        const deviceMessage = isDesktop
+          ? `You can install Peakora right from your browser — just tap the install icon above. And if you ever want it on your phone or tablet, that’s available too.`
+          : `You can add Peakora to your home screen for a calmer, faster experience. And if you prefer using it on your laptop, that’s available too.`;
+
         container.innerHTML = `
           <div class="step step-centered">
             <h2>Make Peakora your space</h2>
-            <p class="soft-note">A calmer, faster, more grounded experience — right from your home screen.</p>
+            <p class="soft-note">${deviceMessage}</p>
 
             <ul class="preview-list" style="margin-top: 14px; text-align: left;">
               <li>One‑tap access to your daily check‑ins</li>
@@ -452,6 +462,10 @@
 
             <div class="actions" style="margin-top: 8px; justify-content: center;">
               <button class="btn ghost" onclick="goToStepKey('exit')">Maybe later</button>
+            </div>
+
+            <div class="actions" style="margin-top: 8px; justify-content: center;">
+              <button class="btn secondary" onclick="goToStepKey('returning')">Back</button>
             </div>
           </div>`;
         return;
@@ -582,34 +596,55 @@
       }
     }
     function triggerInstall() {
-      // Desktop / unsupported: no beforeinstallprompt fired
-      if (!deferredPrompt) {
-        const container = document.getElementById("step-container");
-        container.innerHTML = `
-          <div class="step step-centered">
-            <h2>Install Peakora on your phone or tablet</h2>
-            <p class="soft-note">Install Peakora on your phone or tablet for the best experience.</p>
-            <p>Open this page on your mobile device to add it to your home screen.</p>
-            <div class="actions" style="margin-top: 20px; justify-content: center;">
-              <button class="btn primary" onclick="goToStepKey('returning')">Back</button>
-            </div>
-          </div>`;
+      const container = document.getElementById("step-container");
+
+      // If already installed, just close out gracefully
+      if (isInstalled) {
+        goToStepKey("exit");
         return;
       }
 
-      // Mobile / tablet: real install flow
-      deferredPrompt.prompt();
+      // If we have a captured prompt (Android Chrome, desktop Chrome when it fires)
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choice) => {
+          deferredPrompt = null;
 
-      deferredPrompt.userChoice.then((choice) => {
-        deferredPrompt = null;
+          if (choice.outcome === "accepted") {
+            isInstalled = true;
+            goToStepKey("exit");
+          } else {
+            // User dismissed the prompt; send them back gently
+            goToStepKey("returning");
+          }
+        });
+        return;
+      }
 
-        if (choice.outcome === "accepted") {
-          isInstalled = true;
-          goToStepKey("exit");
-        } else {
-          goToStepKey("returning");
-        }
-      });
+      // No prompt available: show gentle instructions based on device
+      if (isDesktop) {
+        container.innerHTML = `
+          <div class="step step-centered">
+            <h2>Install Peakora on your desktop</h2>
+            <p class="soft-note">Install Peakora on your phone or tablet for the best experience — and it works beautifully on desktop too.</p>
+            <p>On your laptop, look for the install icon in your browser’s address bar to add Peakora as an app.</p>
+            <div class="actions" style="margin-top: 20px; justify-content: center;">
+              <button class="btn secondary" onclick="goToStepKey('install_prompt')">Back</button>
+              <button class="btn primary" onclick="goToStepKey('exit')">Close</button>
+            </div>
+          </div>`;
+      } else {
+        container.innerHTML = `
+          <div class="step step-centered">
+            <h2>Add Peakora to your home screen</h2>
+            <p class="soft-note">Install Peakora on your phone or tablet for the best experience. And if you ever want it on your laptop, that’s available too.</p>
+            <p>From your browser menu, choose “Add to Home Screen” or “Install app” to keep Peakora close.</p>
+            <div class="actions" style="margin-top: 20px; justify-content: center;">
+              <button class="btn secondary" onclick="goToStepKey('install_prompt')">Back</button>
+              <button class="btn primary" onclick="goToStepKey('exit')">Close</button>
+            </div>
+          </div>`;
+      }
     }
 
     document.addEventListener("DOMContentLoaded", () => {
