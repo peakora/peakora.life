@@ -65,19 +65,31 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  height: 48px;
+  height: 64px;          /* MATCHES the logo height */
   overflow: hidden;
 }
 
 /* FINAL OVERRIDE — LOGO SIZE */
 header .brand img.brand-logo {
-  height: 64px !important;
+  height: 64px !important;     /* Desktop size */
   width: auto !important;
   max-height: 100% !important;
   display: block !important;
   object-fit: contain !important;
   object-position: center !important;
 }
+
+/* MOBILE LOGO SIZE */
+@media (max-width: 768px) {
+  .brand {
+    height: 40px;              /* Clean mobile height */
+  }
+
+  header .brand img.brand-logo {
+    height: 40px !important;   /* Clean mobile logo */
+  }
+}
+
 
 /* Navigation */
 .nav {
