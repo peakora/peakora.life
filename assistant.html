@@ -323,6 +323,16 @@ function goToPrevious() {
   }
 }
 
+    function fadeIn() {
+  const el = document.getElementById("step-container");
+  if (el) {
+    el.classList.remove("fade");
+    void el.offsetWidth; // trigger reflow
+    el.classList.add("fade");
+  }
+}
+
+  
     function renderStep() {
       fadeIn();
       const container = document.getElementById("step-container");
