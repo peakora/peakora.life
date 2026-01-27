@@ -5,12 +5,8 @@
   <title>Peakora Assistant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Core theme: this is the warm gradient assistant theme (your dark mode) -->
+  <!-- Assistant theme (warm gradient, cards, etc.) -->
   <link rel="stylesheet" href="assistant.css">
-
-  <!-- You can reintroduce manifest/icons later once paths are correct -->
-  <!-- <link rel="manifest" href="manifest.json"> -->
-  <!-- <link rel="apple-touch-icon" href="./assets/peakora-icon-192.png"> -->
 
   <meta name="mobile-web-app-capable" content="yes">
 </head>
@@ -45,9 +41,9 @@
   </div>
 
   <script>
-   // TEMPORARY: force reset for testing
+    // TEMPORARY: force reset for testing
 localStorage.removeItem("peakora_assistant_state_v1");
-    
+
     /* INSTALL + DEVICE DETECTION */
     let deferredPrompt = null;
     let isInstalled =
@@ -80,6 +76,8 @@ localStorage.removeItem("peakora_assistant_state_v1");
       "daily_intro",
       "daily_checkin",
       "daily_summary",
+      "breathing",
+      "journal",
       "install_prompt",
       "home",
       "exit"
@@ -629,6 +627,33 @@ localStorage.removeItem("peakora_assistant_state_v1");
         return;
       }
 
+      if (key === "breathing") {
+        container.innerHTML =
+          '<div class="step step-centered">' +
+          "<h2>Breathing reset</h2>" +
+          '<p class="soft-note">A slow inhale, a softer exhale. Let’s do this together.</p>' +
+          '<div class="breathing-circle"></div>' +
+          '<div class="actions">' +
+          '<button class="btn primary" onclick="goToStepKey(\'home\')">Back to home</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+
+      if (key === "journal") {
+        container.innerHTML =
+          '<div class="step">' +
+          "<h2>Micro-journal</h2>" +
+          '<p class="soft-note">One sentence. Whatever is true right now.</p>' +
+          '<textarea class="input" id="journal-input" placeholder="Write one sentence…"></textarea>' +
+          '<div class="actions">' +
+          '<button class="btn secondary" onclick="goToStepKey(\'home\')">Cancel</button>' +
+          '<button class="btn primary" onclick="handleJournal()">Save</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+
       if (key === "install_prompt") {
         var deviceMessage = isDesktop
           ? "You can install Peakora right from your browser — just tap the install icon above. And if you ever want it on your phone or tablet, that’s available too."
@@ -661,19 +686,36 @@ localStorage.removeItem("peakora_assistant_state_v1");
         container.innerHTML =
           '<div class="step">' +
           "<h2>Today’s space</h2>" +
+
+          // Plan card
           '<div class="card">' +
-          "<h2>Today’s anchor</h2>" +
-          '<p class="soft-note">A gentle place to land, not a list to conquer.</p>' +
+          "<h2>Your plan</h2>" +
+          '<p class="soft-note">This is your anchor for the week. You chose it. You can return to it anytime.</p>' +
+          '<ul class="preview-list">' +
+          "<li>Focus: " +
+          (state.answers.goal || "—") +
+          "</li>" +
+          "<li>Gentle win: " +
+          (state.answers.extended1 || "—") +
+          "</li>" +
+          "<li>Forgiveness: Built-in for off days</li>" +
+          "</ul>" +
           "</div>" +
+
+          // Mood card
           '<div class="card">' +
           "<h2>Your week at a glance</h2>" +
           '<div id="mood-bubble-canvas" class="mood-bubble-canvas"></div>' +
           '<p id="mood-summary-text" class="tiny-note"></p>' +
           "</div>" +
+
+          // Tools card
           '<div class="card">' +
           "<h2>Tools</h2>" +
           '<div class="options vertical">' +
           '<button class="btn ghost" onclick="handleDailyStart()">Daily check-in</button>' +
+          '<button class="btn ghost" onclick="goToStepKey(\'breathing\')">Breathing reset</button>' +
+          '<button class="btn ghost" onclick="goToStepKey(\'journal\')">Micro-journal</button>' +
           '<button class="btn ghost" onclick="restartOnboarding()">Start a new 7-day plan</button>' +
           "</div>" +
           "</div>" +
@@ -759,6 +801,14 @@ localStorage.removeItem("peakora_assistant_state_v1");
       goToStepKey("daily_summary");
     }
 
+    function handleJournal() {
+      const el = document.getElementById("journal-input");
+      const value = (el && el.value.trim()) || "";
+      // Placeholder: could store later
+      saveState();
+      goToStepKey("home");
+    }
+
     function restartOnboarding() {
       clearState();
       state.stepIndex = steps.indexOf("welcome");
@@ -813,6 +863,5 @@ localStorage.removeItem("peakora_assistant_state_v1");
       navigator.serviceWorker.register("./service-worker.js");
     }
   </script>
-
 </body>
 </html>
