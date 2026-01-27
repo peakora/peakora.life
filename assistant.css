@@ -2,11 +2,16 @@
    GLOBAL + BASE LAYOUT
 --------------------------------------------------- */
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  background: radial-gradient(circle at top, #fff7ec 0, #f5f3f0 40%, #efe9e2 100%);
+  background: radial-gradient(circle at top, #fff7ec 0%, #f5f3f0 40%, #efe9e2 100%);
   color: #222;
+  -webkit-font-smoothing: antialiased;
 }
 
 .assistant-shell {
@@ -22,36 +27,18 @@ body {
   border-radius: 18px;
   max-width: 480px;
   width: 100%;
-  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
   padding: 20px 20px 16px;
-  box-sizing: border-box;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.08);
   border: 1px solid rgba(245, 179, 92, 0.22);
 }
 
-/* Home cards tuned to match assistant theme */
-
-.card {
-  background: #fdfaf6;
-  border: 1px solid #f1e7dd;
-  border-radius: 16px;
-  padding: 20px;
-  margin-bottom: 24px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  text-align: left;
-}
-
-/* First card (Today’s Anchor) slightly warmer */
-.card:first-of-type {
-  background: linear-gradient(135deg, #fff3dd, #ffe4c4);
-}
+/* ---------------------------------------------------
+   HEADER + BRANDING
+--------------------------------------------------- */
 
 .assistant-header {
   margin-bottom: 12px;
 }
-
-/* ---------------------------------------------------
-   BRANDING
---------------------------------------------------- */
 
 .brand {
   display: flex;
@@ -108,7 +95,7 @@ body {
 }
 
 /* ---------------------------------------------------
-   BODY + STEP LAYOUT
+   STEP BODY
 --------------------------------------------------- */
 
 .assistant-body {
@@ -139,7 +126,6 @@ body {
 
 .input {
   width: 100%;
-  box-sizing: border-box;
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid #ddd;
@@ -209,11 +195,11 @@ body {
   text-align: center;
 }
 /* ---------------------------------------------------
-   CARDS (HOME SCREEN)
+   CARDS (HOME + TOOLS)
 --------------------------------------------------- */
 
 .card {
-  background: #ffffff;
+  background: #fdfaf6;
   border: 1px solid #f1e7dd;
   border-radius: 16px;
   padding: 20px;
@@ -222,6 +208,12 @@ body {
   text-align: left;
 }
 
+/* First card (Today’s Anchor) slightly warmer */
+.card:first-of-type {
+  background: linear-gradient(135deg, #fff3dd, #ffe4c4);
+}
+
+/* Card headers */
 .card h2 {
   font-size: 18px;
   font-weight: 600;
@@ -336,4 +328,142 @@ body {
 
 .fade {
   transition: opacity 0.25s ease, transform 0.25s ease;
+}
+/* ---------------------------------------------------
+   MOOD BUBBLE CANVAS
+--------------------------------------------------- */
+
+.mood-bubble-canvas {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  margin-top: 12px;
+  margin-bottom: 8px;
+  border-radius: 14px;
+  background: #fffdf9;
+  border: 1px solid #f1e7dd;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------
+   INDIVIDUAL MOOD BUBBLES
+--------------------------------------------------- */
+
+.mood-bubble {
+  position: absolute;
+  border-radius: 999px;
+  opacity: 0;
+  animation: bubbleFade 0.8s ease forwards;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+@keyframes bubbleFade {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* ---------------------------------------------------
+   WEEK SUMMARY BUBBLE
+--------------------------------------------------- */
+
+.week-summary-bubble {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  animation: summaryPulse 3s ease-in-out infinite;
+}
+
+@keyframes summaryPulse {
+  0% { transform: scale(1); opacity: 0.95; }
+  50% { transform: scale(1.08); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.95; }
+}
+
+/* ---------------------------------------------------
+   MOOD SUMMARY TEXT
+--------------------------------------------------- */
+
+#mood-summary-text {
+  font-size: 13px;
+  color: #666;
+  margin-top: 6px;
+  line-height: 1.4;
+  text-align: center;
+}
+/* ---------------------------------------------------
+   MICRO‑JOURNAL
+--------------------------------------------------- */
+
+#journal-input {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* ---------------------------------------------------
+   HEAVY DAY TOOL
+--------------------------------------------------- */
+
+.heavy-day-text {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #444;
+  margin-bottom: 16px;
+}
+
+/* ---------------------------------------------------
+   UTILITY SPACING
+--------------------------------------------------- */
+
+.mt-0 { margin-top: 0; }
+.mt-4 { margin-top: 4px; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.mt-24 { margin-top: 24px; }
+
+.mb-0 { margin-bottom: 0; }
+.mb-4 { margin-bottom: 4px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-12 { margin-bottom: 12px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-20 { margin-bottom: 20px; }
+.mb-24 { margin-bottom: 24px; }
+
+/* ---------------------------------------------------
+   GENERAL LAYOUT POLISH
+--------------------------------------------------- */
+
+textarea.input {
+  line-height: 1.45;
+}
+
+button.btn {
+  font-weight: 500;
+}
+
+.step h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.step h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.step p {
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* Ensures cards never touch screen edges on small devices */
+@media (max-width: 420px) {
+  .assistant-shell {
+    padding: 16px;
+  }
 }
