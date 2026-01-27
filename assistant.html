@@ -45,6 +45,10 @@
   </div>
 
   <script>
+    <script>
+// TEMPORARY: force reset for testing
+localStorage.removeItem("peakora_assistant_state_v1");
+    
     /* INSTALL + DEVICE DETECTION */
     let deferredPrompt = null;
     let isInstalled =
