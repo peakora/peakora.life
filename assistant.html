@@ -305,6 +305,23 @@
       const sequenceText = feelingsSequence.join(" → ");
       summaryEl.textContent = `This week leaned toward: ${sequenceText}.`;
     }
+    
+function goToStepKey(key) {
+  const index = steps.indexOf(key);
+  if (index >= 0) {
+    state.stepIndex = index;
+    saveState();
+    renderStep();
+  }
+}
+
+function goToPrevious() {
+  if (state.stepIndex > 0) {
+    state.stepIndex -= 1;
+    saveState();
+    renderStep();
+  }
+}
 
     function renderStep() {
       fadeIn();
