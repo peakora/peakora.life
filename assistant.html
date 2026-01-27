@@ -597,23 +597,36 @@
           </div>
         </div>`;
     }
+ </script>
+  
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const hasState = loadState();
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const hasState = loadState();
+    if (!hasState) {
+      goToStepKey("welcome");
+      return;
+    }
 
-      if (!hasState) {
-        goToStepKey("welcome");
-        return;
-      }
+    if (state.completed) {
+      state.stepIndex = steps.indexOf("home");
+      saveState();
+      goToStepKey("home");
+      return;
+    }
 
-      if (state.completed) {
-        goToStepKey("home");
-        return;
-      }
+    const currentKey = steps[state.stepIndex] || "welcome";
+    if (currentKey === "returning") {
+      state.stepIndex = steps.indexOf("home");
+      saveState();
+      goToStepKey("home");
+      return;
+    }
 
-      goToStepKey(steps[state.stepIndex] || "welcome");
-    });
-  </script>
+    goToStepKey(currentKey);
+  });
+</script>
+
 
   <script>
     if ("serviceWorker" in navigator) {
