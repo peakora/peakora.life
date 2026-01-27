@@ -5,7 +5,7 @@
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
-  background: #f5f3f0;
+  background: radial-gradient(circle at top, #fff7ec 0, #f5f3f0 40%, #efe9e2 100%);
   color: #222;
 }
 
@@ -14,7 +14,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 16px;
+  padding: 24px;
 }
 
 .assistant-card {
@@ -25,6 +25,24 @@ body {
   box-shadow: 0 18px 40px rgba(0,0,0,0.08);
   padding: 20px 20px 16px;
   box-sizing: border-box;
+  border: 1px solid rgba(245, 179, 92, 0.22);
+}
+
+/* Home cards tuned to match assistant theme */
+
+.card {
+  background: #fdfaf6;
+  border: 1px solid #f1e7dd;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  text-align: left;
+}
+
+/* First card (Today’s Anchor) slightly warmer */
+.card:first-of-type {
+  background: linear-gradient(135deg, #fff3dd, #ffe4c4);
 }
 
 .assistant-header {
