@@ -1,3 +1,7 @@
+/* ---------------------------------------------------
+   GLOBAL + BASE LAYOUT
+--------------------------------------------------- */
+
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
@@ -27,6 +31,10 @@ body {
   margin-bottom: 12px;
 }
 
+/* ---------------------------------------------------
+   BRANDING
+--------------------------------------------------- */
+
 .brand {
   display: flex;
   align-items: center;
@@ -51,6 +59,10 @@ body {
   color: #777;
   margin-top: 4px;
 }
+
+/* ---------------------------------------------------
+   PROGRESS BAR
+--------------------------------------------------- */
 
 .assistant-progress {
   margin-bottom: 12px;
@@ -77,6 +89,10 @@ body {
   transition: width 0.25s ease;
 }
 
+/* ---------------------------------------------------
+   BODY + STEP LAYOUT
+--------------------------------------------------- */
+
 .assistant-body {
   min-height: 260px;
   padding-top: 4px;
@@ -99,14 +115,9 @@ body {
   margin: 6px 0;
 }
 
-.preview-list {
-  padding-left: 18px;
-  margin: 8px 0 12px;
-}
-
-.preview-list li {
-  margin-bottom: 4px;
-}
+/* ---------------------------------------------------
+   INPUTS
+--------------------------------------------------- */
 
 .input {
   width: 100%;
@@ -124,6 +135,10 @@ body {
   border-color: #e26b6b;
   background: #fff5f5;
 }
+
+/* ---------------------------------------------------
+   BUTTONS
+--------------------------------------------------- */
 
 .actions {
   display: flex;
@@ -146,7 +161,7 @@ body {
 }
 
 .btn.primary {
-  background: #222;
+  background: linear-gradient(135deg, #f5b35c, #f58b5c);
   color: #fff;
 }
 
@@ -165,22 +180,28 @@ body {
   transform: translateY(1px);
 }
 
+/* ---------------------------------------------------
+   FOOTER
+--------------------------------------------------- */
+
 .assistant-footer {
   margin-top: 12px;
   font-size: 11px;
   color: #999;
   text-align: center;
 }
-
-/* Cards for home screen */
+/* ---------------------------------------------------
+   CARDS (HOME SCREEN)
+--------------------------------------------------- */
 
 .card {
   background: #ffffff;
-  border: 1px solid #f3eae2;
-  border-radius: 14px;
+  border: 1px solid #f1e7dd;
+  border-radius: 16px;
   padding: 20px;
   margin-bottom: 24px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  text-align: left;
 }
 
 .card h2 {
@@ -202,77 +223,41 @@ body {
   display: inline-block;
 }
 
+/* ---------------------------------------------------
+   NOTES
+--------------------------------------------------- */
+
 .soft-note {
   color: #666;
   margin-bottom: 14px;
   font-size: 14px;
+  line-height: 1.45;
 }
 
 .tiny-note {
   font-size: 12px;
   color: #888;
   margin-top: 8px;
+  line-height: 1.4;
 }
 
-/* Mood bubble canvas */
+/* ---------------------------------------------------
+   LISTS
+--------------------------------------------------- */
 
-.mood-bubble-canvas {
-  position: relative;
-  width: 100%;
-  height: 160px;
-  margin-top: 8px;
-  overflow: visible;
+.preview-list {
+  padding-left: 18px;
+  margin: 8px 0 12px;
 }
 
-.mood-bubble {
-  position: absolute;
-  border-radius: 999px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  opacity: 0.85;
-  animation: floatBubble 7s ease-in-out infinite;
-  transform-origin: center;
+.preview-list li {
+  margin-bottom: 4px;
+  line-height: 1.4;
 }
 
-.mood-bubble:hover {
-  transform: scale(1.08);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
-  opacity: 1;
-}
-
-/* Weekly summary bubble */
-
-.week-summary-bubble {
-  width: 48px;
-  height: 48px;
-  border-radius: 999px;
-  margin: 10px 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-
-/* Breath circle */
-
-.breath-circle {
-  width: 80px;
-  height: 80px;
-  border-radius: 999px;
-  margin: 16px auto;
-  background: radial-gradient(circle at 30% 30%, #f5b35c, #f58b5c);
-  animation: breathe 4s ease-in-out infinite;
-}
-
-/* Loader */
-
-.loader {
-  width: 32px;
-  height: 32px;
-  border-radius: 999px;
-  border: 3px solid #eee;
-  border-top-color: #f5b35c;
-  margin: 18px auto 0;
-  animation: spin 0.8s linear infinite;
-}
-
-/* Options */
+/* ---------------------------------------------------
+   OPTIONS
+--------------------------------------------------- */
 
 .options {
   display: flex;
@@ -285,19 +270,35 @@ body {
   flex-direction: column;
 }
 
-/* Animations */
+/* ---------------------------------------------------
+   LOADER
+--------------------------------------------------- */
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade {
-  transition: opacity 0.25s ease, transform 0.25s ease;
+.loader {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 3px solid #eee;
+  border-top-color: #f5b35c;
+  margin: 18px auto 0;
+  animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+/* ---------------------------------------------------
+   BREATH RESET ANIMATION
+--------------------------------------------------- */
+
+.breath-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 999px;
+  margin: 16px auto;
+  background: radial-gradient(circle at 30% 30%, #f5b35c, #f58b5c);
+  animation: breathe 4s ease-in-out infinite;
 }
 
 @keyframes breathe {
@@ -306,44 +307,15 @@ body {
   100% { transform: scale(0.9); opacity: 0.9; }
 }
 
-@keyframes floatBubble {
-  0%   { transform: translateY(0); }
-  50%  { transform: translateY(-4px); }
-  100% { transform: translateY(0); }
+/* ---------------------------------------------------
+   FADE + TRANSITIONS
+--------------------------------------------------- */
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Desktop-optimized layout */
-
-@media (min-width: 900px) {
-  .assistant-shell {
-    padding: 32px;
-  }
-
-  .assistant-card {
-    max-width: 720px;
-    padding: 24px 24px 18px;
-  }
-
-  .assistant-body {
-    min-height: 320px;
-  }
-
-  .card {
-    margin-bottom: 28px;
-  }
-}
-
-/* Small screens */
-
-@media (max-width: 480px) {
-  .assistant-card {
-    border-radius: 0;
-    max-width: 100%;
-    min-height: 100vh;
-    box-shadow: none;
-  }
-
-  .assistant-shell {
-    padding: 0;
-  }
+.fade {
+  transition: opacity 0.25s ease, transform 0.25s ease;
 }
