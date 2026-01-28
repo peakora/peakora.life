@@ -123,6 +123,7 @@
     };
 
     let focusTools = false;
+    let focusPlan = false;
 
     function saveState() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -391,6 +392,10 @@
 
     function goHomeAndFocusTools() {
       focusTools = true;
+      goToStepKey("home");
+    }
+    function goHomeAndFocusPlan() {
+      focusPlan = true;
       goToStepKey("home");
     }
 
@@ -850,7 +855,7 @@
 
         plan.forEach(function (day, index) {
           html +=
-            '<div class="card">' +
+            '<div class="card" id="plan-card">' +
             "<h3>" + day.title + "</h3>" +
             "<p><strong>Focus:</strong> " + day.focus + "</p>" +
             "<p><strong>Action:</strong> " + day.action + "</p>" +
@@ -862,7 +867,7 @@
         html +=
           "</div>" +
           '<div class="actions">' +
-          '<button class="btn primary" onclick="goToStepKey(\'home\')">Back to home</button>' +
+          '<button class="btn primary" onclick="goHomeAndFocusPlan()">Back to home</button>' +
           "</div>" +
           "</div>";
 
@@ -893,7 +898,7 @@
           "</div>" +
 
           // 2) Plan card
-          '<div class="card">' +
+          '<div class="card" id="plan-card">' +
           "<h2>Your plan</h2>" +
           '<p class="soft-note">This is your anchor for the week. You chose it. You can return to it anytime.</p>' +
           "<h3>" + today.title + "</h3>" +
@@ -944,6 +949,17 @@
 
         return;
       }
+      
+       if (focusPlan) {
+        setTimeout(function () {
+          const planCard = document.getElementById("plan-card");
+          if (planCard) {
+            planCard.scrollIntoView({ behavior: "smooth", block: "start" });
+          }
+          focusPlan = false;
+        }, 0);
+      }
+
 
       if (key === "exit") {
         container.innerHTML =
