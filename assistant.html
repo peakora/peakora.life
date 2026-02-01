@@ -913,10 +913,11 @@ const anchors = [
       
       const todayAnchor = anchors[Math.floor(Math.random() * anchors.length)];
 
-   if (key === "home") {
+  if (key === "home") {
   ensurePlanGenerated();
   const plan = state.plan || [];
   const todayIndex = getTodayPlanIndex();
+  const todayAnchor = anchors[Math.floor(Math.random() * anchors.length)];
   const today = plan[todayIndex] || {
     title: "Today",
     focus: todayAnchor,
@@ -929,15 +930,14 @@ const anchors = [
     '<div class="step">' +
     '<div class="home-grid">' +
 
-   // Anchor card
-  '<div class="card">' +
-  "<h2>Today’s anchor</h2>" +
-  "<p class='soft-note'>" + todayAnchor + "</p>" +
-  '<div class="actions">' +
-  '<button class="btn ghost" onclick="shareMoment(\'anchor\', \'' + todayAnchor + '\')">Share this moment</button>' +
-  "</div>" +
-  "</div>" +
-
+    // Anchor card
+    '<div class="card">' +
+    "<h2>Today’s anchor</h2>" +
+    "<p class='soft-note'>" + todayAnchor + "</p>" +
+    '<div class="actions">' +
+    '<button class="btn ghost" onclick="shareMoment(\'anchor\', \'' + todayAnchor + '\')">Share this moment</button>' +
+    "</div>" +
+    "</div>" +
 
     // Plan card
     '<div class="card" id="plan-card">' +
