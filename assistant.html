@@ -521,6 +521,40 @@
       }
     }
 
+    // Anchors list (30 examples)
+const anchors = [
+  "Pause for two minutes of quiet.",
+  "Notice one kind thought you had today.",
+  "Step outside for fresh air.",
+  "Write down one thing you’re grateful for.",
+  "Stretch gently for 3 minutes.",
+  "Drink a glass of water slowly.",
+  "Smile at yourself in the mirror.",
+  "Send a kind message to someone.",
+  "Take three deep breaths.",
+  "Listen to one calming song.",
+  "Read one page of a book.",
+  "Sit with your posture upright for a moment.",
+  "Reflect on one small win.",
+  "Close your eyes and rest briefly.",
+  "Organize one small space.",
+  "Write one encouraging word.",
+  "Think of one person you appreciate.",
+  "Step away from your screen for 5 minutes.",
+  "Notice your surroundings mindfully.",
+  "Recall one happy memory.",
+  "Stretch your hands and shoulders.",
+  "Take a short walk.",
+  "Write down one idea.",
+  "Notice your breathing rhythm.",
+  "Celebrate one effort you made.",
+  "Think of one thing you learned today.",
+  "Sit quietly with no distractions.",
+  "Write one goal for tomorrow.",
+  "Say one kind word aloud.",
+  "Notice how your body feels right now."
+];
+
     function renderStep() {
       fadeIn();
       const container = document.getElementById("step-container");
@@ -876,14 +910,16 @@
         container.innerHTML = html;
         return;
       }
+      
+      const todayAnchor = anchors[Math.floor(Math.random() * anchors.length)];
 
-     if (key === "home") {
+   if (key === "home") {
   ensurePlanGenerated();
   const plan = state.plan || [];
   const todayIndex = getTodayPlanIndex();
   const today = plan[todayIndex] || {
     title: "Today",
-    focus: "Start gently.",
+    focus: todayAnchor,
     action: "Take a few minutes to choose one small action that feels kind and realistic.",
     reflection: "Notice how it feels to choose something small on purpose.",
     forgiveness: "If today doesn’t go as planned, you’re still allowed to try again tomorrow."
@@ -893,21 +929,22 @@
     '<div class="step">' +
     '<div class="home-grid">' +
 
-    // Anchor card
-    '<div class="card">' +
-    "<h2>Today’s anchor</h2>" +
-    "<p class='soft-note'>" + today.focus + "</p>" +
-    '<div class="actions">' +
-    '<button class="btn ghost" onclick="shareMoment(\'anchor\', \'' + today.focus + '\')">Share this moment</button>' +
-    "</div>" +
-    "</div>" +
+   // Anchor card
+  '<div class="card">' +
+  "<h2>Today’s anchor</h2>" +
+  "<p class='soft-note'>" + todayAnchor + "</p>" +
+  '<div class="actions">' +
+  '<button class="btn ghost" onclick="shareMoment(\'anchor\', \'' + todayAnchor + '\')">Share this moment</button>' +
+  "</div>" +
+  "</div>" +
+
 
     // Plan card
     '<div class="card" id="plan-card">' +
     "<h2>Your plan</h2>" +
     "<h3>" + today.title + "</h3>" +
     "<ul class='preview-list'>" +
-    "<li>Focus: " + today.focus + "</li>" +
+    "<li>Focus: " + todayAnchor + "</li>" +
     "<li>Action: " + today.action + "</li>" +
     "<li>Reflection: " + today.reflection + "</li>" +
     "<li>Forgiveness: " + today.forgiveness + "</li>" +
@@ -979,6 +1016,17 @@
     "</div>" +
     "</div>" +
 
+    // Peakora Picks card
+    '<div class="card">' +
+    "<h2>Peakora Picks</h2>" +
+    "<p class='soft-note'>Gentle suggestions chosen for you.</p>" +
+    "<ul class='preview-list'>" +
+    "<li><a href='https://www.clickbank.com/keto-women-40' target='_blank'>Keto for Women 40+</a></li>" +
+    "<li><a href='https://www.clickbank.com/mindfulness-guide' target='_blank'>Mindfulness Guide</a></li>" +
+    "<li><a href='https://www.clickbank.com/healthy-habits' target='_blank'>Healthy Habits Blueprint</a></li>" +
+    "</ul>" +
+    "</div>" +
+
     // Share Your Story card
     '<div class="card">' +
     "<h2>Share Your Story</h2>" +
@@ -1011,7 +1059,6 @@
 
   return;
 }
-
 
       if (key === "exit") {
         container.innerHTML =
