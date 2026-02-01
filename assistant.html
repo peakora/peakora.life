@@ -878,121 +878,114 @@
       }
 
       if (key === "home") {
-        ensurePlanGenerated();
-        const plan = state.plan || [];
-        const todayIndex = getTodayPlanIndex();
-        const today = plan[todayIndex] || {
-          title: "Today",
-          focus: "Start gently.",
-          action: "Take a few minutes to choose one small action that feels kind and realistic.",
-          reflection: "Notice how it feels to choose something small on purpose.",
-          forgiveness: "If today doesn’t go as planned, you’re still allowed to try again tomorrow."
-        };
+  ensurePlanGenerated();
+  const plan = state.plan || [];
+  const todayIndex = getTodayPlanIndex();
+  const today = plan[todayIndex] || {
+    title: "Today",
+    focus: "Start gently.",
+    action: "Take a few minutes to choose one small action that feels kind and realistic.",
+    reflection: "Notice how it feels to choose something small on purpose.",
+    forgiveness: "If today doesn’t go as planned, you’re still allowed to try again tomorrow."
+  };
 
-        container.innerHTML =
-          '<div class="step">' +
-          '<div class="home-grid">' +
+  container.innerHTML =
+    '<div class="step">' +
+    '<div class="home-grid">' +
 
-          // 1) Anchor card
-          '<div class="card">' +
-          "<h2>Today’s anchor</h2>" +
-          '<p class="soft-note">A gentle place to land, not a list to conquer.</p>' +
-          "</div>" +
+    // Anchor card
+    '<div class="card">' +
+    "<h2>Today’s anchor</h2>" +
+    '<p class="soft-note">A gentle place to land, not a list to conquer.</p>' +
+    "</div>" +
 
-          // 2) Plan card
-          '<div class="card">' +
-          '<div class="card" id="plan-card">' +
-          "<h2>Your plan</h2>" +
-          '<p class="soft-note">This is your anchor for the week. You chose it. You can return to it anytime.</p>' +
-          "<h3>" + today.title + "</h3>" +
-          '<ul class="preview-list">' +
-          "<li>Focus: " + today.focus + "</li>" +
-          "<li>Action: " + today.action + "</li>" +
-          "<li>Forgiveness: " + today.forgiveness + "</li>" +
-          "</ul>" +
-          '<div class="actions" style="margin-top: 8px;">' +
-          '<button class="btn ghost" onclick="goToStepKey(\'plan_full\')">View full 7-day plan</button>' +
-          "</div>" +
-          "</div>" +
+    // Plan card
+    '<div class="card" id="plan-card">' +
+    "<h2>Your plan</h2>" +
+    '<p class="soft-note">This is your anchor for the week. You chose it. You can return to it anytime.</p>' +
+    "<h3>" + today.title + "</h3>" +
+    '<ul class="preview-list">' +
+    "<li>Focus: " + today.focus + "</li>" +
+    "<li>Action: " + today.action + "</li>" +
+    "<li>Forgiveness: " + today.forgiveness + "</li>" +
+    "</ul>" +
+    '<div class="actions" style="margin-top: 8px;">' +
+    '<button class="btn ghost" onclick="goToStepKey(\'plan_full\')">View full 7-day plan</button>' +
+    "</div>" +
+    "</div>" +
 
-          // 3) Tools card
-          '<div class="card" id="tools-card">' +
-          "<h2>Tools</h2>" +
-          '<div class="options vertical">' +
-          '<button class="btn ghost" onclick="handleDailyStart()">Daily check-in</button>' +
-          '<button class="btn ghost" onclick="goToStepKey(\'breathing\')">Breathing reset</button>' +
-          '<button class="btn ghost" onclick="goToStepKey(\'journal\')">Micro-journal</button>' +
-          '<button class="btn ghost" onclick="goToStepKey(\'reset_focus\')">Reset focus</button>' +
-          '<button class="btn ghost" onclick="restartOnboarding()">Start a new 7-day plan</button>' +
-          "</div>" +
-          "</div>" +
+    // Tools card
+    '<div class="card" id="tools-card">' +
+    "<h2>Tools</h2>" +
+    '<div class="options vertical">' +
+    '<button class="btn ghost" onclick="handleDailyStart()">Daily check-in</button>' +
+    '<button class="btn ghost" onclick="goToStepKey(\'breathing\')">Breathing reset</button>' +
+    '<button class="btn ghost" onclick="goToStepKey(\'journal\')">Micro-journal</button>' +
+    '<button class="btn ghost" onclick="goToStepKey(\'reset_focus\')">Reset focus</button>' +
+    '<button class="btn ghost" onclick="restartOnboarding()">Start a new 7-day plan</button>' +
+    "</div>" +
+    "</div>" +
 
-          // 4) Mood card
-          '<div class="card">' +
-          "<h2>Your week at a glance</h2>" +
-          '<p class="tiny-note">Each bubble reflects one day from your past week.</p>' +
-          '<div id="mood-bubble-canvas" class="mood-bubble-canvas"></div>' +
-          '<p id="mood-summary-text" class="tiny-note"></p>' +
-          "</div>" +
+    // Mood card
+    '<div class="card">' +
+    "<h2>Your week at a glance</h2>" +
+    '<p class="tiny-note">Each bubble reflects one day from your past week.</p>' +
+    '<div id="mood-bubble-canvas" class="mood-bubble-canvas"></div>' +
+    '<p id="mood-summary-text" class="tiny-note"></p>' +
+    "</div>" +
 
-          "</div>" +
-          "</div>";
-        
-                  <!-- New block: Themes -->
-          <div class="card">
-            <h2>Themes</h2>
-            <p class="soft-note">Switch between light and dark modes.</p>
-            <div class="actions">
-              <button class="btn ghost" onclick="document.body.classList.toggle('dark-theme')">Toggle Theme</button>
-            </div>
-          </div>
+    // New block: Themes
+    '<div class="card">' +
+    "<h2>Themes</h2>" +
+    '<p class="soft-note">Switch between light and dark modes.</p>' +
+    '<div class="actions">' +
+    '<button class="btn ghost" onclick="document.body.classList.toggle(\'dark-theme\')">Toggle Theme</button>' +
+    "</div>" +
+    "</div>" +
 
-          <!-- New block: Peakora Picks -->
-          <div class="card">
-            <h2>Peakora Picks</h2>
-            <p class="soft-note">Curated tips and gentle suggestions.</p>
-            <ul class="preview-list">
-              <li>Try a 2-minute pause today</li>
-              <li>Notice one kind thought you had</li>
-              <li>Step outside for fresh air</li>
-            </ul>
-          </div>
+    // New block: Peakora Picks
+    '<div class="card">' +
+    "<h2>Peakora Picks</h2>" +
+    '<p class="soft-note">Curated tips and gentle suggestions.</p>' +
+    "<ul class='preview-list'>" +
+    "<li>Try a 2-minute pause today</li>" +
+    "<li>Notice one kind thought you had</li>" +
+    "<li>Step outside for fresh air</li>" +
+    "</ul>" +
+    "</div>" +
 
-          <!-- New block: Share Your Story -->
-          <div class="card">
-            <h2>Share Your Story</h2>
-            <p class="soft-note">Your journey might inspire someone else.</p>
-            <div class="actions">
-              <button class="btn ghost" onclick="alert('Sharing feature coming soon!')">Share</button>
-            </div>
-          </div>
+    // New block: Share Your Story
+    '<div class="card">' +
+    "<h2>Share Your Story</h2>" +
+    '<p class="soft-note">Your journey might inspire someone else.</p>' +
+    '<div class="actions">' +
+    '<button class="btn ghost" onclick="alert(\'Sharing feature coming soon!\')">Share</button>' +
+    "</div>" +
+    "</div>" +
 
+    "</div>" + // end home-grid
+    "</div>";  // end step
 
-        renderMoodBubbles();
+  renderMoodBubbles();
 
-        if (focusTools) {
-          setTimeout(function () {
-            const toolsCard = document.getElementById("tools-card");
-            if (toolsCard) {
-              toolsCard.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-            focusTools = false;
-          }, 0);
-        }
+  if (focusTools) {
+    setTimeout(function () {
+      const toolsCard = document.getElementById("tools-card");
+      if (toolsCard) toolsCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      focusTools = false;
+    }, 0);
+  }
 
-        return;
-      }
-      
-       if (focusPlan) {
-        setTimeout(function () {
-          const planCard = document.getElementById("plan-card");
-          if (planCard) {
-            planCard.scrollIntoView({ behavior: "smooth", block: "start" });
-          }
-          focusPlan = false;
-        }, 0);
-      }
+  if (focusPlan) {
+    setTimeout(function () {
+      const planCard = document.getElementById("plan-card");
+      if (planCard) planCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      focusPlan = false;
+    }, 0);
+  }
 
+  return;
+}
 
       if (key === "exit") {
         container.innerHTML =
