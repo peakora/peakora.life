@@ -11,7 +11,7 @@
   <meta name="mobile-web-app-capable" content="yes">
 </head>
 <body>
-  <!-- Mid-onboarding modal (unstyled for now) -->
+  <!-- Mid-onboarding modal -->
   <div id="onboarding-modal" style="display:none;">
     <div class="modal-content">
       <h2>Welcome back</h2>
@@ -48,11 +48,6 @@
 
       <footer class="assistant-footer">
         © 2026 Peakora™ — For a Better You.
-        <div class="footer-links">
-          <a href="/privacy.html">Privacy Policy</a> |
-          <a href="/terms.html">Terms of Service</a>
-        </div>
-        <!-- Social icons remain exactly as in your file -->
       </footer>
     </div>
   </div>
@@ -73,101 +68,26 @@
     });
 
     const steps = [
-      "welcome",
-      "explanation",
-      "goal",
-      "challenge",
-      "time",
-      "insight",
-      "extended1",
-      "extended2",
-      "email",
-      "processing",
-      "recommendations",
-      "pricing",
-      "themes",
-      "picks",
-      "story",
-      "done",
-      "daily_intro",
-      "daily_checkin",
-      "daily_summary",
-      "breathing",
-      "journal",
-      "reset_focus",
-      "install_prompt",
-      "plan_full",
-      "home",
-      "exit"
+      "welcome","explanation","goal","challenge","time","insight","extended1","extended2","email",
+      "processing","recommendations","pricing","done","daily_intro","daily_checkin","daily_summary",
+      "breathing","journal","reset_focus","install_prompt","plan_full","home","exit"
     ];
+
     const onboardingSteps = [
-      "welcome",
-      "explanation",
-      "goal",
-      "challenge",
-      "time",
-      "insight",
-      "extended1",
-      "extended2",
-      "email",
-      "processing",
-      "recommendations",
-      "pricing",
-      "themes",
-      "picks",
-      "story",
-      "done"
+      "welcome","explanation","goal","challenge","time","insight","extended1","extended2",
+      "email","processing","recommendations","pricing","done"
     ];
 
     const STORAGE_KEY = "peakora_assistant_state_v1";
     const CHECKINS_KEY = "peakora_checkins_v1";
 
     const state = {
-      stepIndex: 0,
-      answers: {},
-      email: "",
-      completed: false,
-      installPromptShown: false,
-      plan: null,
-      planStartDate: null
+      stepIndex: 0, answers: {}, email: "", completed: false,
+      installPromptShown: false, plan: null, planStartDate: null
     };
 
     let focusTools = false;
     let focusPlan = false;
-
-    function saveState() {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-    }
-
-    function loadState() {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) return false;
-      try {
-        const parsed = JSON.parse(raw);
-        state.stepIndex = parsed.stepIndex || 0;
-        state.answers = parsed.answers || {};
-        state.email = parsed.email || "";
-        state.completed = !!parsed.completed;
-        state.installPromptShown = !!parsed.installPromptShown;
-        state.plan = parsed.plan || null;
-        state.planStartDate = parsed.planStartDate || null;
-        return true;
-      } catch {
-        return false;
-      }
-    }
-
-    function clearState() {
-      localStorage.removeItem(STORAGE_KEY);
-      state.stepIndex = 0;
-      state.answers = {};
-      state.email = "";
-      state.completed = false;
-      state.installPromptShown = false;
-      state.plan = null;
-      state.planStartDate = null;
-    }
-
     function getCheckins() {
       const raw = localStorage.getItem(CHECKINS_KEY);
       if (!raw) return [];
@@ -185,8 +105,7 @@
       localStorage.setItem(CHECKINS_KEY, JSON.stringify(list.slice(-30)));
     }
 
-    /* Mood bubbles helpers + placeholder */
-
+    /* Mood bubbles helpers */
     const PLACEHOLDER_WEEK = [
       { date: "2026-01-21", feeling: "tired" },
       { date: "2026-01-22", feeling: "steady" },
@@ -200,50 +119,21 @@
     function getMoodFamily(feeling) {
       const f = (feeling || "").toLowerCase();
       if (!f) return "neutral";
-
-      if (
-        f.includes("tired") ||
-        f.includes("drained") ||
-        f.includes("sad") ||
-        f.includes("heavy")
-      ) {
-        return "heavy";
-      }
-      if (f.includes("wired") || f.includes("overwhelm") || f.includes("anxious")) {
-        return "anxious";
-      }
-      if (
-        f.includes("hopeful") ||
-        f.includes("better") ||
-        f.includes("light") ||
-        f.includes("uplift")
-      ) {
-        return "hopeful";
-      }
-      if (f.includes("ready") || f.includes("strong") || f.includes("energ")) {
-        return "energized";
-      }
-      if (f.includes("flat")) {
-        return "neutral";
-      }
-      if (f.includes("steady") || f.includes("okay") || f.includes("ok")) {
-        return "neutral";
-      }
+      if (f.includes("tired") || f.includes("drained") || f.includes("sad") || f.includes("heavy")) return "heavy";
+      if (f.includes("wired") || f.includes("overwhelm") || f.includes("anxious")) return "anxious";
+      if (f.includes("hopeful") || f.includes("better") || f.includes("light") || f.includes("uplift")) return "hopeful";
+      if (f.includes("ready") || f.includes("strong") || f.includes("energ")) return "energized";
+      if (f.includes("flat") || f.includes("steady") || f.includes("okay") || f.includes("ok")) return "neutral";
       return "neutral";
     }
+
     function getMoodColor(family) {
       switch (family) {
-        case "heavy":
-          return "#E8A0A0";
-        case "anxious":
-          return "#F5C26B";
-        case "hopeful":
-          return "#AEE6C5";
-        case "energized":
-          return "#6EC8C8";
-        case "neutral":
-        default:
-          return "#F5B35C";
+        case "heavy": return "#E8A0A0";
+        case "anxious": return "#F5C26B";
+        case "hopeful": return "#AEE6C5";
+        case "energized": return "#6EC8C8";
+        default: return "#F5B35C";
       }
     }
 
@@ -261,9 +151,7 @@
 
     function getLast7CheckinsOrPlaceholder() {
       const real = getCheckins();
-      if (real && real.length >= 1) {
-        return real.slice(-7);
-      }
+      if (real && real.length >= 1) return real.slice(-7);
       return PLACEHOLDER_WEEK;
     }
 
@@ -283,7 +171,6 @@
       const width = canvas.clientWidth || 320;
       const height = canvas.clientHeight || 200;
       const count = data.length;
-
       const xStep = count > 1 ? (width - 40) / (count - 1) : 0;
       const yBase = height / 2;
 
@@ -309,8 +196,7 @@
         bubble.style.height = size + "px";
         bubble.style.left = x - size / 2 + "px";
         bubble.style.top = y - size / 2 + "px";
-        bubble.style.background =
-          "radial-gradient(circle at 30% 30%, " + color + ", #f58b5c)";
+        bubble.style.background = "radial-gradient(circle at 30% 30%, " + color + ", #f58b5c)";
         bubble.style.animationDelay = index * 0.6 + "s";
         bubble.title = feeling || "No label";
 
@@ -333,8 +219,7 @@
       const summaryColor = getMoodColor(dominantFamily);
       const summaryBubble = document.createElement("div");
       summaryBubble.className = "week-summary-bubble";
-      summaryBubble.style.background =
-        "radial-gradient(circle at 30% 30%, " + summaryColor + ", #f58b5c)";
+      summaryBubble.style.background = "radial-gradient(circle at 30% 30%, " + summaryColor + ", #f58b5c)";
       canvas.appendChild(summaryBubble);
       summaryBubble.style.position = "absolute";
       summaryBubble.style.left = width - 60 + "px";
@@ -377,7 +262,6 @@
       const progressContainer = document.querySelector(".assistant-progress");
       if (!bar || !label || !progressContainer) return;
 
-      // Hide progress on home and full plan
       if (key === "home" || key === "plan_full") {
         progressContainer.style.display = "none";
         return;
@@ -388,15 +272,13 @@
       const onboardingIndex = onboardingSteps.indexOf(key);
       if (onboardingIndex === -1) {
         bar.style.width = "100%";
-        label.textContent =
-          "Step " + (state.stepIndex + 1) + " of " + steps.length;
+        label.textContent = "Step " + (state.stepIndex + 1) + " of " + steps.length;
         return;
       }
 
       const pct = ((onboardingIndex + 1) / onboardingSteps.length) * 100;
       bar.style.width = pct + "%";
-      label.textContent =
-        "Step " + (onboardingIndex + 1) + " of " + onboardingSteps.length;
+      label.textContent = "Step " + (onboardingIndex + 1) + " of " + onboardingSteps.length;
     }
 
     function goHomeAndFocusTools() {
@@ -528,6 +410,7 @@
         saveState();
       }
     }
+
     function renderStep() {
       fadeIn();
       const container = document.getElementById("step-container");
@@ -574,7 +457,6 @@
           "</div>";
         return;
       }
-
       if (key === "challenge") {
         container.innerHTML =
           '<div class="step">' +
@@ -633,6 +515,7 @@
           "</div>";
         return;
       }
+
       if (key === "extended2") {
         container.innerHTML =
           '<div class="step">' +
@@ -663,49 +546,158 @@
         return;
       }
 
-      if (key === "themes") {
+      if (key === "processing") {
         container.innerHTML =
-          '<div class="step">' +
-          "<h2>Choose your theme</h2>" +
-          '<div class="options">' +
-          '<button class="btn ghost" onclick="document.body.classList.remove(\'dark\')">Light</button>' +
-          '<button class="btn ghost" onclick="document.body.classList.add(\'dark\')">Dark</button>' +
-          "</div>" +
+          '<div class="step step-centered">' +
+          "<h2>One moment</h2>" +
+          "<p>I’m shaping your plan with everything you shared.</p>" +
+          '<div class="loader"></div>' +
           "</div>";
+        setTimeout(function () {
+          goToStepKey("recommendations");
+        }, 2400);
         return;
       }
 
-      if (key === "picks") {
+      if (key === "recommendations") {
         container.innerHTML =
           '<div class="step">' +
-          "<h2>Peakora Picks</h2>" +
-          "<p class='soft-note'>Curated gentle recommendations for you:</p>" +
+          "<h2>Your plan is ready</h2>" +
+          "<p>I’ve sent it to <strong>" +
+          (state.email || "your email") +
+          "</strong>.</p>" +
+          "<p>Here’s a small preview of what you’ll find inside:</p>" +
           '<ul class="preview-list">' +
-          "<li>Try a 2-minute breathing reset</li>" +
-          "<li>Write one sentence in your micro-journal</li>" +
-          "<li>Step outside for fresh air</li>" +
+          "<li>Daily focus that matches your energy</li>" +
+          "<li>One anchor habit to keep you steady</li>" +
+          "<li>Built-in forgiveness for off days</li>" +
           "</ul>" +
           '<div class="actions">' +
-          '<button class="btn primary" onclick="goToStepKey(\'home\')">Back to home</button>' +
+          '<button class="btn secondary" onclick="goToPrevious()">Back</button>' +
+          '<button class="btn primary" onclick="goToStepKey(\'pricing\')">Continue</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+      if (key === "pricing") {
+        container.innerHTML =
+          '<div class="step">' +
+          "<h2>What’s coming next</h2>" +
+          "<p>Right now, Peakora is free. Soon, you’ll be able to:</p>" +
+          '<ul class="preview-list">' +
+          "<li>Save multiple plans</li>" +
+          "<li>Track gentle daily check-ins</li>" +
+          "<li>See patterns and insights over time</li>" +
+          "</ul>" +
+          "<p>You’ll also be able to add Peakora to your home screen for quick access.</p>" +
+          '<div class="actions">' +
+          '<button class="btn secondary" onclick="goToPrevious()">Back</button>' +
+          '<button class="btn primary" onclick="goToStepKey(\'done\')">Finish</button>' +
           "</div>" +
           "</div>";
         return;
       }
 
-      if (key === "story") {
+      if (key === "done") {
+        ensurePlanGenerated();
+        state.completed = true;
+        saveState();
+        container.innerHTML =
+          '<div class="step step-centered">' +
+          "<h2>Your plan is on its way</h2>" +
+          "<p>You showed up for yourself today. That matters more than you think.</p>" +
+          '<p class="soft-note">Come back anytime for a new plan or a gentle check-in.</p>' +
+          "</div>";
+        setTimeout(function () {
+          if (!isInstalled && !state.installPromptShown) {
+            state.installPromptShown = true;
+            saveState();
+            goToStepKey("install_prompt");
+          } else {
+            goToStepKey("home");
+          }
+        }, 800);
+        return;
+      }
+
+      if (key === "daily_intro") {
         container.innerHTML =
           '<div class="step">' +
-          "<h2>Share your story</h2>" +
-          '<textarea class="input" id="story-input" placeholder="Write a few words about your journey…"></textarea>' +
+          "<h2>Let’s do a quick check-in</h2>" +
+          "<p>Just a few gentle questions to see where you’re at today.</p>" +
           '<div class="actions">' +
-          '<button class="btn secondary" onclick="goToStepKey(\'home\')">Cancel</button>' +
-          '<button class="btn primary" onclick="handleStory()">Save</button>' +
+          '<button class="btn secondary" onclick="goHomeAndFocusTools()">Back</button>' +
+          '<button class="btn primary" onclick="goToStepKey(\'daily_checkin\')">Begin</button>' +
           "</div>" +
+          "</div>";
+        return;
+      }
+
+      if (key === "daily_checkin") {
+        container.innerHTML =
+          '<div class="step">' +
+          "<h2>How are you feeling right now?</h2>" +
+          '<textarea class="input" id="daily-checkin-input" placeholder="Tired, okay, wired, flat, hopeful… whatever is true."></textarea>' +
+          '<div class="actions">' +
+          '<button class="btn secondary" onclick="goToStepKey(\'daily_intro\')">Back</button>' +
+          '<button class="btn primary" onclick="handleDailyCheckin()">Continue</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+
+      if (key === "daily_summary") {
+        var feeling = state.answers.daily_checkin || "how you’re feeling today";
+        container.innerHTML =
+          '<div class="step step-centered">' +
+          "<h2>Thank you for checking in</h2>" +
+          "<p>I’ve noted " + feeling.toLowerCase() + " as part of your ongoing pattern.</p>" +
+          '<p class="soft-note">Small moments of honesty like this are what slowly shift things.</p>' +
+          '<div class="actions">' +
+          '<button class="btn secondary" onclick="goToStepKey(\'daily_checkin\')">Back</button>' +
+          '<button class="btn primary" onclick="goToStepKey(\'home\')">Done</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+
+      if (key === "breathing") {
+        container.innerHTML =
+          '<div class="step step-centered">' +
+          "<h2>Breathing reset</h2>" +
+          '<p class="soft-note">A slow inhale, a softer exhale. Let’s do this together.</p>' +
+          '<div class="breathing-circle"></div>' +
+          '<div class="actions">' +
+          '<button class="btn primary" onclick="goHomeAndFocusTools()">Back to tools</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+
+      if (key === "journal") {
+        container.innerHTML =
+          '<div class="step">' +
+          "<h2>Micro-journal</h2>" +
+          '<p class="soft-note">One sentence. Whatever is true right now.</p>' +
+          '<textarea class="input" id="journal-input" placeholder="Write one sentence…"></textarea>' +
+          '<div class="actions">' +
+          '<button class="btn secondary" onclick="goHomeAndFocusTools()">Cancel</button>' +
+          '<button class="btn primary" onclick="handleJournal()">Save</button>' +
+          "</div>" +
+          "</div>";
+        return;
+      }
+      if (key === "exit") {
+        container.innerHTML =
+          '<div class="step step-centered">' +
+          "<h2>See you soon</h2>" +
+          "<p>You can close this tab whenever you’re ready.</p>" +
           "</div>";
         return;
       }
     }
 
+    /* Handlers */
     function handleGoal() {
       const el = document.getElementById("goal-input");
       const value = (el && el.value.trim()) || "";
@@ -776,17 +768,7 @@
       goToStepKey("processing");
     }
 
-    function handleStory() {
-      const el = document.getElementById("story-input");
-      const value = (el && el.value.trim()) || "";
-      state.answers.story = value;
-      saveState();
-      goToStepKey("home");
-    }
-
-    function handleDailyStart() {
-      goToStepKey("daily_intro");
-    }
+    function handleDailyStart() { goToStepKey("daily_intro"); }
 
     function handleDailyCheckin() {
       const el = document.getElementById("daily-checkin-input");
@@ -818,16 +800,12 @@
       renderStep();
     }
 
-    function handleBackToHome() {
-      window.location.href = "index.html";
-    }
+    function handleBackToHome() { window.location.href = "index.html"; }
 
     function triggerInstall() {
       if (deferredPrompt) {
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.finally(function () {
-          deferredPrompt = null;
-        });
+        deferredPrompt.userChoice.finally(function () { deferredPrompt = null; });
       }
     }
 
@@ -838,12 +816,9 @@
         goToStepKey(currentKey);
         return;
       }
-
       modal.style.display = "block";
-
       const startOverBtn = document.getElementById("modal-startover");
       const continueBtn = document.getElementById("modal-continue");
-
       if (startOverBtn) {
         startOverBtn.onclick = function () {
           clearState();
@@ -851,7 +826,6 @@
           goToStepKey("welcome");
         };
       }
-
       if (continueBtn) {
         continueBtn.onclick = function () {
           modal.style.display = "none";
@@ -865,17 +839,8 @@
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const hasState = loadState();
-
-      if (!hasState) {
-        goToStepKey("welcome");
-        return;
-      }
-
-      if (state.completed) {
-        goToStepKey("home");
-        return;
-      }
-
+      if (!hasState) { goToStepKey("welcome"); return; }
+      if (state.completed) { goToStepKey("home"); return; }
       showOnboardingModal();
     });
   </script>
