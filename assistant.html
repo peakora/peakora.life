@@ -877,7 +877,7 @@
         return;
       }
 
-      if (key === "home") {
+     if (key === "home") {
   ensurePlanGenerated();
   const plan = state.plan || [];
   const todayIndex = getTodayPlanIndex();
@@ -896,21 +896,25 @@
     // Anchor card
     '<div class="card">' +
     "<h2>Today’s anchor</h2>" +
-    '<p class="soft-note">A gentle place to land, not a list to conquer.</p>' +
+    "<p class='soft-note'>" + today.focus + "</p>" +
+    '<div class="actions">' +
+    '<button class="btn ghost" onclick="shareMoment(\'anchor\', \'' + today.focus + '\')">Share this moment</button>' +
+    "</div>" +
     "</div>" +
 
     // Plan card
     '<div class="card" id="plan-card">' +
     "<h2>Your plan</h2>" +
-    '<p class="soft-note">This is your anchor for the week. You chose it. You can return to it anytime.</p>' +
     "<h3>" + today.title + "</h3>" +
-    '<ul class="preview-list">' +
+    "<ul class='preview-list'>" +
     "<li>Focus: " + today.focus + "</li>" +
     "<li>Action: " + today.action + "</li>" +
+    "<li>Reflection: " + today.reflection + "</li>" +
     "<li>Forgiveness: " + today.forgiveness + "</li>" +
     "</ul>" +
-    '<div class="actions" style="margin-top: 8px;">' +
+    '<div class="actions">' +
     '<button class="btn ghost" onclick="goToStepKey(\'plan_full\')">View full 7-day plan</button>' +
+    '<button class="btn ghost" onclick="shareMoment(\'plan\', \'' + today.title + '\')">Share this moment</button>' +
     "</div>" +
     "</div>" +
 
@@ -934,32 +938,53 @@
     '<p id="mood-summary-text" class="tiny-note"></p>' +
     "</div>" +
 
-    // New block: Themes
+    // Pricing card
     '<div class="card">' +
-    "<h2>Themes</h2>" +
-    '<p class="soft-note">Switch between light and dark modes.</p>' +
-    '<div class="actions">' +
-    '<button class="btn ghost" onclick="document.body.classList.toggle(\'dark-theme\')">Toggle Theme</button>' +
-    "</div>" +
-    "</div>" +
-
-    // New block: Peakora Picks
-    '<div class="card">' +
-    "<h2>Peakora Picks</h2>" +
-    '<p class="soft-note">Curated tips and gentle suggestions.</p>' +
-    "<ul class='preview-list'>" +
-    "<li>Try a 2-minute pause today</li>" +
-    "<li>Notice one kind thought you had</li>" +
-    "<li>Step outside for fresh air</li>" +
+    "<h2>Choose your path</h2>" +
+    '<div class="pricing-grid">' +
+    '<div class="pricing-col">' +
+    "<h3>Free Plan</h3>" +
+    "<ul class='feature-list'>" +
+    "<li>Daily anchor — a gentle place to land</li>" +
+    "<li>Daily check-ins — reflect and reset in minutes</li>" +
+    "<li>Mood bubbles (basic view)</li>" +
+    "<li>Essential tools — breathing reset, micro-journal, reset focus</li>" +
+    "<li>Unlimited 7-day plans</li>" +
+    "<li>Share Your Story — add your voice to the community feed</li>" +
+    "<li>Share This Moment — celebrate small wins externally</li>" +
     "</ul>" +
     "</div>" +
+    '<div class="pricing-col premium">' +
+    "<h3>Peakora+</h3>" +
+    "<div class='price-highlight'>$4.99 / month</div>" +
+    "<ul class='feature-list'>" +
+    "<li>Themes — mood-based auto-select, plus manual choice for home</li>" +
+    "<li>Saved plans — keep past 7-day anchors and actions</li>" +
+    "<li>Insights from saved plans — compare weeks, track progress, personalized reflections</li>" +
+    "<li>Advanced mood bubbles — extended analytics and trends</li>" +
+    "<li>Extended tools — deeper guidance, more ways to reset and refocus</li>" +
+    "</ul>" +
+    "</div>" +
+    "</div>" +
+    '<div class="pricing-options">' +
+    "<h4>Subscription Options</h4>" +
+    "<ul class='price-list'>" +
+    "<li>Per 3 months — $12.99 (save ~13%)</li>" +
+    "<li>Per 6 months — $22.99 (save ~23%)</li>" +
+    "<li>Annual — $39.99 (save ~33%)</li>" +
+    "</ul>" +
+    "</div>" +
+    '<div class="actions">' +
+    '<button class="btn primary">Upgrade to Peakora+</button>' +
+    "</div>" +
+    "</div>" +
 
-    // New block: Share Your Story
+    // Share Your Story card
     '<div class="card">' +
     "<h2>Share Your Story</h2>" +
-    '<p class="soft-note">Your journey might inspire someone else.</p>' +
+    '<textarea id="story-input" placeholder="Write your story here..."></textarea>' +
     '<div class="actions">' +
-    '<button class="btn ghost" onclick="alert(\'Sharing feature coming soon!\')">Share</button>' +
+    '<button class="btn ghost" onclick="handleShareStory()">Share</button>' +
     "</div>" +
     "</div>" +
 
@@ -986,6 +1011,7 @@
 
   return;
 }
+
 
       if (key === "exit") {
         container.innerHTML =
