@@ -878,26 +878,39 @@ const anchors = [
         return;
       }
 
-      if (key === "plan_full") {
-        ensurePlanGenerated();
-        const plan = state.plan || [];
-        let html =
-          '<div class="step">' +
-          "<h2>Your full 7-day plan</h2>" +
-          "<p class=\"soft-note\">You can come back to this anytime during the week.</p>" +
-          '<div class="plan-full-list">';
+    if (key === "plan_full") {
+  ensurePlanGenerated();
+  const plan = state.plan || [];
 
-        plan.forEach(function (day, index) {
-          html +=
-            '<div class="card">' +
-            '<div class="card" id="plan-card">' +
-            "<h3>" + day.title + "</h3>" +
-            "<p><strong>Focus:</strong> " + day.focus + "</p>" +
-            "<p><strong>Action:</strong> " + day.action + "</p>" +
-            "<p><strong>Reflection:</strong> " + day.reflection + "</p>" +
-            "<p><strong>Forgiveness:</strong> " + day.forgiveness + "</p>" +
-            "</div>";
-        });
+  let html =
+    '<div class="step">' +
+    "<h2>Your full 7-day plan</h2>" +
+    '<p class="soft-note">You can come back to this anytime during the week.</p>' +
+    '<div class="plan-full-list">';
+
+  plan.forEach(function (day, index) {
+    html +=
+      '<div class="card" id="plan-card-' + index + '">' +
+      "<h3>Day " + (index + 1) + " — " + day.title + "</h3>" +
+      "<p><strong>Focus:</strong> " + day.focus + "</p>" +
+      "<p><strong>Action:</strong> " + day.action + "</p>" +
+      "<p><strong>Reflection:</strong> " + day.reflection + "</p>" +
+      "<p><strong>Forgiveness:</strong> " + day.forgiveness + "</p>" +
+      "</div>";
+  });  // <-- correct closing
+
+  html += "</div>"; // close plan-full-list
+
+  html +=
+    '<div class="actions">' +
+    '<button class="btn ghost" onclick="goToStepKey(\'home\')">Back to home</button>' +
+    "</div>";
+
+  html += "</div>"; // close step
+
+  container.innerHTML = html;
+  return;
+}
 
         html +=
           "</div>" +
@@ -1021,9 +1034,9 @@ const anchors = [
     "<h2>Peakora Picks</h2>" +
     "<p class='soft-note'>Gentle suggestions chosen for you.</p>" +
     "<ul class='preview-list'>" +
-    "<li><a href='https://www.clickbank.com/keto-women-40' target='_blank'>Keto for Women 40+</a></li>" +
-    "<li><a href='https://www.clickbank.com/mindfulness-guide' target='_blank'>Mindfulness Guide</a></li>" +
-    "<li><a href='https://www.clickbank.com/healthy-habits' target='_blank'>Healthy Habits Blueprint</a></li>" +
+    "<li><a href=\"https://www.clickbank.com/keto-women-40\" target=\"_blank\">Keto for Women 40+</a></li>" +
+    "<li><a href=\"https://www.clickbank.com/mindfulness-guide\" target=\"_blank\">Mindfulness Guide</a></li>" +
+    "<li><a href=\"https://www.clickbank.com/healthy-habits\" target=\"_blank\">Healthy Habits Blueprint</a></li>" +
     "</ul>" +
     "</div>" +
 
