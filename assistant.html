@@ -878,7 +878,7 @@ const anchors = [
         return;
       }
 
-    if (key === "plan_full") {
+  if (key === "plan_full") {
   ensurePlanGenerated();
   const plan = state.plan || [];
 
@@ -888,6 +888,7 @@ const anchors = [
     '<p class="soft-note">You can come back to this anytime during the week.</p>' +
     '<div class="plan-full-list">';
 
+  // Render each day as its own card
   plan.forEach(function (day, index) {
     html +=
       '<div class="card" id="plan-card-' + index + '">' +
@@ -897,10 +898,11 @@ const anchors = [
       "<p><strong>Reflection:</strong> " + day.reflection + "</p>" +
       "<p><strong>Forgiveness:</strong> " + day.forgiveness + "</p>" +
       "</div>";
-  });  // <-- correct closing
+  }); // <-- correctly close forEach
 
   html += "</div>"; // close plan-full-list
 
+  // Back button
   html +=
     '<div class="actions">' +
     '<button class="btn ghost" onclick="goToStepKey(\'home\')">Back to home</button>' +
@@ -926,7 +928,7 @@ const anchors = [
       
       const todayAnchor = anchors[Math.floor(Math.random() * anchors.length)];
 
- if (key === "home") {
+if (key === "home") {
   ensurePlanGenerated();
   const plan = state.plan || [];
   const todayIndex = getTodayPlanIndex();
@@ -1034,9 +1036,9 @@ const anchors = [
     "<h2>Peakora Picks</h2>" +
     "<p class='soft-note'>Gentle suggestions chosen for you.</p>" +
     "<ul class='preview-list'>" +
-    "<li><a href=\"https://www.clickbank.com/keto-women-40\" target=\"_blank\">Keto for Women 40+</a></li>" +
-    "<li><a href=\"https://www.clickbank.com/mindfulness-guide\" target=\"_blank\">Mindfulness Guide</a></li>" +
-    "<li><a href=\"https://www.clickbank.com/healthy-habits\" target=\"_blank\">Healthy Habits Blueprint</a></li>" +
+    "<li><a href='https://www.clickbank.com/keto-women-40' target='_blank'>Keto for Women 40+</a></li>" +
+    "<li><a href='https://www.clickbank.com/mindfulness-guide' target='_blank'>Mindfulness Guide</a></li>" +
+    "<li><a href='https://www.clickbank.com/healthy-habits' target='_blank'>Healthy Habits Blueprint</a></li>" +
     "</ul>" +
     "</div>" +
 
